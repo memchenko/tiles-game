@@ -7,17 +7,20 @@ const PORT = 3000;
 
 config.mode = 'development';
 
-const compiler = webpack(config);
-
-const server = new WebpackDevServer(compiler, {
+const options = {
     contentBase: config.output.path,
     hot: true,
+    host: 'localhost',
     watchOptions: {
         aggregateTimeout: 300,
         poll: 1000
     },
     stats: 'minimal'
-});
+};
+
+WebpackDevServer.addDevServerEntrypoints(config, options);
+const compiler = webpack(config);
+const server = new WebpackDevServer(compiler, options);
 
 server.listen(PORT, 'localhost', () => {
     /* eslint-disable no-console */

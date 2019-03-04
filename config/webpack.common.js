@@ -14,7 +14,7 @@ module.exports = {
         filename: '[name].[hash].bundle.js'
     },
     resolve: {
-        extensions: [',js', ',styl'],
+        extensions: ['.js', '.styl'],
         alias: {
             _constants: src('constants'),
             _js: src('js'),

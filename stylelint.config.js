@@ -6,7 +6,7 @@ module.exports = {
         "at-rule-semicolon-newline-after": "always",
         "block-closing-brace-newline-after": "always",
         "block-no-empty": true,
-        "block-opening-brace-space-before": "always"|"always-single-line"|"never-single-line"|"always-multi-line"|"never-multi-line",
+        "block-opening-brace-space-before": "always",
         "color-hex-case": "lower",
         "color-hex-length": "short",
         "comment-empty-line-before": "always",

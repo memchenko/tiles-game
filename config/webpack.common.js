@@ -26,7 +26,22 @@ module.exports = {
         rules: [
             { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
             { test: /\.pug$/, exclude: /node_modules/, loader: 'pug-loader' },
-            { test: /\.p?css$/, exclude: /node_modules/, loader: 'style-loader!postcss-loader' }
+            {
+                test: /\.p?css$/,
+                exclude: /node_modules/,
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            syntax: 'postcss-syntax',
+                            parser: 'postcss-sass',
+                            config: { path: root('./config') }
+                        }
+                    }
+                ]
+            }
         ]
     },
     plugins: [

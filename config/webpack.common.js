@@ -26,7 +26,7 @@ module.exports = {
         rules: [
             { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
             { test: /\.pug$/, exclude: /node_modules/, loader: 'pug-loader' },
-            { test: /\.styl$/, exclude: /node_modules/, loader: 'style-loader!css-loader!postcss-loader' }
+            { test: /\.p?css$/, exclude: /node_modules/, loader: 'style-loader!postcss-loader' }
         ]
     },
     plugins: [

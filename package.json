@@ -21,7 +21,7 @@
         "npm run lint-js",
         "git add"
       ],
-      "*.styl": [
+      "*.p?css": [
         "npm run lint-css",
         "git add"
       ]
@@ -67,6 +67,7 @@
     "postcss-mixins": "^6.2.1",
     "postcss-nested": "^4.1.2",
     "postcss-responsive-properties": "^1.0.1",
+    "postcss-sass": "^0.3.5",
     "postcss-simple-extend": "^1.0.0",
     "postcss-simple-vars": "^5.0.2",
     "pug": "^2.0.3",

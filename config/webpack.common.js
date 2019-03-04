@@ -14,7 +14,7 @@ module.exports = {
         filename: '[name].[hash].bundle.js'
     },
     resolve: {
-        extensions: ['.js', '.styl'],
+        extensions: ['.js', '.css', '.pcss'],
         alias: {
             _constants: src('constants'),
             _js: src('js'),
@@ -26,7 +26,7 @@ module.exports = {
         rules: [
             { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
             { test: /\.pug$/, exclude: /node_modules/, loader: 'pug-loader' },
-            { test: /\.styl$/, exclude: /node_modules/, loader: 'style-loader!css-loader!stylus-loader' }
+            { test: /\.styl$/, exclude: /node_modules/, loader: 'style-loader!css-loader!postcss-loader' }
         ]
     },
     plugins: [

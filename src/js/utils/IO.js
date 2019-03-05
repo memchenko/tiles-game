@@ -14,4 +14,8 @@ export default class IO {
   map(f) {
     return new IO(compose(f, this.unsafePerformIO));
   }
+
+  toString() {
+    return `IO ${this.unsafePerformIO}`;
+  }
 }

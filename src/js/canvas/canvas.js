@@ -1,4 +1,4 @@
-import { CANVAS_ID } from '../app-config/elements';
+
 
 /* eslint-disable */
 const canvas = document.querySelector(CANVAS_ID);

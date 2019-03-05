@@ -15,6 +15,10 @@ export default class IO {
     return new IO(compose(f, this.unsafePerformIO));
   }
 
+  ap(otherContainer) {
+    return otherContainer.map(this.unsafePerformIO);
+  }
+
   toString() {
     return `IO ${this.unsafePerformIO}`;
   }

@@ -5,3 +5,9 @@ export const getElement = (selector) => {
     return document.querySelector(selector);
   });
 };
+
+export const get2DContext = (canvasElement) => {
+  return new IO(() => {
+    return canvasElement.getContent('2d');
+  });
+};

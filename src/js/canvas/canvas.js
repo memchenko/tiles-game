@@ -1,5 +1,5 @@
 import { getElement } from '../utils/dom';
-import { ap, compose } from 'ramda';
+import { ap, compose, mapObjIndexed, values } from 'ramda';
 import IO from '../utils/IO';
 
 const get2DContext = canvasElement => new IO(() => {
@@ -31,6 +31,14 @@ const drawRect = compose(
   setColor
 );
 
-export const bitRowToConfig = () => {};
+const getBinaryColor = number => number ? 'white' : 'black';
 
-export const bitColumnToConfig = () => {};
+export const binaryRowToConfig = width => compose(
+  values,
+  mapObjIndexed((bit, idx) => ({
+    x: width * idx,
+    color: getBinaryColor(bit)
+  }))
+);
+
+export const matrixToConfig = () => {};

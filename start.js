@@ -6,6 +6,7 @@ const config = require('./config/webpack.common');
 const PORT = 3000;
 
 config.mode = 'development';
+config.devtool = 'cheap-module-source-map';
 
 const options = {
     contentBase: config.output.path,

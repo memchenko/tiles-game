@@ -1,9 +1,9 @@
 import { getElement } from '../utils/dom';
-import { ap, compose, mapObjIndexed, values } from 'ramda';
+import { ap, compose } from 'ramda';
 import IO from '../utils/IO';
 
-const get2DContext = canvasElement => new IO(() => {
-  return canvasElement.getContent('2d');
+const get2DContext = new IO((canvasElement) => {
+  return canvasElement.getContext('2d');
 });
 
 export const getCanvasIO = compose(
@@ -31,14 +31,27 @@ const drawRect = compose(
   setColor
 );
 
-const getBinaryColor = number => number ? 'white' : 'black';
+export const matrixToConfig = ({ tileWidth, tileHeight}) => mtx => mtx.map((row, i) => row.map((color, j) => ({
+  color,
+  x: j * tileWidth,
+  y: i * tileHeight,
+  width: tileWidth,
+  height: tileHeight
+})));
 
-export const binaryRowToConfig = width => compose(
-  values,
-  mapObjIndexed((bit, idx) => ({
-    x: width * idx,
-    color: getBinaryColor(bit)
-  }))
-);
+const ctx = getCanvasIO('#board')().unsafePerformIO();
+const mtx = [['black', 'white'], ['white', 'black']];
+const coords = getCanvasGeometry(ctx)().unsafePerformIO();
 
-export const matrixToConfig = () => {};
+console.log(ctx);
+console.log('wh', coords);
+
+const config = matrixToConfig({ tileWidth: width / 2, tileHeight: height / 2 })(mtx);
+
+console.log(config);
+
+config.forEach((row) => {
+  row.forEach((config) => {
+    drawRect(config)(ctx);
+  })
+});

@@ -1,37 +1,38 @@
 import { getElement } from '../utils/dom';
-import { ap, compose } from 'ramda';
+import { compose, chain, forEach } from 'ramda';
 import IO from '../utils/IO';
 
-const get2DContext = new IO((canvasElement) => {
+const get2DContext = canvasElement => new IO(() => {
   return canvasElement.getContext('2d');
 });
 
 export const getCanvasIO = compose(
-  ap(get2DContext),
+  chain(get2DContext),
   getElement
 );
 
-const getCanvasGeometry = ctx => new IO(() => {
+export const getCanvasGeometry = ctx => new IO(() => {
   const { height, width } = ctx.canvas;
   return { height, width };
 });
 
-const setColor = ({ color }) => ctx => new IO(() => {
+const setColor = ctx => ({ color, ...rest }) => new IO(() => {
   ctx.fillStyle = color;
-  return ctx;
+  return { color, ...rest };
 });
 
-const setRectCoords = ({ x, y, width, height }) => ctx => new IO(() => {
+const setRectCoords = ctx => ({ x, y, width, height, ...rest }) => new IO(() => {
   ctx.fillRect(x, y, width, height);
-  return ctx;
+  return { x, y, width, height, ...rest };
 });
 
-const drawRect = compose(
-  setRectCoords,
-  setColor
+const drawRect = ctx => compose(
+  IO.performIO,
+  chain(setRectCoords(ctx)),
+  setColor(ctx)
 );
 
-export const matrixToConfig = ({ tileWidth, tileHeight}) => mtx => mtx.map((row, i) => row.map((color, j) => ({
+export const matrixToConfig = ({ tileWidth, tileHeight }) => mtx => mtx.map((row, i) => row.map((color, j) => ({
   color,
   x: j * tileWidth,
   y: i * tileHeight,
@@ -39,19 +40,6 @@ export const matrixToConfig = ({ tileWidth, tileHeight}) => mtx => mtx.map((row,
   height: tileHeight
 })));
 
-const ctx = getCanvasIO('#board')().unsafePerformIO();
-const mtx = [['black', 'white'], ['white', 'black']];
-const coords = getCanvasGeometry(ctx)().unsafePerformIO();
+export const drawGrid = ctx => forEach(forEach(drawRect(ctx)));
 
-console.log(ctx);
-console.log('wh', coords);
 
-const config = matrixToConfig({ tileWidth: width / 2, tileHeight: height / 2 })(mtx);
-
-console.log(config);
-
-config.forEach((row) => {
-  row.forEach((config) => {
-    drawRect(config)(ctx);
-  })
-});

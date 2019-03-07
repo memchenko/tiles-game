@@ -1,14 +1,16 @@
 import { compose } from 'ramda';
-import { of, map, ap } from 'fantasy-land';
+import { of, map, ap, chain } from 'fantasy-land';
 
 export default class IO {
-  unsafePerformIO = null;
-
   constructor(f) {
     this.unsafePerformIO = f;
   }
 
-  [of](x) {
+  static performIO(io) {
+    io.unsafePerformIO();
+  }
+
+  static [of](x) {
     return new IO(() => x);
   }
 
@@ -16,8 +18,18 @@ export default class IO {
     return new IO(compose(f, this.unsafePerformIO));
   }
 
-  [ap](otherContainer) {
-    return otherContainer[map](this.unsafePerformIO);
+  [ap](f) {
+    return this[chain](fn => f[map](fn));
+  }
+
+  [chain](fn) {
+    return this[map](fn).join();
+  }
+
+  join() {
+    return new IO(() => {
+      return this.unsafePerformIO().unsafePerformIO();
+    });
   }
 
   toString() {

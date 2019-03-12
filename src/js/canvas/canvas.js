@@ -50,7 +50,7 @@ const shiftColBy = ({ column, offset }) => (config) => {
   });
 };
 
-const shiftRowBy = ({ row, offset }) => (config) => {
+export const shiftRowBy = ({ row, offset }) => (config) => {
   return config.map((rowArr, i) => {
     return i === row ?
       rowArr.map(el => ({ ...el, x: el.x + offset })) :
@@ -58,7 +58,7 @@ const shiftRowBy = ({ row, offset }) => (config) => {
   });
 };
 
-const headToTailRow = (rowNumber) => (config) => {
+export const headToTailRow = (rowNumber) => (config) => {
   return config.map((row, i) => {
     return i === rowNumber ?
       row.map((el, j, arr) => {
@@ -70,7 +70,7 @@ const headToTailRow = (rowNumber) => (config) => {
   });
 };
 
-const tailToHeadRow = (rowNumber) => (config) => {
+export const tailToHeadRow = (rowNumber) => (config) => {
   return config.map((row, i) => {
     return i === rowNumber ?
       row.map((el, j, arr) => {
@@ -82,9 +82,29 @@ const tailToHeadRow = (rowNumber) => (config) => {
   });
 };
 
-const headToTailCol = (column) => (config) => {};
+export const headToTailCol = (column) => (config) => {
+  return config.map((row, i, rows) => {
+      return row.map((el, j) => {
+        return j === column ?
+          (i === rows.length - 1 ?
+          { ...el, color: rows[0][j].color, y: el.height * i } :
+          { ...el, color: rows[i + 1][j].color, y: el.height * i }) :
+          { ...el };
+      });
+  });
+};
 
-const tailToHeadCol = (column) => (config) => {};
+const tailToHeadCol = (column) => (config) => {
+  return config.map((row, i, rows) => {
+    return row.map((el, j) => {
+      return j === column ?
+        (i === 0 ?
+        { ...el, color: rows[rows.length - 1][j].color, y: el.height * i } :
+        { ...el, color: rows[i - 1][j].color, y: el.height * i }) :
+        { ...el };
+    });
+  });
+};
 
 const getGridData = ({ selector, mtx }) => {
   const ctx = getCanvasIO(selector).unsafePerformIO();
@@ -130,13 +150,13 @@ setTimeout(() => {
   let counter = 0;
   setInterval(() => {
     if (counter === 200) {
-      redrawRow(config[1])(canvasData.ctx);
-      config = tailToHeadRow(1)(config);
+      redrawColumn(config.map(arr => arr[1]))(canvasData.ctx);
+      config = tailToHeadCol(1)(config);
       counter = 10;
     } else {
-      redrawRow(config[1])(canvasData.ctx);
-      config = shiftRowBy({ row: 1, offset: 10 })(config);
+      redrawColumn(config.map(arr => arr[1]))(canvasData.ctx);
+      config = shiftColBy({ column: 1, offset: 10 })(config);
       counter += 10;
     }
-  }, 100);
+  }, 80);
 }, 1000);

@@ -40,7 +40,7 @@ export const matrixToConfig = ({ tileWidth, tileHeight }) => mtx => mtx.map((row
   height: tileHeight
 })));
 
-const shiftColBy = ({ column, offset }) => config => {
+const shiftColBy = ({ column, offset }) => (config) => {
   return config.map((row) => {
     return row.map((el, i) => (
       i === column ?
@@ -50,13 +50,41 @@ const shiftColBy = ({ column, offset }) => config => {
   });
 };
 
-const shiftRowBy = ({ row, offset }) => config => {
+const shiftRowBy = ({ row, offset }) => (config) => {
   return config.map((rowArr, i) => {
     return i === row ?
       rowArr.map(el => ({ ...el, x: el.x + offset })) :
       rowArr.map(el => ({ ...el }))
   });
 };
+
+const headToTailRow = (rowNumber) => (config) => {
+  return config.map((row, i) => {
+    return i === rowNumber ?
+      row.map((el, j, arr) => {
+        return j === arr.length - 1 ?
+          { ...el, color: arr[0].color, x: el.width * j } :
+          { ...el, color: arr[j + 1].color, x: el.width * j }
+      }) :
+      row.map(el => ({ ...el }))
+  });
+};
+
+const tailToHeadRow = (rowNumber) => (config) => {
+  return config.map((row, i) => {
+    return i === rowNumber ?
+      row.map((el, j, arr) => {
+        return j === 0 ?
+          { ...el, color: arr[arr.length - 1].color, x: el.width * j } :
+          { ...el, color: arr[j - 1].color, x: el.width * j }
+      }) :
+      row.map(el => ({ ...el }))
+  });
+};
+
+const headToTailCol = (column) => (config) => {};
+
+const tailToHeadCol = (column) => (config) => {};
 
 const getGridData = ({ selector, mtx }) => {
   const ctx = getCanvasIO(selector).unsafePerformIO();
@@ -69,16 +97,25 @@ const getGridData = ({ selector, mtx }) => {
 
 export const drawGrid = ctx => forEach(forEach(drawRect(ctx)));
 
-export const redrawColumn = (row) => (ctx) => {
-  const head = row[0];
-  const tail = row[row.length - 1];
+export const redrawColumn = (column) => (ctx) => {
+  const head = column[0];
+  const tail = column[column.length - 1];
   const appendant = { ...head, y: tail.y + 200 };
   const prependant = { ...tail, y: head.y - 200 };
+  const drawableArr = [prependant].concat(column.map(el => ({ ...el }))).concat([appendant]);
+
+  forEach(drawRect(ctx), drawableArr);
+};
+
+export const redrawRow = (row) => (ctx) => {
+  const head = row[0];
+  const tail = row[row.length - 1];
+  const appendant = { ...head, x: tail.x + 200 };
+  const prependant = { ...tail, x: head.x - 200 };
   const drawableArr = [prependant].concat(row.map(el => ({ ...el }))).concat([appendant]);
 
   forEach(drawRect(ctx), drawableArr);
 };
-export const redrawRow = () => {};
 
 // **************************************************
 const testData = {
@@ -89,6 +126,17 @@ const canvasData = getGridData(testData);
 drawGrid(canvasData.ctx)(canvasData.config);
 
 setTimeout(() => {
-  let config = shiftColBy({ column: 1, offset: 40 })(canvasData.config);
-  redrawColumn(config.map(row => row[1]))(canvasData.ctx);
+  let config = canvasData.config;
+  let counter = 0;
+  setInterval(() => {
+    if (counter === 200) {
+      redrawRow(config[1])(canvasData.ctx);
+      config = tailToHeadRow(1)(config);
+      counter = 10;
+    } else {
+      redrawRow(config[1])(canvasData.ctx);
+      config = shiftRowBy({ row: 1, offset: 10 })(config);
+      counter += 10;
+    }
+  }, 100);
 }, 1000);

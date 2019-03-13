@@ -1,3 +1,5 @@
+import BezierEasing from 'bezier-easing';
+
 export const matrixToConfig = ({ tileWidth, tileHeight }) => mtx => mtx.map((row, i) => row.map((color, j) => ({
   color,
   x: j * tileWidth,
@@ -91,40 +93,41 @@ export const isGridColorsMatchMtx = (grid) => (mtx) => {
   return result;
 };
 
+// distance between dot of a function line and identity line
+const getFuncDotAndIdentityLineDistance = (f) => (x1) => {
+  const y1 = f(x1);
+  const x2 = (x1 + y1) / 2;
+  const y2 = x2;
+  return Math.sqrt((Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)));
+};
+
 export const invokeWithDecreasingAcceleration = (func) => (acceleration) => {
-  const RESISTANCE_COEFFICIENT = 0.4;
-  const OUTER_INTERVAL = 150;
-  const INNER_INTERVAL = 1;
-  let prevSpeed = acceleration;
-  let prevAcceleration = acceleration;
-  let counter = 0;
+  const easing = BezierEasing(0, 1.6, 0.9, 1); // the values 
+  const getMovementCoefficient = getFuncDotAndIdentityLineDistance(easing);
+  const movementCoefficients = new Array(10).fill(0).map((_, i) => getMovementCoefficient(i / 10));
+  const INTERVAL = 70;
+  const SUB_INTERVAL = 5;
+  let currentInterval = 0;
+  
+  let interval = setInterval(() => {
+    let movement = acceleration * movementCoefficients[currentInterval];
+    currentInterval++;
+    const subMovement = movement / (INTERVAL / SUB_INTERVAL);
 
-  let outerInt = setInterval(() => {
-    let wholeMovement;
-    if (counter => 2) {
-      wholeMovement = prevSpeed - prevAcceleration;
-      prevAcceleration *= RESISTANCE_COEFFICIENT;
-    } else {
-      wholeMovement = prevSpeed + prevSpeed * (counter * RESISTANCE_COEFFICIENT);
-      counter += 1;
-    }
-    const movement = wholeMovement / (OUTER_INTERVAL / INNER_INTERVAL);
-
-    if (prevSpeed < 1) {
-      clearInterval(outerInt);
-      outerInt = null;
+    if (currentInterval === 10) {
+      clearInterval(interval);
+      interval = null;
       func(0);
       return;
     }
 
-    let innerInt = setInterval(() => {
-      func(movement);
-      if (wholeMovement <= 0) {
-        clearInterval(innerInt);
-        innerInt = null;
+    let subInterval = setInterval(() => {
+      func(subMovement);
+      if (movement <= 0) {
+        clearInterval(subInterval);
+        subInterval = null;
       }
-      wholeMovement -= movement;
-    }, INNER_INTERVAL);
-    prevSpeed = wholeMovement;
-  }, OUTER_INTERVAL);
+      movement -= subMovement;
+    }, SUB_INTERVAL);
+  }, INTERVAL);
 };

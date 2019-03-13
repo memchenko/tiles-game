@@ -44,6 +44,7 @@
   "browserslist": "> 0.25%, not dead",
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
+    "bezier-easing": "^2.1.0",
     "fantasy-land": "^4.0.1",
     "folktale": "^2.3.2",
     "ramda": "^0.26.1",

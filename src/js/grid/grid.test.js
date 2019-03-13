@@ -1,4 +1,4 @@
-import { matrixToConfig } from './canvas';
+import { matrixToConfig } from './calc-grid';
 
 describe('canvas functions', () => {
   const [w, h] = [400, 400];

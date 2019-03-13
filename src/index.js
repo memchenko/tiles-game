@@ -1,3 +1,3 @@
-import '_js/canvas/canvas';
+import '_js/grid/render';
 
 import '_css/index.pcss';

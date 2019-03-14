@@ -94,11 +94,11 @@ export const isGridColorsMatchMtx = (grid) => (mtx) => {
 };
 
 // distance between dot of a function line and identity line
-const getFuncDotAndIdentityLineDistance = (f) => (x1) => {
+export const getDistBetwFuncDotAndIdentityLine = (f) => (x1) => {
   const y1 = f(x1);
   const x2 = (x1 + y1) / 2;
-  const y2 = x2;
-  return Math.sqrt((Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)));
+  // y2 = x2 => we don't need y2 as variable here
+  return Math.sqrt(((x2 - x1)**2 + (x2 - x1)**2));
 };
 
 export const invokeWithDecreasingAcceleration = (func) => (acceleration) => {

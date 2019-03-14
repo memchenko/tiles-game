@@ -101,33 +101,10 @@ export const getDistBetwFuncDotAndIdentityLine = (f) => (x1) => {
   return Math.sqrt(((x2 - x1)**2 + (x2 - x1)**2));
 };
 
-export const invokeWithDecreasingAcceleration = (func) => (acceleration) => {
-  const easing = BezierEasing(0, 1.6, 0.9, 1); // the values 
-  const getMovementCoefficient = getFuncDotAndIdentityLineDistance(easing);
-  const movementCoefficients = new Array(10).fill(0).map((_, i) => getMovementCoefficient(i / 10));
-  const INTERVAL = 70;
-  const SUB_INTERVAL = 5;
-  let currentInterval = 0;
-  
-  let interval = setInterval(() => {
-    let movement = acceleration * movementCoefficients[currentInterval];
-    currentInterval++;
-    const subMovement = movement / (INTERVAL / SUB_INTERVAL);
-
-    if (currentInterval === 10) {
-      clearInterval(interval);
-      interval = null;
-      func(0);
-      return;
-    }
-
-    let subInterval = setInterval(() => {
-      func(subMovement);
-      if (movement <= 0) {
-        clearInterval(subInterval);
-        subInterval = null;
-      }
-      movement -= subMovement;
-    }, SUB_INTERVAL);
-  }, INTERVAL);
+export const getArrOfDistancesFromBezierToIdentity = (intervalsNumber) => {
+  // the values for bezier found with http://greweb.me/bezier-easing-editor/example/
+  const easing = BezierEasing(0.01, 0.74, 0.30, 0.67);
+  const getCoefficients = getDistBetwFuncDotAndIdentityLine(easing);
+  const divider = intervalsNumber - 1;
+  return new Array(intervalsNumber).fill(null).map((_, i) => getCoefficients(i / divider));
 };

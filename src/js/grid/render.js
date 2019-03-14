@@ -14,8 +14,8 @@ export const getCanvasIO = compose(
 );
 
 export const getCanvasGeometry = ctx => new IO(() => {
-  const { height, width } = ctx.canvas;
-  return { height, width };
+  const { height, width, top, left } = ctx.canvas.getBoundingClientRect();
+  return { height, width, top, left };
 });
 
 export const setColor = ctx => ({ color, ...rest }) => new IO(() => {
@@ -36,11 +36,16 @@ export const drawRect = ctx => compose(
 
 export const getGridData = ({ selector, mtx }) => {
   const ctx = getCanvasIO(selector).unsafePerformIO();
-  const { width, height } = getCanvasGeometry(ctx).unsafePerformIO();
+  const { width, height, ...canvasCoords } = getCanvasGeometry(ctx).unsafePerformIO();
   const [tileWidth, tileHeight] = [width / mtx[0].length, height / mtx.length];
   const config = matrixToConfig({ tileHeight, tileWidth })(mtx);
 
-  return { ctx, width, height, config };
+  return {
+    ctx, config, mtx,
+    width, height,
+    rowsLen: mtx.length, colsLen: mtx[0].length,
+    ...canvasCoords
+  };
 };
 
 export const drawGrid = ctx => forEach(forEach(drawRect(ctx)));

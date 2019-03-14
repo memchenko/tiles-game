@@ -93,6 +93,33 @@ export const isGridColorsMatchMtx = (grid) => (mtx) => {
   return result;
 };
 
+export const getQuadrant = ({ width, height, top, left, rowsLen, colsLen }) => (e) => {
+  const [x, y] = [e.clientX - left, e.clientY - top];
+  const [rowHeight, colWidth] = [width / colsLen, height / rowsLen];
+  let [lastRow, lastColumn] = [rowsLen - 1, colsLen - 1];
+
+  return {
+    row: getQuadrantIdx({
+      elemsNumber: rowsLen,
+      tileDimSize: rowHeight,
+      value: y
+    }) || lastRow,
+    column: getQuadrantIdx({
+      elemsNumber: colsLen,
+      tileDimSize: colWidth,
+      value: x
+    }) || lastColumn
+  };
+};
+
+const getQuadrantIdx = ({ elemsNumber, tileDimSize, value }) => {
+  for (let i = 0; i < elemsNumber; i += 1) {
+    if (value < (tileDimSize * (i + 1))) {
+      return i;
+    }
+  }
+};
+
 // distance between dot of a function line and identity line
 export const getDistBetwFuncDotAndIdentityLine = (f) => (x1) => {
   const y1 = f(x1);

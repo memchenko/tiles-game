@@ -1,6 +1,6 @@
 import {
   getArrOfDistancesFromBezierToIdentity,
-  getDistBetwFuncDotAndIdentityLine,
+  getDistBetwFuncDotAndIdentityLine, getQuadrant,
   headToTailCol,
   headToTailRow, isGridColorsMatchMtx,
   matrixToConfig,
@@ -8,8 +8,8 @@ import {
   shiftRowBy,
   tailToHeadCol,
   tailToHeadRow
-} from './calc-grid';
-import {roundTo} from "../utils/math";
+} from '../calc-grid';
+import {roundTo} from "../../utils/math";
 
 describe('cals-grid.js functions', () => {
   const [w, h] = [400, 400];
@@ -129,5 +129,14 @@ describe('cals-grid.js functions', () => {
       .map(roundTo(3));
 
     expect(calculatedValues).toEqual(roundedExpectedValues);
+  });
+
+  test('getQuadrant', () => {
+    const expectedQuadrant = { row: 3, column: 1 };
+    const quadrant = getQuadrant({
+      width: w, height: h, top: 0, left: 0, rowsLen: mtx.length, colsLen: mtx[0].length
+    })({ clientX: 147, clientY: 334 });
+
+    expect(quadrant).toEqual(expectedQuadrant);
   });
 });

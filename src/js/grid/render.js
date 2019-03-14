@@ -2,9 +2,9 @@ import { compose, chain, forEach } from 'ramda';
 import { getElement } from '../utils/dom';
 import IO from '../utils/IO';
 
-import { matrixToConfig, tailToHeadCol, shiftColBy } from './calc-grid';
+import { matrixToConfig } from './calc-grid';
 
-const get2DContext = canvasElement => new IO(() => {
+export const get2DContext = canvasElement => new IO(() => {
   return canvasElement.getContext('2d');
 });
 
@@ -18,23 +18,23 @@ export const getCanvasGeometry = ctx => new IO(() => {
   return { height, width };
 });
 
-const setColor = ctx => ({ color, ...rest }) => new IO(() => {
+export const setColor = ctx => ({ color, ...rest }) => new IO(() => {
   ctx.fillStyle = color;
   return { color, ...rest };
 });
 
-const setRectCoords = ctx => ({ x, y, width, height, ...rest }) => new IO(() => {
+export const setRectCoords = ctx => ({ x, y, width, height, ...rest }) => new IO(() => {
   ctx.fillRect(x, y, width, height);
   return { x, y, width, height, ...rest };
 });
 
-const drawRect = ctx => compose(
+export const drawRect = ctx => compose(
   IO.performIO,
   chain(setRectCoords(ctx)),
   setColor(ctx)
 );
 
-const getGridData = ({ selector, mtx }) => {
+export const getGridData = ({ selector, mtx }) => {
   const ctx = getCanvasIO(selector).unsafePerformIO();
   const { width, height } = getCanvasGeometry(ctx).unsafePerformIO();
   const [tileWidth, tileHeight] = [width / mtx[0].length, height / mtx.length];
@@ -66,27 +66,3 @@ export const redrawRow = (arr) => (ctx) => {
 
   forEach(drawRect(ctx), drawableArr);
 };
-
-// **************************************************
-const testData = {
-  selector: '#board',
-  mtx: [['black', 'yellow'], ['yellow', 'black']]
-};
-const canvasData = getGridData(testData);
-drawGrid(canvasData.ctx)(canvasData.config);
-
-setTimeout(() => {
-  let config = canvasData.config;
-  let counter = 0;
-  setInterval(() => {
-    if (counter === 200) {
-      redrawColumn(config.map(arr => arr[1]))(canvasData.ctx);
-      config = tailToHeadCol(1)(config);
-      counter = 10;
-    } else {
-      redrawColumn(config.map(arr => arr[1]))(canvasData.ctx);
-      config = shiftColBy({ column: 1, offset: 10 })(config);
-      counter += 10;
-    }
-  }, 80);
-}, 1000);

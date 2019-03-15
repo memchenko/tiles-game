@@ -1,4 +1,5 @@
 import BezierEasing from 'bezier-easing';
+import {X, Y} from "../../constants/directions";
 
 export const matrixToConfig = ({ tileWidth, tileHeight }) => mtx => mtx.map((row, i) => row.map((color, j) => ({
   color,
@@ -118,6 +119,26 @@ const getQuadrantIdx = ({ elemsNumber, tileDimSize, value }) => {
       return i;
     }
   }
+};
+
+export const getDirection = (prevEvent, currentEvent) => {
+  const defaultDirection = X;
+  const xDiff = currentEvent.clientX - prevEvent.clientX;
+  const yDiff = currentEvent.clientY - prevEvent.clientY;
+
+  return xDiff > yDiff ?
+    X :
+    yDiff > xDiff ?
+    Y :
+    defaultDirection;
+};
+
+export const getAcceleration = (timeInterval) => (prevSpeed, currentSpeed) => {
+  return (prevSpeed - currentSpeed) / timeInterval;
+};
+
+export const getSpeed = (timeInterval) => (x0, x1) => {
+  return (x1 - x0) / timeInterval;
 };
 
 // distance between dot of a function line and identity line

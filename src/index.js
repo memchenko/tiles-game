@@ -1,3 +1,3 @@
-import '_js/grid/render';
+import '_js/grid/index';
 
 import '_css/index.pcss';

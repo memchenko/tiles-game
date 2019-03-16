@@ -97,7 +97,7 @@ export const isGridColorsMatchMtx = (grid) => (mtx) => {
 export const getQuadrant = ({ width, height, top, left, rowsLen, colsLen }) => (e) => {
   const [x, y] = [e.clientX - left, e.clientY - top];
   const [rowHeight, colWidth] = [width / colsLen, height / rowsLen];
-  let [lastRow, lastColumn] = [rowsLen - 1, colsLen - 1];
+  let [lastRow, lastColumn] = [0, 0];
 
   return {
     row: getQuadrantIdx({
@@ -123,8 +123,8 @@ const getQuadrantIdx = ({ elemsNumber, tileDimSize, value }) => {
 
 export const getDirection = (prevEvent, currentEvent) => {
   const defaultDirection = X;
-  const xDiff = currentEvent.clientX - prevEvent.clientX;
-  const yDiff = currentEvent.clientY - prevEvent.clientY;
+  const xDiff = Math.abs(currentEvent.clientX - prevEvent.clientX);
+  const yDiff = Math.abs(currentEvent.clientY - prevEvent.clientY);
 
   return xDiff > yDiff ?
     X :

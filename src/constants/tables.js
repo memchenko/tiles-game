@@ -1,0 +1,9 @@
+export const PUZZLES = 'PUZZLES';
+export const MATRICES = 'MATRICES';
+export const PUZZLES_STATES = 'PUZZLES_STATES';
+export const LEVELS = 'LEVELS';
+export const GAME_INDICATORS = 'GAME_INDICATORS';
+export const GAME_METRICS = 'GAME_METRICS';
+export const SETTINGS = 'SETTINGS';
+export const MARKETING_INDICATORS = 'MARKETING_INDICATORS';
+export const MARKETING_METRICS = 'MARKETING_METRICS';

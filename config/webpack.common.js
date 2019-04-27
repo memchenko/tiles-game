@@ -17,9 +17,8 @@ module.exports = {
         extensions: ['.js', '.css', '.pcss'],
         alias: {
             _constants: src('constants'),
-            _js: src('js'),
-            _css: src('css'),
-            _html: src('html')
+            _components: src('components'),
+            _services: src('services')
         }
     },
     module: {

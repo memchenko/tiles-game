@@ -1,5 +1,5 @@
 import BezierEasing from 'bezier-easing';
-import {X, Y} from "../../constants/directions";
+import { X, Y } from "../../../constants/directions";
 
 export const matrixToConfig = ({ tileWidth, tileHeight }) => mtx => mtx.map((row, i) => row.map((color, j) => ({
   color,
@@ -75,16 +75,36 @@ export const tailToHeadCol = (column) => (config) => {
   });
 };
 
-export const isGridColorsMatchMtx = (grid) => (mtx) => {
+export const roundRowItems = (row) => (config) => {
+  const { x, width } = config[row][0];
+
+  return x >= width - 5
+    ? tailToHeadRow(row)(config)
+    : x <= -width + 5
+    ? headToTailRow(row)(config)
+    : config;
+};
+
+export const roundColItems = (col) => (config) => {
+  const { y, height } = config[0][col];
+
+  return y >= height - 5
+    ? tailToHeadCol(col)(config)
+    : y <= -height + 5
+    ? headToTailCol(col)(config)
+    : config;
+};
+
+export const isGridColorsMatchMtx = (config) => (mtx) => {
   let result = true;
-  let rowsLen = grid.length;
-  let colsLen = grid[0].length;
+  let rowsLen = config.length;
+  let colsLen = config[0].length;
 
   for (let i = 0; i < rowsLen; i += 1) {
     if (result === false) break;
 
     for (let j = 0; j < colsLen; j += 1) {
-      if (grid[i][j].color !== mtx[i][j]) {
+      if (config[i][j].color !== mtx[i][j]) {
         result = false;
         break;
       }
@@ -121,7 +141,7 @@ const getQuadrantIdx = ({ elemsNumber, tileDimSize, value }) => {
   }
 };
 
-export const getDirection = (prevEvent, currentEvent) => {
+export const getDirection = ([prevEvent, currentEvent]) => {
   const defaultDirection = X;
   const xDiff = Math.abs(currentEvent.clientX - prevEvent.clientX);
   const yDiff = Math.abs(currentEvent.clientY - prevEvent.clientY);
@@ -154,5 +174,8 @@ export const getArrOfDistancesFromBezierToIdentity = (intervalsNumber) => {
   const easing = BezierEasing(0.01, 0.74, 0.30, 0.67);
   const getCoefficients = getDistBetwFuncDotAndIdentityLine(easing);
   const divider = intervalsNumber - 1;
-  return new Array(intervalsNumber).fill(null).map((_, i) => getCoefficients(i / divider));
+  return Array.from(
+    { length: intervalsNumber },
+    (_, i) => getCoefficients(i / divider)
+  );
 };

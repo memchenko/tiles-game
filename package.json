@@ -47,7 +47,11 @@
     "bezier-easing": "^2.1.0",
     "fantasy-land": "^4.0.1",
     "folktale": "^2.3.2",
+    "localforage": "^1.7.3",
     "ramda": "^0.26.1",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-router-dom": "^5.0.0",
     "rxjs": "^6.4.0"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 import { compose, chain, forEach } from 'ramda';
-import { getElement } from '../utils/dom';
-import IO from '../utils/IO';
+import { getElement } from '../../../utils/dom';
+import IO from '../../../utils/IO';
 
 import { matrixToConfig } from './calc-grid';
 
@@ -58,7 +58,7 @@ export const redrawColumn = (arr) => (ctx) => {
   const prependant = { ...tail, y: head.y - tileHeight };
   const drawableArr = [prependant].concat(arr.map(el => ({ ...el }))).concat([appendant]);
 
-  forEach(drawRect(ctx), drawableArr);
+  requestAnimationFrame(() => forEach(drawRect(ctx), drawableArr));
 };
 
 export const redrawRow = (arr) => (ctx) => {
@@ -69,5 +69,5 @@ export const redrawRow = (arr) => (ctx) => {
   const prependant = { ...tail, x: head.x - tileWidth };
   const drawableArr = [prependant].concat(arr.map(el => ({ ...el }))).concat([appendant]);
 
-  forEach(drawRect(ctx), drawableArr);
+  requestAnimationFrame(() => forEach(drawRect(ctx), drawableArr));
 };

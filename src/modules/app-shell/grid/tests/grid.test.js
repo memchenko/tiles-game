@@ -9,7 +9,7 @@ import {
   tailToHeadCol,
   tailToHeadRow
 } from '../calc-grid';
-import {roundTo} from "../../utils/math";
+import { roundTo } from '../../../../utils/math';
 
 describe('cals-grid.js functions', () => {
   const [w, h] = [400, 400];

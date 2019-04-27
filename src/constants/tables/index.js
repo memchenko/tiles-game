@@ -1,6 +1,7 @@
 export const PUZZLES = 'PUZZLES';
 export const MATRICES = 'MATRICES';
-export const PUZZLES_STATES = 'PUZZLES_STATES';
+export const PUZZLE_STATES = 'PUZZLE_STATES';
+export const PUZZLES_CURRENT_STATES = 'PUZZLES_CURRENT_STATES';
 export const LEVELS = 'LEVELS';
 export const GAME_INDICATORS = 'GAME_INDICATORS';
 export const GAME_METRICS = 'GAME_METRICS';

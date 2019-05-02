@@ -11,6 +11,8 @@ const STORAGES = Object.values(TABLES).reduce((acc, tableName) => {
     };
 }, {});
 
+export const $storageUpdates = new Subject();
+
 export function persistDataTo(table) {
     if (!isTableExist(table)) {
         throw new Error(UNKNOWN_TABLE);
@@ -33,5 +35,3 @@ export function getDataFrom(table) {
 function isTableExist(table) {
     return table in TABLES;
 }
-
-export const $storageUpdates = new Subject();

@@ -7,23 +7,24 @@ const root = (...paths) => path.resolve.apply(__dirname, [...paths]);
 
 module.exports = {
     entry: {
-        app: src('index.js')
+        app: src('index.jsx')
     },
     output: {
         path: root('dist'),
         filename: '[name].[hash].bundle.js'
     },
     resolve: {
-        extensions: ['.js', '.css', '.pcss'],
+        extensions: ['.js', '.jsx', '.css', '.pcss'],
         alias: {
             _constants: src('constants'),
             _components: src('components'),
-            _services: src('services')
+            _services: src('services'),
+            _modules: src('modules')
         }
     },
     module: {
         rules: [
-            { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
+            { test: /\.(js|jsx)$/, exclude: /node_modules/, loader: 'babel-loader' },
             { test: /\.pug$/, exclude: /node_modules/, loader: 'pug-loader' },
             {
                 test: /\.p?css$/,

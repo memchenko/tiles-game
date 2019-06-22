@@ -1,4 +1,4 @@
-import { converge, compose, join, partialRight, addIndex, map, concat, splitEvery, multiply, thunkify, head, subtract, apply, always } from 'ramda';
+import { sort, converge, compose, join, partialRight, addIndex, map, concat, splitEvery, multiply, thunkify, head, subtract, apply, always } from 'ramda';
 import { trunc, getRoundedDivision, getGte0, multiplyAll } from '../../../utils/math';
 import { toHex, concatStr, getStrLeadingZero2, sliceStr } from '../../../utils/strings';
 import { randomWithin } from '../../../utils/random';
@@ -8,6 +8,7 @@ const getArray = (length, mapFn) => Array.from({ length }, mapFn);
 // getArrayFromArgs :: (*...) -> [*]
 const getArrayFromArgs = (...args) => args;
 const mapIndexed = addIndex(map);
+const sortIndexed = addIndex(sort);
 
 // hslToRgb :: (Number, Number, Number) -> String
 export function hslToRgb(h, s, l) {
@@ -101,7 +102,7 @@ export const generateColorfulMatrix = (cols, rows, diversity) => {
     const randomDegree = randomWithin(0, 1);
     const hueStep = 1 / numberOfColors;
     const degrees = getArray(numberOfColors, (_, i) => ((randomDegree + hueStep * i) % 1));
-    const colors = degrees.map(degree => hslToRgb(degree, 0.5, 0.5));
+    const colors = degrees.map(degree => hslToRgb(degree, 0.7, 0.5));
     const arrayOfColors = getArray(numberOfTiles, (_, i) => colors[i % numberOfColors]);
     return splitEvery(cols, arrayOfColors);
 };

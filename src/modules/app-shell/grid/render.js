@@ -34,8 +34,8 @@ export const drawRect = ctx => compose(
   setColor(ctx)
 );
 
-export const getGridData = ({ selector, mtx }) => {
-  const ctx = getCanvasIO(selector).unsafePerformIO();
+export const getGridData = ({ context, selector, mtx }) => {
+  const ctx = context ? context : getCanvasIO(selector).unsafePerformIO();
   const { width, height, ...canvasCoords } = getCanvasGeometry(ctx).unsafePerformIO();
   const [tileWidth, tileHeight] = [width / mtx[0].length, height / mtx.length];
   const config = matrixToConfig({ tileHeight, tileWidth })(mtx);

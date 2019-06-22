@@ -16,7 +16,8 @@ const options = {
         aggregateTimeout: 300,
         poll: 1000
     },
-    stats: 'minimal'
+    stats: 'minimal',
+    historyApiFallback: true
 };
 
 WebpackDevServer.addDevServerEntrypoints(config, options);

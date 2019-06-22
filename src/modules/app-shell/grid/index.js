@@ -19,16 +19,8 @@ import {
   getArrOfDistancesFromBezierToIdentity
 } from './calc-grid';
 
-import { getElement } from '../../../utils/dom';
-
-import { X, Y } from "../../../../constants/directions";
+import { X, Y } from '_constants/directions';
 import { compose } from 'ramda';
-
-const testMtx = [
-  ['green', 'yellow', 'red'],
-  ['pink', 'purple', 'black'],
-  ['blue', 'orange', 'brown']
-];
 
 export default class GridManager {
   _id = `_${(Date.now() * Math.random()).toString(36).replace(/\./g, '')}`;
@@ -79,6 +71,12 @@ export default class GridManager {
 
     this._$pointerMoveSubscriber = this._$pointerMove.subscribe();
 
+    drawGrid(this._ctx)(this._config);
+  }
+
+  reinit(matrix) {
+    this._matrix = matrix;
+    this._setGridData();
     drawGrid(this._ctx)(this._config);
   }
 
@@ -254,9 +252,3 @@ export default class GridManager {
     this.$positionChanged.next(changedMtx);  
   }
 }
-
-const app = getElement('#app').unsafePerformIO();
-const gridManager = new GridManager(testMtx);
-gridManager.init(app);
-
-gridManager.$positionChanged.subscribe();

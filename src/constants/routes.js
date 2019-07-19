@@ -2,7 +2,7 @@ import { BW, MONOCHROME, COLORFUL } from './puzzles-types';
 
 export const HOME = '/';
 export const PLAY = '/play';
-export const CAMPAIGN = '/campaign';
+export const SCENARIO = '/scenario';
 
 export const PLAY_PUZZLE_ROUTE = `${PLAY}/:puzzleType`;
 export const PLAY_ROUTES = {
@@ -10,4 +10,7 @@ export const PLAY_ROUTES = {
     [MONOCHROME]: `${PLAY}/monochrome`,
     [COLORFUL]: `${PLAY}/colorful`
 };
-export const CAMPAIGN_GAME = `${CAMPAIGN}/:puzzleId`;
+
+export const SCENARIO_DETAILS = `${SCENARIO}/details`;
+export const SCENARIO_MAP = `${SCENARIO}/map`;
+export const SCENARIO_PLAY = `${SCENARIO}/play`;

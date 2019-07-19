@@ -41,7 +41,6 @@ export default class GridManager {
 
   constructor(matrix) {
     this._matrix = matrix;
-    this._canvasNode = this._createCanvasElement();
 
     this._getSpeed = getSpeed(this._TIME_INTERVAL_MS);
     this._getMouseMoveObservable = this._getMouseMoveObservable.bind(this);
@@ -52,18 +51,10 @@ export default class GridManager {
     this.$positionChanged = new Subject();
   }
 
-  _createCanvasElement() {
-    const canvas = document.createElement('canvas');
+  init(canvas) {
+    this._canvasNode = canvas;
     canvas.setAttribute('id', this._id);
-    return canvas;
-  }
 
-  init(container) {
-    const { width, height } = container.getBoundingClientRect();
-    this._canvasNode.setAttribute('width', width);
-    this._canvasNode.setAttribute('height', height);
-
-    container.appendChild(this._canvasNode);
     this._setGridData();
     this._setStartMove();
     this._setFinishMove();

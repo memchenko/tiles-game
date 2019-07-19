@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import MenuScreen from './screens/MenuScreen/MenuScreen';
-import CampaignMap from './screens/CampaignMap/CampaignMap';
+// import CampaignMap from './screens/CampaignMap/CampaignMap';
 import ChoosePuzzleTypeScreen from './screens/ChoosePuzzleTypeScreen/ChoosePuzzleTypeScreen';
 import PlayScreen from './screens/PlayScreen/PlayScreen';
 
@@ -12,9 +12,9 @@ export default function App() {
         <Router>
             <Switch>
                 <Route path={ HOME } exact component={ MenuScreen } />
-                <Route path={ CAMPAIGN } component={ CampaignMap } />
-                <Route path={ CAMPAIGN_GAME } component={ CampaignMap } />
-                <Route path={ PLAY } component={ ChoosePuzzleTypeScreen } />
+                {/* <Route path={ CAMPAIGN } component={ CampaignMap } />
+                <Route path={ CAMPAIGN_GAME } component={ CampaignMap } /> */}
+                <Route path={ PLAY } exact component={ ChoosePuzzleTypeScreen } />
                 <Route path={ PLAY_PUZZLE_ROUTE } component={ PlayScreen } />
             </Switch>
         </Router>

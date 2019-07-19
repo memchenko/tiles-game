@@ -18,18 +18,33 @@ export const getCanvasGeometry = ctx => new IO(() => {
   return { height, width, top, left };
 });
 
+export const setImage = ctx => ({ image, x, y, width, height, ...rest }) => new IO(() => {
+  if (!image) return { ...rest };
+
+  ctx.fillStyle = 'white';
+  ctx.fillRect(x, y, width, height);
+  ctx.drawImage(image, x, y, width, height);
+
+  return { image, x, y, width, height, ...rest };
+});
+
 export const setColor = ctx => ({ color, ...rest }) => new IO(() => {
+  if (!color) return { ...rest };
+
   ctx.fillStyle = color;
   return { color, ...rest };
 });
 
-export const setRectCoords = ctx => ({ x, y, width, height, ...rest }) => new IO(() => {
+export const setRectCoords = ctx => ({ color, x, y, width, height, ...rest }) => new IO(() => {
+  if (!color) return { x, y, width, height, ...rest };
+
   ctx.fillRect(x, y, width, height);
   return { x, y, width, height, ...rest };
 });
 
 export const drawRect = ctx => compose(
   IO.performIO,
+  chain(setImage(ctx)),
   chain(setRectCoords(ctx)),
   setColor(ctx)
 );

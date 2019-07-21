@@ -1,7 +1,7 @@
 import React, { useLayoutEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import { drawGrid, getGridData } from '_modules/app-shell/grid/render';
+import { drawGrid, getGridData } from '_modules/grid/render';
 
 import './TilesGrid.pcss';
 

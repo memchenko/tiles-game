@@ -1,7 +1,7 @@
 import React, { useLayoutEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import GridManager from '_modules/app-shell/grid/index';
+import GridManager from '_modules/grid/index';
 
 const canvas = React.createRef();
 const canvasContainer = React.createRef();

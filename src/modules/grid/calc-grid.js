@@ -1,5 +1,5 @@
 import BezierEasing from 'bezier-easing';
-import { X, Y } from "../../../constants/directions";
+import { X, Y } from '_constants/directions';
 
 export const matrixToConfig = ({ tileWidth, tileHeight }) => mtx => mtx.map((row, i) => row.map((data, j) => ({
   ...(typeof data === 'string' ? { color: data } : { image: data.image }),

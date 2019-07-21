@@ -19,7 +19,8 @@ module.exports = {
             _constants: src('constants'),
             _components: src('components'),
             _services: src('services'),
-            _modules: src('modules')
+            _modules: src('modules'),
+            _utils: src('utils')
         }
     },
     module: {

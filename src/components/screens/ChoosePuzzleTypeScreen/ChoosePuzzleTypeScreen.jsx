@@ -4,7 +4,7 @@ import { generateMonochromeMatrix } from '_modules/matrices-generator/matrices-g
 import * as PUZZLES_TYPES from '_constants/puzzles-types';
 import { PLAY_ROUTES } from '_constants/routes';
 
-import TilesGrid from '_components/blocks/TilesGrid/TilesGrid';
+import TilesGrid from '_components/elements/TilesGrid/TilesGrid';
 
 const matrices = {
     [PUZZLES_TYPES.BW]: [['#000000', '#ffffff'], ['#ffffff', '#000000']],

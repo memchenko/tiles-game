@@ -1,7 +1,7 @@
 import { converge, compose, join, partialRight, addIndex, map, concat, splitEvery, multiply, thunkify, head, subtract, apply, always } from 'ramda';
-import { trunc, getRoundedDivision, getGte0, multiplyAll } from '../../../utils/math';
-import { toHex, concatStr, getStrLeadingZero2, sliceStr } from '../../../utils/strings';
-import { randomWithin } from '../../../utils/random';
+import { trunc, getRoundedDivision, getGte0, multiplyAll } from '_utils/math';
+import { toHex, concatStr, getStrLeadingZero2, sliceStr } from '_utils/strings';
+import { randomWithin } from '_utils/random';
 
 // getArray :: (Number, a -> b) -> [*]
 const getArray = (length, mapFn) => Array.from({ length }, mapFn);

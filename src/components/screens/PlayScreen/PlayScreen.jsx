@@ -7,7 +7,7 @@ import {
     generateBWMatrix,
     generateMonochromeMatrix,
     generateColorfulMatrix
-} from '_modules/app-shell/matrices-generator/matrices-generator';
+} from '_modules/matrices-generator/matrices-generator';
 import { PLAY_ROUTES } from '_constants/routes';
 
 import TilesGrid from '_components/elements/TilesGrid/TilesGrid';

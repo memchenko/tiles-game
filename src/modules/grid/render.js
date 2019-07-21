@@ -1,6 +1,6 @@
 import { compose, chain, forEach } from 'ramda';
-import { getElement } from '../../../utils/dom';
-import IO from '../../../utils/IO';
+import { getElement } from '_utils/dom';
+import IO from '_utils/IO';
 
 import { matrixToConfig } from './calc-grid';
 

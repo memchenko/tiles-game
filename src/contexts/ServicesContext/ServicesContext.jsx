@@ -1,9 +1,5 @@
 import React from 'react';
 
-export default class ServicesContext {
-    _context = null;
+const ServicesContext = React.createContext({});
 
-    constructor(services) {
-        this._context = React.createContext(services);
-    }
-}
+export default ServicesContext;

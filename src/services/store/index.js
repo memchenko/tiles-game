@@ -1,8 +1,6 @@
 import { Subject } from 'rxjs';
 import { scan, filter, tap } from 'rxjs/operators';
-
 import { set, lensPath, partialRight } from 'ramda';
-
 import { createComposableService } from '_utils/pipes/services';
 
 const isFunction = val => typeof val === 'function';

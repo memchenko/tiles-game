@@ -18,6 +18,7 @@ module.exports = {
         alias: {
             _constants: src('constants'),
             _components: src('components'),
+            _contexts: src('contexts'),
             _services: src('services'),
             _modules: src('modules'),
             _utils: src('utils')

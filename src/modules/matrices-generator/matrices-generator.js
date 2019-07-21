@@ -1,4 +1,4 @@
-import { sort, converge, compose, join, partialRight, addIndex, map, concat, splitEvery, multiply, thunkify, head, subtract, apply, always } from 'ramda';
+import { converge, compose, join, partialRight, addIndex, map, concat, splitEvery, multiply, thunkify, head, subtract, apply, always } from 'ramda';
 import { trunc, getRoundedDivision, getGte0, multiplyAll } from '../../../utils/math';
 import { toHex, concatStr, getStrLeadingZero2, sliceStr } from '../../../utils/strings';
 import { randomWithin } from '../../../utils/random';
@@ -8,7 +8,6 @@ const getArray = (length, mapFn) => Array.from({ length }, mapFn);
 // getArrayFromArgs :: (*...) -> [*]
 const getArrayFromArgs = (...args) => args;
 const mapIndexed = addIndex(map);
-const sortIndexed = addIndex(sort);
 
 // hslToRgb :: (Number, Number, Number) -> String
 export function hslToRgb(h, s, l) {

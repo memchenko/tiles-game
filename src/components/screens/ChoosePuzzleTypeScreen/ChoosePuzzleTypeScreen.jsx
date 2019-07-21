@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { generateMonochromeMatrix } from '_modules/app-shell/matrices-generator/matrices-generator';
+import { generateMonochromeMatrix } from '_modules/matrices-generator/matrices-generator';
 import * as PUZZLES_TYPES from '_constants/puzzles-types';
 import { PLAY_ROUTES } from '_constants/routes';
 

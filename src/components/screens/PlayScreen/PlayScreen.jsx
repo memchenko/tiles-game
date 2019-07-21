@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { __, curry } from 'ramda';
@@ -8,8 +8,6 @@ import {
     generateMonochromeMatrix,
     generateColorfulMatrix
 } from '_modules/app-shell/matrices-generator/matrices-generator';
-import { isGridColorsMatchMtx } from '_modules/app-shell/grid/calc-grid';
-import { shuffleMtx } from '_modules/app-shell/shuffler/index';
 import { PLAY_ROUTES } from '_constants/routes';
 
 import TilesGrid from '_components/elements/TilesGrid/TilesGrid';
@@ -24,12 +22,12 @@ const routeMatricesMap = (color) => {
 };
 
 function logChanges(mtx) {
-    console.log(mtx);
+    console.log(mtx); // eslint-disable-line
 }
 
 function PlayScreen({ location: { pathname, state }}) {
     const generateMtx = routeMatricesMap(state);
-    const [mtx, setMtx] = useState(generateMtx[pathname](3, 3, .5));
+    const [mtx] = useState(generateMtx[pathname](3, 3, .5));
 
     return mtx
         ? <div style={{ display: 'flex' }}>

@@ -6,6 +6,7 @@ const config = require('./config/webpack.common');
 const PORT = 3000;
 
 config.mode = 'development';
+config.devtool = 'cheap-module-source-map';
 
 const options = {
     contentBase: config.output.path,
@@ -15,7 +16,8 @@ const options = {
         aggregateTimeout: 300,
         poll: 1000
     },
-    stats: 'minimal'
+    stats: 'minimal',
+    historyApiFallback: true
 };
 
 WebpackDevServer.addDevServerEntrypoints(config, options);

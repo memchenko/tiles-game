@@ -1,0 +1,1 @@
+export const UNKNOWN_TABLE = 'UNKNOWN_TABLE';

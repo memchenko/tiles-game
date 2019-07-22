@@ -7,24 +7,26 @@ const root = (...paths) => path.resolve.apply(__dirname, [...paths]);
 
 module.exports = {
     entry: {
-        app: src('index.js')
+        app: src('index.jsx')
     },
     output: {
         path: root('dist'),
         filename: '[name].[hash].bundle.js'
     },
     resolve: {
-        extensions: ['.js', '.css', '.pcss'],
+        extensions: ['.js', '.jsx', '.css', '.pcss'],
         alias: {
             _constants: src('constants'),
-            _js: src('js'),
-            _css: src('css'),
-            _html: src('html')
+            _components: src('components'),
+            _contexts: src('contexts'),
+            _services: src('services'),
+            _modules: src('modules'),
+            _utils: src('utils')
         }
     },
     module: {
         rules: [
-            { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
+            { test: /\.(js|jsx)$/, exclude: /node_modules/, loader: 'babel-loader' },
             { test: /\.pug$/, exclude: /node_modules/, loader: 'pug-loader' },
             {
                 test: /\.p?css$/,
@@ -32,7 +34,12 @@ module.exports = {
                 use: [
                     'style-loader',
                     'css-loader',
-                    { loader: 'postcss-loader', options: { config: { path: root('./config/') } } }
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            config: { path: root('./config') }
+                        }
+                    }
                 ]
             }
         ]

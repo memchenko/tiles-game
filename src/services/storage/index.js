@@ -5,33 +5,58 @@ import * as TABLES from '_constants/tables';
 import { UNKNOWN_TABLE } from '_constants/errors';
 
 const STORAGES = Object.values(TABLES).reduce((acc, tableName) => {
-    return {
-        ...acc,
-        [tableName]: localforage.createInstance({ name: tableName })
-    };
-}, {});
+    acc.set(tableName, localforage.createInstance({ name: tableName }));
 
-export const $storageUpdates = new Subject();
+    return acc;
+}, new Map());
 
-export function persistDataTo(table) {
-    if (!isTableExist(table)) {
-        throw new Error(UNKNOWN_TABLE);
+export default class Storage {
+    $storageUpdates = null;
+
+    constructor() {
+        this.$storageUpdates = new Subject();
     }
 
-    return async (key, value) => {
-        await STORAGES[table].setItem(key, value);
-        $storageUpdates.next({ table, key, value });
-    };
-}
-
-export function getDataFrom(table) {
-    if (!isTableExist(table)) {
-        throw new Error(UNKNOWN_TABLE);
+    async set(table, key, value) {
+        this._throwIfTableIsntExist(table);
+        
+        await STORAGES.get(table).setItem(key, value);
+        this.$storageUpdates.next({ table, key, value });
     }
 
-    return key => STORAGES[table].getItem(key);
+    async read(table, key) {
+        this._throwIfTableIsntExist(table);
+
+        return STORAGES.get(table).getItem(key);
+    }
+
+    async readAll() {
+        const result = new Map();
+
+        const resultPushers = [];
+
+        STORAGES.forEach((storage, table) => {
+            resultPushers.push(async () => {
+                const instances = [];
+                const result = await storage.iterate((value, key) => {
+                    instances.push({ key, value });
+                });
+                result.set(table, instances);
+            });
+        });
+
+        await Promise.all(resultPushers);
+        
+        return result;
+    }
+
+    _throwIfTableIsntExist(tableName) {
+        if (!isTableExist(tableName)) {
+            throw new Error(UNKNOWN_TABLE);
+        }
+    }
 }
 
 function isTableExist(table) {
-    return table in TABLES;
+    return STORAGES.has(table);
 }

@@ -15,7 +15,8 @@ export default class Store {
         this.$store = (new Subject())
             .pipe(
                 filter(isFunction),
-                scan((acc, setter) => setter(acc), initialState)
+                scan((acc, setter) => setter(acc), initialState),
+                tap(state => this._state = state)
             );
     }
 

@@ -11,7 +11,8 @@ module.exports = {
     },
     output: {
         path: root('dist'),
-        filename: '[name].[hash].bundle.js'
+        filename: '[name].[hash].bundle.js',
+        publicPath: '/'
     },
     resolve: {
         extensions: ['.js', '.jsx', '.css', '.pcss'],
@@ -21,7 +22,9 @@ module.exports = {
             _contexts: src('contexts'),
             _services: src('services'),
             _modules: src('modules'),
-            _utils: src('utils')
+            _utils: src('utils'),
+            _hooks: src('hooks'),
+            _root: root()
         }
     },
     module: {

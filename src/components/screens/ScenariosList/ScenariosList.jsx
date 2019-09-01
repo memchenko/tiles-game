@@ -1,42 +1,34 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { Link } from 'react-router-dom';
-
+import useGlobalState from '_hooks/useGlobalState';
 import { SCENARIO_DETAILS } from '_constants/routes';
+import { SCENARIOS_LENS } from '_root/store/selectors';
+import { DIFFICULTIES } from '_constants/game';
 
-// list: { id: number | string, pic: string, title: string, difficulty: string }
+// list: { id: number | string, icon: string, title: string, difficulty: string }
 
-export default function ScenariosList({ scenarios }) {
+export default function ScenariosList() {
+    const [scenarios] = useGlobalState(SCENARIOS_LENS);
+
     return (
         <ul>
             {
-                scenarios.map(scenario => <ScenarioItem key={ scenario.id } {...scenario} />)
+                [...scenarios].map(([id, scenario]) => <ScenarioItem key={ id } id={ id } {...scenario} />)
             }
         </ul>
     );
 }
 
-const scenarioItemPropsShape = {
-    id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    pic: PropTypes.string,
-    title: PropTypes.string,
-    difficulty: PropTypes.oneOf(['easy', 'medium', 'hard', 'expert', 'god'])
-};
-
-ScenariosList.propTypes = {
-    scenarios: PropTypes.arrayOf(PropTypes.shape(scenarioItemPropsShape))
-};
-
-function ScenarioItem({ id, pic, title, difficulty }) {
+function ScenarioItem({ id, icon, title, difficulty }) {
     return (
         <li>
             <Link to={{
                 pathname: SCENARIO_DETAILS,
-                state: { id }
+                state: { scenarioId: id }
             }}>
                 <span>
-                    <img src={ pic } alt="Scenario picture" />
+                    <img src={ icon } alt={ `Picture for ${title} scenario` } style={{ width: 60, height: 60 }} />
                 </span>
                 <span>
                     <h3>{ title }</h3>
@@ -47,4 +39,9 @@ function ScenarioItem({ id, pic, title, difficulty }) {
     );
 }
 
-ScenarioItem.propTypes = scenarioItemPropsShape;
+ScenarioItem.propTypes = {
+    id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    icon: PropTypes.string,
+    title: PropTypes.string,
+    difficulty: PropTypes.oneOf(DIFFICULTIES)
+};

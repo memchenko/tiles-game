@@ -1,4 +1,6 @@
-import { BW, MONOCHROME, COLORFUL } from './puzzles-types';
+import { PUZZLES_TYPES } from './game';
+
+const { BW, MONOCHROME, COLORFUL } = PUZZLES_TYPES;
 
 export const HOME = '/';
 export const PLAY = '/play';

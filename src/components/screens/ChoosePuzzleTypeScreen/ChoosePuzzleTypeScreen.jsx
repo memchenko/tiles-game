@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { generateMonochromeMatrix } from '_modules/matrices-generator/matrices-generator';
-import * as PUZZLES_TYPES from '_constants/puzzles-types';
+import { PUZZLES_TYPES } from '_constants/game';
 import { PLAY_ROUTES } from '_constants/routes';
 
 import TilesGrid from '_components/elements/TilesGrid/TilesGrid';

@@ -17,7 +17,8 @@ const options = {
         poll: 1000
     },
     stats: 'minimal',
-    historyApiFallback: true
+    historyApiFallback: true,
+    writeToDisk: true
 };
 
 WebpackDevServer.addDevServerEntrypoints(config, options);

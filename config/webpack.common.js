@@ -1,6 +1,7 @@
 const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const src = (...paths) => path.resolve.apply(__dirname, ['src', ...paths]);
 const root = (...paths) => path.resolve.apply(__dirname, [...paths]);
@@ -50,6 +51,9 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: src('index.pug')
-        })
+        }),
+        new CopyWebpackPlugin([
+            { from: src('assets'), to: root('dist/assets') }
+        ])
     ]
 };

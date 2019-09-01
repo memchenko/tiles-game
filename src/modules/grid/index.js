@@ -19,8 +19,10 @@ import {
   getArrOfDistancesFromBezierToIdentity
 } from './calc-grid';
 
-import { X, Y } from '_constants/directions';
+import { DIRECTIONS } from '_constants/game';
 import { compose } from 'ramda';
+
+const { X, Y } = DIRECTIONS;
 
 export default class GridManager {
   _id = `_${(Date.now() * Math.random()).toString(36).replace(/\./g, '')}`;

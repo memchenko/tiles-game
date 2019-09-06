@@ -16,8 +16,14 @@ export const PUZZLES_TYPES = {
     COLORFUL: 'COLORFUL'
 };
 
+export const RESULTS = {
+    NORMAL: 'normal',
+    GOOD: 'good',
+    BEST: 'best'
+};
+
 export const SCENARIO_MAP_CSS_CLASSES = {
-    NORMAL_PREFORMANCE: 'performance-normal',
+    NORMAL_PERFORMANCE: 'performance-normal',
     GOOD_PERFORMANCE: 'performance-good',
     BEST_PERFORMANCE: 'performance-best',
     DISABLED: 'disabled'

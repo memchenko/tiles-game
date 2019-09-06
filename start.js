@@ -1,5 +1,7 @@
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
+const fs = require('fs');
+const path = require('path');
 
 const config = require('./config/webpack.common');
 
@@ -18,7 +20,20 @@ const options = {
     },
     stats: 'minimal',
     historyApiFallback: true,
-    writeToDisk: true
+    writeToDisk: true,
+    setup(app) {
+        app.get('/assets/:fileName', (req, res) => {
+            const filePath = path.resolve(process.cwd(), 'dist', 'assets', req.params.fileName);
+            
+            fs.readFile(filePath, (err, data) => {
+                if (err) {
+                    res.status(404).send('Whatever');
+                } else {
+                    res.status(200).send(data.toString('utf8'));
+                }
+            });
+        });
+    }
 };
 
 WebpackDevServer.addDevServerEntrypoints(config, options);

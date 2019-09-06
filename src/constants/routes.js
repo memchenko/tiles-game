@@ -13,6 +13,6 @@ export const PLAY_ROUTES = {
     [COLORFUL]: `${PLAY}/colorful`
 };
 
-export const SCENARIO_DETAILS = `${SCENARIO}/details`;
-export const SCENARIO_MAP = `${SCENARIO}/map`;
-export const SCENARIO_PLAY = `${SCENARIO}/play`;
+export const SCENARIO_DETAILS = `${SCENARIO}/:scenarioId/details`;
+export const SCENARIO_MAP = `${SCENARIO}/:scenarioId/map`;
+export const SCENARIO_PLAY = `${SCENARIO}/:scenarioId/play/:stepNumber`;

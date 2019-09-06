@@ -4,11 +4,14 @@ import SCENARIOS_MAPS from './maps';
 export default Object.assign({
     scenarios: {
         results: new Map([
-            [0, []],
-            [1, []],
-            [2, []]
+            [0, new Map([
+                [0, { type: 'best' }],
+                [1, { type: 'normal' }]
+            ])],
+            [1, new Map()],
+            [2, new Map()]
         ]),
-        map: SCENARIOS_MAPS,
+        maps: SCENARIOS_MAPS,
         descriptions: SCENARIOS_LIST
     }
 });

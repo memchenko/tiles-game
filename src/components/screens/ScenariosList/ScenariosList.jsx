@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import useGlobalState from '_hooks/useGlobalState';
 import { SCENARIO_DETAILS } from '_constants/routes';
-import { SCENARIOS_LENS } from '_root/store/selectors';
+import { SCENARIOS_LENS } from '_src/store/selectors';
 import { DIFFICULTIES } from '_constants/game';
 
 // list: { id: number | string, icon: string, title: string, difficulty: string }
 
 export default function ScenariosList() {
     const [scenarios] = useGlobalState(SCENARIOS_LENS);
-
+    
     return (
         <ul>
             {
@@ -24,8 +24,7 @@ function ScenarioItem({ id, icon, title, difficulty }) {
     return (
         <li>
             <Link to={{
-                pathname: SCENARIO_DETAILS,
-                state: { scenarioId: id }
+                pathname: SCENARIO_DETAILS.replace(':scenarioId', id)
             }}>
                 <span>
                     <img src={ icon } alt={ `Picture for ${title} scenario` } style={{ width: 60, height: 60 }} />

@@ -3,13 +3,15 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import useGlobalState from '_hooks/useGlobalState';
-import { SCENARIOS_LENS } from '_root/store/selectors';
+import { SCENARIOS_LENS } from '_src/store/selectors';
+import { SCENARIO_MAP } from '_constants/routes';
 
-function ScenarioDetails({ location }) {
+function ScenarioDetails({ match }) {
+    const { scenarioId } = match.params;
     const [scenarios] = useGlobalState(SCENARIOS_LENS);
     const {
         title, icon, poster, description, progress, difficulty
-    } = scenarios.get(location.state.scenarioId);
+    } = scenarios.get(+scenarioId);
 
     return (
         <div>
@@ -24,17 +26,16 @@ function ScenarioDetails({ location }) {
             </div>
             <p>{ description }</p>
             <Link to={{
-                pathname: '/',
-                state: location.state.scenarioId
+                pathname: SCENARIO_MAP.replace(':scenarioId', scenarioId)
             }}>Play</Link>
         </div>
     );
 }
 
 ScenarioDetails.propTypes = {
-    location: PropTypes.shape({
-        state: PropTypes.shape({
-            scenarioId: PropTypes.number.isRequired
+    match: PropTypes.shape({
+        params: PropTypes.shape({
+            scenarioId: PropTypes.string.isRequired
         }).isRequired
     }).isRequired
 };

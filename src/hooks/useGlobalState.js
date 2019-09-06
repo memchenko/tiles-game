@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { __, equals, view } from 'ramda';
 import Store from '_services/store';
 
-import INITIAL_GLOBAL_STATE from '_root/store';
+import INITIAL_GLOBAL_STATE from '_src/store';
 
 const store = new Store(INITIAL_GLOBAL_STATE);
 

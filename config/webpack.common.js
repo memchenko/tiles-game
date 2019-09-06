@@ -25,6 +25,7 @@ module.exports = {
             _modules: src('modules'),
             _utils: src('utils'),
             _hooks: src('hooks'),
+            _src: src(),
             _root: root()
         }
     },

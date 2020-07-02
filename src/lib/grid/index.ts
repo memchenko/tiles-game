@@ -20,6 +20,7 @@ import {
   first,
   last,
 } from 'rxjs/operators';
+import { Function } from 'ts-toolbelt';
 import {
   getGridData,
   drawGrid,
@@ -53,8 +54,16 @@ export default class GridManager {
   private canvasNode?: HTMLCanvasElement;
   private ctx?: CanvasRenderingContext2D;
 
-  private pointerDown$?: Observable<Event>;
-  private pointerMove$?: Observable<Event>;
+  private pointerDown$?: Observable<MouseEvent>;
+  private pointerMove$?: Observable<{
+    speed: number;
+    acceleration: number;
+    direction: Directions;
+    quadrant: {
+      row: number;
+      column: number;
+    };
+  }>;
   private pointerFinisher$?: Observable<Event>;
 
   private config?: TileConfig[][];
@@ -115,7 +124,7 @@ export default class GridManager {
 
   private setStartMove() {
     if (this.canvasNode) {
-      this.pointerDown$ = fromEvent(this.canvasNode, 'mousedown');
+      this.pointerDown$ = fromEvent<MouseEvent>(this.canvasNode, 'mousedown');
     } else {
       throw new Error('No canvasNode provided');
     }
@@ -131,10 +140,7 @@ export default class GridManager {
   }
 
   private setMove = () => {
-    const getQuadrantOfTheGrid: (e: Event) => ({
-      row: number;
-      column: number;
-    }) = getQuadrant(this.gridData);
+    const getQuadrantOfTheGrid = getQuadrant(this.gridData);
 
     if (this.pointerDown$) {
       this.pointerMove$ = this.pointerDown$.pipe(
@@ -320,8 +326,20 @@ export default class GridManager {
   }) {
     const row = quadrant.row;
 
-    this.config = compose(
-      roundRowItems(row) as (config: ),
+    if (!this.config) {
+      throw new Error('No config provided');
+    }
+
+    if (!this.ctx) {
+      throw new Error('No canvas context provided');
+    }
+
+    this.config = compose<
+      TileConfig[][],
+      TileConfig[][],
+      TileConfig[][]
+    >(
+      roundRowItems(row),
       shiftRowBy({ row, offset }),
     )(this.config);
     redrawRow(this.config[row], this.ctx);
@@ -333,7 +351,19 @@ export default class GridManager {
   }) {
     const column = quadrant.column;
 
-    this.config = compose(
+    if (!this.config) {
+      throw new Error('No config provided');
+    }
+
+    if (!this.ctx) {
+      throw new Error('No canvas context provided');
+    }
+
+    this.config = compose<
+      TileConfig[][],
+      TileConfig[][],
+      TileConfig[][]
+    >(
       roundColItems(column),
       shiftColBy({ column, offset })
     )(this.config);

@@ -3,28 +3,28 @@ import BezierEasing from 'bezier-easing';
 import { Directions } from '../../constants/game';
 import { TileInfo, TileConfig } from './types';
 
-export const matrixToConfig: ((
-  geometry: { tileWidth: number, tileHeight: number },
-  mtx: TileInfo[][]
-) => TileConfig[][]) = curry(
-  (geom, mtx) => mtx.map(
+export const matrixToConfig = curry(
+  (
+    geometry: { tileWidth: number; tileHeight: number },
+    mtx: TileInfo[][]
+  ): TileConfig[][] => mtx.map(
     (row: TileInfo[], i: number) =>
       row.map((data: TileInfo, j: number) => ({
         ...data,
-        x: j * geom.tileWidth,
-        y: i * geom.tileHeight,
-        width: geom.tileWidth,
-        height: geom.tileHeight
+        x: j * geometry.tileWidth,
+        y: i * geometry.tileHeight,
+        width: geometry.tileWidth,
+        height: geometry.tileHeight
       })
     )
   )
 );
 
-export const shiftColBy: ((
-  address: { column: number; offset: number; },
-  config: TileConfig[][]
-) => TileConfig[][]) = curry(
-  ({ column, offset }, config) =>
+export const shiftColBy = curry(
+  (
+    { column, offset }: { column: number; offset: number },
+    config: TileConfig[][]
+  ): TileConfig[][] =>
     config.map(
       (row: TileConfig[]) => row.map(
         (el: TileConfig, i: number) => (
@@ -36,11 +36,11 @@ export const shiftColBy: ((
     )
 );
 
-export const shiftRowBy: ((
-  address: { row: number; offset: number; },
-  config: TileConfig[][]
-) => TileConfig[][]) = curry(
-  ({ row, offset }, config) => 
+export const shiftRowBy = curry(
+  (
+    { row, offset }: { row: number; offset: number },
+    config: TileConfig[][]
+  ): TileConfig[][] => 
     config.map(
       (rowArr: TileConfig[], i: number) => i === row
         ? rowArr.map((el: TileConfig) => ({ ...el, x: el.x + offset }))
@@ -48,11 +48,8 @@ export const shiftRowBy: ((
     )
 );
 
-export const headToTailRow: ((
-  rowNumber: number,
-  config: TileConfig[][]
-) => TileConfig[][]) = curry(
-  (rowNumber, config) =>
+export const headToTailRow = curry(
+  (rowNumber: number, config: TileConfig[][]): TileConfig[][] =>
     config.map(
       (row: TileConfig[], i: number) => i === rowNumber
         ? row.map((el: TileConfig, j: number, arr: TileConfig[]) =>
@@ -64,11 +61,8 @@ export const headToTailRow: ((
     )
 );
 
-export const tailToHeadRow: ((
-  rowNumber: number,
-  config: TileConfig[][]
-) => TileConfig[][]) = curry(
-  (rowNumber, config) =>
+export const tailToHeadRow = curry(
+  (rowNumber: number, config: TileConfig[][]): TileConfig[][] =>
     config.map(
       (row: TileConfig[], i: number) => i === rowNumber
         ? row.map(
@@ -80,11 +74,8 @@ export const tailToHeadRow: ((
     )
 );
 
-export const headToTailCol: ((
-  column: number,
-  config: TileConfig[][]
-) => TileConfig[][]) = curry(
-  (column, config) => config.map(
+export const headToTailCol = curry(
+  (column: number, config: TileConfig[][]): TileConfig[][] => config.map(
     (row: TileConfig[], i: number, rows: TileConfig[][]) => row.map(
       (el: TileConfig, j: number) => j === column
         ? (i === rows.length - 1
@@ -95,11 +86,8 @@ export const headToTailCol: ((
     )
 );
 
-export const tailToHeadCol: ((
-  column: number,
-  config: TileConfig[][]
-) => TileConfig[][]) = curry(
-  (column, config) => config.map(
+export const tailToHeadCol = curry(
+  (column: number, config: TileConfig[][]): TileConfig[][] => config.map(
       (row: TileConfig[], i: number, rows: TileConfig[][]) => row.map(
         (el: TileConfig, j: number) => j === column
           ? (i === 0
@@ -108,14 +96,10 @@ export const tailToHeadCol: ((
           : { ...el }
       )
     )
-  
 );
 
-export const roundRowItems: ((
-  row: number,
-  config: TileConfig[][]
-) => TileConfig[][]) = curry(
-  (row, config) => {
+export const roundRowItems = curry(
+  (row: number, config: TileConfig[][]): TileConfig[][] => {
     const { x, width } = config[row][0];
 
     return x >= width - 5
@@ -126,11 +110,8 @@ export const roundRowItems: ((
   }
 );
 
-export const roundColItems: ((
-  column: number,
-  config: TileConfig[][]
-) => TileConfig[][]) = curry(
-  (col, config) => {
+export const roundColItems = curry(
+  (col: number, config: TileConfig[][]): TileConfig[][] => {
     const { y, height } = config[0][col];
 
     return y >= height - 5
@@ -141,27 +122,36 @@ export const roundColItems: ((
   }
 );
 
-export const isMatricesEqual: ((
-  left: TileConfig[][],
-  right: TileConfig[][],
-) => boolean) = curry((left, right) => {
-  if (left.length !== right.length || left[0].length !== right[0].length) {
-    return false;
-  }
+export const isMatricesEqual = curry(
+  (left: TileConfig[][], right: TileConfig[][]): boolean => {
+    if (left.length !== right.length || left[0].length !== right[0].length) {
+      return false;
+    }
 
-  for (let i = 0, rows = left.length; i < rows; i += 1) {
-    for (let j = 0, cols = left[i].length; j < cols; j += 1) {
-      if (left[i][j] !== right[i][j]) {
-        return false;
+    for (let i = 0, rows = left.length; i < rows; i += 1) {
+      for (let j = 0, cols = left[i].length; j < cols; j += 1) {
+        if (left[i][j] !== right[i][j]) {
+          return false;
+        }
       }
     }
-  }
 
-  return true;
-});
+    return true;
+  }
+);
 
 export const getQuadrant = curry(
-  ({ width, height, top, left, rowsLen, colsLen }, e) => {
+  (
+    { width, height, top, left, rowsLen, colsLen }: {
+      width: number;
+      height: number;
+      top: number;
+      left: number;
+      rowsLen: number;
+      colsLen: number;
+    },
+    e: MouseEvent
+  ): { row: number; column: number; } => {
     const [x, y] = [e.clientX - left, e.clientY - top];
     const [rowHeight, colWidth] = [width / colsLen, height / rowsLen];
     let [lastRow, lastColumn] = [0, 0];
@@ -212,20 +202,20 @@ export const getDirection = (
 };
 
 export const getAcceleration = curry(
-  (timeInterval: number, prevSpeed: number, currentSpeed: number) => {
+  (timeInterval: number, prevSpeed: number, currentSpeed: number): number => {
     return (prevSpeed - currentSpeed) / timeInterval;
   }
 );
 
 export const getSpeed = curry(
-  (timeInterval: number, x0: number, x1: number) => {
+  (timeInterval: number, x0: number, x1: number): number => {
     return (x1 - x0) / timeInterval;
   }
 );
 
 // distance between dot of a function line and identity line
 export const getDistBetwFuncDotAndIdentityLine = curry(
-  (f: ((x: number) => number), x1: number) => {
+  (f: ((x: number) => number), x1: number): number => {
     const y1 = f(x1);
     const x2 = (x1 + y1) / 2;
     // y2 = x2 => we don't need y2 as variable here

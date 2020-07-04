@@ -44,12 +44,13 @@ module.exports = (plop) => {
                         },
                     };
                     const mapFileNameToConfig = (fileName) => {
-                        const file = ['component', 'styles'].includes(fileName)
+                        const name = ['component', 'styles'].includes(fileName)
                             ? modifiedAnswers.entityName.capitalized
                             : fileName;
+                        const ext = fileName === 'styles' ? 'scss' : 'ts';
                         return {
                             directory: `./src/${modifiedAnswers.componentType}/${modifiedAnswers.entityName.capitalized}`,
-                            fileName: `${file}.ts`,
+                            fileName: `${name}.${ext}`,
                             templateFilePath: `./plop/templates/component/${fileName}.hbs`,
                         };
                     };

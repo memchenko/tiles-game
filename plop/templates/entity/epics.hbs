@@ -1,0 +1,15 @@
+import { ofType, ActionsObservable } from 'redux-observable';
+import { concat } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+import {} from './types';
+import {
+    set{{ entityName.capitalized }},
+} from './actions';
+import {
+    makeResponseObservable,
+    get,
+} from '../network';
+import { Paths } from '../../constants/urls';
+
+export default [];

@@ -1,0 +1,14 @@
+  
+import { createReducer } from 'deox';
+
+import { I{{ entityName.capitalized }}State } from './types';
+import { set{{ entityName.capitalized }} } from './actions';
+
+const initialState: I{{ entityName.capitalized }}State = {};
+
+export default createReducer(initialState, handle => ([
+    handle(
+        set{{ entityName.capitalized }},
+        (state, action) => action.payload
+    ),
+]));

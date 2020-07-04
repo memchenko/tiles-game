@@ -1,0 +1,15 @@
+{{#if files.types}}
+export * from './types';
+{{/if}}
+{{#if files.actions}}
+export * from './actions';
+{{/if}}
+{{#if files.constants}}
+export * from './constants';
+{{/if}}
+{{#if files.epics}}
+export { default as epics } from './epics';
+{{/if}}
+{{#if files.reducers}}
+export { default as reducers } from './reducers';
+{{/if}}

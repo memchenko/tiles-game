@@ -1,0 +1,8 @@
+import { createActionCreator } from 'deox';
+
+import { Actions, ISet{{ entityName.capitalized }}Data } from './types';
+
+export const set{{ entityName.capitalized }} = createActionCreator(
+    Actions.Set{{ entityName.capitalized }},
+    resolve => (data: ISet{{ entityName.capitalized }}Data) => resolve(data)
+);

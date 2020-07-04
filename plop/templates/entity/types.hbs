@@ -1,0 +1,15 @@
+export enum Actions {
+    Set{{ entityName.capitalized }} = '@{{ entityName.kebabCased }}/SET_{{ entityName.capsLocked }}'
+}
+
+export interface ISet{{ entityName.capitalized }}Data {
+    
+}
+
+export interface I{{ entityName.capitalized }}State {
+
+}
+
+export interface IStateWith{{ entityName.capitalized }} {
+    {{ entityName.camelCased }}: I{{ entityName.capitalized }}State;
+}

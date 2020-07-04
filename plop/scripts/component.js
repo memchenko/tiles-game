@@ -41,6 +41,7 @@ module.exports = (plop) => {
                         ...answers,
                         entityName: {
                             capitalized: entityNameWords.map(capitalize).join(''),
+                            kebabCased: entityNameWords.join('-'),
                         },
                     };
                     const mapFileNameToConfig = (fileName) => {

@@ -47,7 +47,11 @@ module.exports = (plop) => {
                         const name = ['component', 'styles'].includes(fileName)
                             ? modifiedAnswers.entityName.capitalized
                             : fileName;
-                        const ext = fileName === 'styles' ? 'scss' : 'ts';
+                        const ext = fileName === 'styles'
+                            ? 'scss'
+                            : fileName === 'component'
+                            ? 'tsx'
+                            : 'ts';
                         return {
                             directory: `./src/${modifiedAnswers.componentType}/${modifiedAnswers.entityName.capitalized}`,
                             fileName: `${name}.${ext}`,

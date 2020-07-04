@@ -11,7 +11,7 @@ function TilesGrid({ matrix }: ITilesGridProps) {
 
     useEffect(() => {
         if (!canvas.current || !container.current) {
-            throw new Error('No canvas or container provided');
+            return;
         }
    
         const canvasEl = canvas.current as unknown as HTMLCanvasElement;

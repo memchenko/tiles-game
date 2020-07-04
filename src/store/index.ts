@@ -3,6 +3,7 @@ import { createEpicMiddleware, combineEpics } from 'redux-observable';
 import { identity } from 'ramda'
 
 import { epics as networkEpics } from '../entities/network';
+import { epics as scenarioEpics } from '../entities/scenario';
 import rootReducer from './rootReducer';
 import { WindowWithReduxDevTools } from './types';
 
@@ -22,6 +23,7 @@ const store = createStore(
 
 epicMiddleware.run(combineEpics<any>(
   ...networkEpics,
+  ...scenarioEpics,
 ));
 
 export default store;

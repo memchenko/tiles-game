@@ -1,4 +1,4 @@
-import { forEach, curry } from 'ramda';
+import { curry } from 'ramda';
 import { chain } from 'fantasy-land';
 import { getElement } from '../../utils/dom';
 import IO from '../../utils/IO';
@@ -90,7 +90,11 @@ export const getGridData = (
   };
 };
 
-export const drawGrid = (ctx: CanvasRenderingContext2D) => forEach(forEach(drawRect(ctx)));
+export const drawGrid = curry(
+  (ctx: CanvasRenderingContext2D, mtx: TileConfig[][]) => mtx.forEach(
+    row => row.forEach(drawRect(ctx))
+  )
+);
 
 export const redrawColumn = curry(
   (arr: TileConfig[], ctx: CanvasRenderingContext2D) => {
@@ -101,7 +105,7 @@ export const redrawColumn = curry(
     const prependant = { ...tail, y: head.y - tileHeight };
     const drawableArr = [prependant].concat(arr.map(el => ({ ...el }))).concat([appendant]);
 
-    requestAnimationFrame(() => forEach(drawRect(ctx), drawableArr));
+    requestAnimationFrame(() => drawableArr.forEach(drawRect(ctx)));
   }
 );
 
@@ -114,6 +118,6 @@ export const redrawRow = curry(
     const prependant = { ...tail, x: head.x - tileWidth };
     const drawableArr = [prependant].concat(arr.map(el => ({ ...el }))).concat([appendant]);
 
-    requestAnimationFrame(() => forEach(drawRect(ctx), drawableArr));
+    requestAnimationFrame(() => drawableArr.forEach(drawRect(ctx)));
   }
 );

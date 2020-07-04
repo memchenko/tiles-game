@@ -3,6 +3,7 @@ const path = require('path');
 const { capitalize } = require('./utils');
 
 const files = [
+    'styles',
     'component',
     'index',
     'types',
@@ -43,7 +44,7 @@ module.exports = (plop) => {
                         },
                     };
                     const mapFileNameToConfig = (fileName) => {
-                        const file = fileName === 'component'
+                        const file = ['component', 'styles'].includes(fileName)
                             ? modifiedAnswers.entityName.capitalized
                             : fileName;
                         return {

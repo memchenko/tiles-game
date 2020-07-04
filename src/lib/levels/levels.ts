@@ -1,72 +1,67 @@
 import { range } from 'ramda';
 
+import { Difficulties, PuzzleResult, PuzzleTypes } from '../../constants/game';
+
 export default class Levels {
-    static LEVELS = {
-        EASY: 'EASY',
-        MEDIUM: 'MEDIUM',
-        HARD: 'HARD',
-        EXPERT: 'EXPERT'
-    };
-
-    static MATRICES_TYPES = {
-        SINGLE_COLOR: 'SINGLE_COLOR',
-        COLORFUL: 'COLORFUL'
-    };
-
-    static UPDATERS = {
-        SUCCESS: 'SUCCESS',
-        FAIL: 'FAIL'
-    };
+    static LEVELS = [
+        Difficulties.Easy,
+        Difficulties.Medium,
+        Difficulties.Hard,
+        Difficulties.Expert,
+        Difficulties.God,
+    ];
 
     private coefficients = {
-        [Levels.LEVELS.EASY]: range(0.4, 0.6),
-        [Levels.LEVELS.MEDIUM]: range(0.3, 0.7),
-        [Levels.LEVELS.HARD]: range(0.4, 0.8),
-        [Levels.LEVELS.EXPERT]: range(0.5, 1)
+        [Difficulties.Easy]: range(0.2, 0.4),
+        [Difficulties.Medium]: range(0.3, 0.5),
+        [Difficulties.Hard]: range(0.4, 0.6),
+        [Difficulties.Expert]: range(0.5, 7),
+        [Difficulties.God]: range(0.7, 1),
     };
 
     private tilesInRowNumber = {
-        [Levels.LEVELS.EASY]: range(3, 4),
-        [Levels.LEVELS.MEDIUM]: range(5, 7),
-        [Levels.LEVELS.HARD]: range(8, 10),
-        [Levels.LEVELS.EXPERT]: range(11, 15)   
+        [Difficulties.Easy]: range(3, 4),
+        [Difficulties.Medium]: range(5, 7),
+        [Difficulties.Hard]: range(8, 10),
+        [Difficulties.Expert]: range(11, 15),
+        [Difficulties.God]: range(16, 20),
     };
 
     private currentState: {
-        level: keyof typeof Levels['LEVELS'];
+        level: Difficulties;
         coefficientPointer: number;
         tilesInRowPointer: number;
     } = {
-        level: Levels.LEVELS.EASY as keyof typeof Levels['LEVELS'],
+        level: Difficulties.Easy,
         coefficientPointer: 0,
         tilesInRowPointer: 0
     };
 
-    private matrixType: keyof typeof Levels['MATRICES_TYPES'] | null = null;
+    private matrixType: PuzzleTypes | null = null;
 
     private successRate = 1;
 
     constructor({
-        startLevel = 'EASY',
+        startLevel = Difficulties.Easy,
         startCoefficient = 0,
         startTilesInRow = 0,
-        matrixType = 'SINGLE_COLOR'
+        matrixType = PuzzleTypes.Monochrome,
     }: {
-        startLevel?: keyof typeof Levels['LEVELS'];
+        startLevel?: Difficulties;
         startCoefficient?: number;
         startTilesInRow?: number;
-        matrixType?: keyof typeof Levels['MATRICES_TYPES'];
+        matrixType?: PuzzleTypes;
     } = {}) {
         this.setCurrentLevel(startLevel, startCoefficient, startTilesInRow);
         this.setMatrixType(matrixType);
     }
 
-    updateLevels(updater: keyof typeof Levels[]) {
-        if (updater === Levels.UPDATERS.SUCCESS && this.successRate < 1) {
+    updateLevels(updater: PuzzleResult) {
+        if (updater === PuzzleResult.Success && this.successRate < 1) {
             this.successRate = 1;
         }
 
-        if (updater === Levels.UPDATERS.FAIL) {
+        if (updater === PuzzleResult.Failure) {
             this.successRate /= 2;
         }
     }
@@ -86,7 +81,7 @@ export default class Levels {
         const coefficientsRange = this.coefficients[level];
         const tilesInRowRange = this.tilesInRowNumber[level];
 
-        const levels = Object.keys(Levels.LEVELS) as (keyof typeof Levels['LEVELS'])[];
+        const levels = Levels.LEVELS;
         const isLastCoefficient = coefficientsRange.length === coefficientPointer + 1;
         const isLastTilesInRow = tilesInRowRange.length === tilesInRowPointer + 1;
         const isLastLevel = level === levels[levels.length - 1];
@@ -105,7 +100,7 @@ export default class Levels {
         const { level, coefficientPointer, tilesInRowPointer } = this.currentState;
         const coefficientsRange = this.coefficients[level];
 
-        const levels = Object.keys(Levels.LEVELS) as (keyof typeof Levels['LEVELS'])[];
+        const levels = Levels.LEVELS;
         const isFirstCoefficient = coefficientPointer === 0;
         const isFirstTilesInRow = tilesInRowPointer === 0;
         const isFirstLevel = level === levels[0];
@@ -123,7 +118,7 @@ export default class Levels {
     }
 
     setCurrentLevel(
-        level: keyof typeof Levels['LEVELS'],
+        level: Difficulties,
         coefficientPointer: number,
         tilesInRowPointer: number,
     ) {
@@ -132,7 +127,7 @@ export default class Levels {
         };
     }
 
-    setMatrixType(type: keyof typeof Levels['MATRICES_TYPES']) {
+    setMatrixType(type: PuzzleTypes) {
         this.matrixType = type;
     }
 

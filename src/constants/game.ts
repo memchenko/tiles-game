@@ -23,6 +23,11 @@ export const enum Results {
     Best,
 }
 
+export const enum PuzzleResult {
+    Success,
+    Failure,
+}
+
 export enum ScenarioMapCssClasses {
     NormalPerformance = 'performance-normal',
     GoodPerformance = 'performance-good',

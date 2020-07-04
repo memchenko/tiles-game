@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import { drawGrid, getGridData } from '../../lib/grid/render';
 
 import { ITilesGridProps } from './types';
-import * as TilesGridStyles from './TilesGrid.scss';
+import './TilesGrid.scss';
 
 function TilesGrid({ matrix }: ITilesGridProps) {
     const canvas = useRef(null);
@@ -24,10 +24,10 @@ function TilesGrid({ matrix }: ITilesGridProps) {
     }, [matrix, canvas, container]);
 
     return (
-        <div className={ TilesGridStyles.TilesGrid } ref={ container }>
+        <div className="tiles-grid" ref={ container }>
             <canvas
                 ref={ canvas }
-                className={ TilesGridStyles.TilesGridCanvas }
+                className="tiles-grid__canvas"
             ></canvas>
         </div>
     );

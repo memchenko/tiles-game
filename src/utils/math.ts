@@ -1,4 +1,4 @@
-import { reduce, multiply, unapply, divide, curryN, curry } from 'ramda';
+import { reduce, multiply, unapply, divide, curry } from 'ramda';
 
 export const roundTo = curry((
   precision: number,
@@ -19,11 +19,11 @@ export const round = Math.round;
 
 export const max = Math.max;
 
-export const getGte0 = curryN(2, max)(0);
+export const getGte0 = (...nums: number[]) => max(0, ...nums);
 
 export const getRoundedDivision = (
   left: number,
   right: number
 ) => round(divide(left, right));
 
-export const multiplyAll = unapply(reduce(multiply, 1));
+export const multiplyAll = unapply(reduce<number, number>(multiply, 1));

@@ -6,12 +6,12 @@ export const shuffleArray = <T>(arr: T[]): T[] => [...arr].sort(() => Math.rando
 
 export const shuffleMtx = (mtx: unknown[][]) => {
     const cols = mtx[0].length;
-    const flatMtx = flatten(mtx);
+    const flatMtx = (flatten as any)(mtx);
     const indicesArray = getIndicesArray(flatMtx.length);
     const shuffledIndices = shuffleArray(indicesArray);
-    const newArr = Array.from({ length: flatMtx.length }, (_, i) => {
+    const newArr: unknown[] = Array.from({ length: flatMtx.length }, (_, i) => {
         return flatMtx[shuffledIndices[i]];
     });
 
-    return splitEvery(cols, newArr);
+    return (splitEvery as any)(cols, newArr) as unknown[][];
 };

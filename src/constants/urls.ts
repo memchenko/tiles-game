@@ -18,3 +18,6 @@ export const API = '/api/0.0.1';
 export const enum ApiPaths {
     Token = '/token',
 };
+export const enum AssetsPaths {
+    Map = '/assets/maps/:scenarioId.html',
+}

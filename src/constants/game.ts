@@ -18,9 +18,9 @@ export const enum PuzzleTypes {
 }
 
 export const enum Results {
-    Normal,
-    Good,
-    Best,
+    Normal = 'normal',
+    Good = 'good',
+    Best = 'best',
 }
 
 export const enum PuzzleResult {

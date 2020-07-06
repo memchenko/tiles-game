@@ -1,3 +1,5 @@
+import { TileInfo } from '../../lib/grid/types';
+
 export enum Actions {
     SetMap = '@map/SET_MAP'
 }
@@ -5,7 +7,7 @@ export enum Actions {
 export interface IMapInfo {
     id: string | number;
     scenarioId: string | number;
-    matrix: string[][];
+    matrix: TileInfo[][];
     performance: {
         best: number;
         good: number;

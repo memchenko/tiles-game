@@ -20,7 +20,6 @@ import {
   first,
   last,
 } from 'rxjs/operators';
-import { Function } from 'ts-toolbelt';
 import {
   getGridData,
   drawGrid,
@@ -99,7 +98,7 @@ export default class GridManager {
     this.pointerMove$.subscribe();
 
     if (this.ctx && this.config) {
-      drawGrid(this.ctx)(this.config as ({ color: string })[][]);
+      drawGrid(this.ctx)(this.config as TileConfig[][]);
     }
   }
 
@@ -108,7 +107,7 @@ export default class GridManager {
     this.setGridData();
 
     if (this.ctx && this.config) {
-      drawGrid(this.ctx)(this.config as ({ color: string })[][]);
+      drawGrid(this.ctx)(this.config as TileConfig[][]);
     }
   }
 

@@ -9,7 +9,7 @@ const initialState: IMapState = {
             {
                 id: 0,
                 scenarioId: 0,
-                matrix: [['black', 'white'], ['white', 'black']],
+                matrix: [[{ color: 'black' }, { color: 'white' }], [{ color: 'white' }, { color: 'black' }]],
                 performance: { best: 2, good: 3, normal: 4 },
                 estimationType: 'steps',
                 isShowExample: true,
@@ -22,7 +22,7 @@ const initialState: IMapState = {
             {
                 id: 1,
                 scenarioId: 0,
-                matrix: [['#ec4', '#d4d'], ['#4e4', '#d4d']],
+                matrix: [[{ color: '#ec4' }, { color: '#d4d' }], [{ color: '#4e4' }, { color: '#d4d' }]],
                 performance: { best: 2, good: 3, normal: 4 },
                 estimationType: 'steps',
                 isShowExample: true,
@@ -35,7 +35,7 @@ const initialState: IMapState = {
             {
                 id: 2,
                 scenarioId: 0,
-                matrix: [['black', 'black', 'white'], ['white', 'black', 'white'], ['white', 'black', 'black']],
+                matrix: [[{ color: 'black' }, { color: 'black' }, { color: 'white' }], [{ color: 'white' }, { color: 'black' }, { color: 'white' }], [{ color: 'white' }, { color: 'black' }, { color: 'black' }]],
                 performance: { best: 2, good: 3, normal: 4 },
                 estimationType: 'steps',
                 isShowExample: true,
@@ -48,7 +48,7 @@ const initialState: IMapState = {
             {
                 id: 3,
                 scenarioId: 0,
-                matrix: [['#d44', '#dd4', '#d4d'], ['#d4d', '#d44', '#dd4'], ['#dd4', '#d4d', '#d44']],
+                matrix: [[{ color: '#d44' }, { color: '#dd4' }, { color: '#d4d' }], [{ color: '#d4d' }, { color: '#d44' }, { color: '#dd4' }], [{ color: '#dd4' }, { color: '#d4d' }, { color: '#d44' }]],
                 performance: { best: 2, good: 3, normal: 4 },
                 estimationType: 'steps',
                 isShowExample: true,
@@ -63,7 +63,7 @@ const initialState: IMapState = {
             {
                 id: 0,
                 scenarioId: 1,
-                matrix: [['black', 'white'], ['white', 'black']],
+                matrix: [[{ color: 'black' }, { color: 'white' }], [{ color: 'white' }, { color: 'black' }]],
                 performance: { best: 2, good: 3, normal: 4 },
                 estimationType: 'steps',
                 isShowExample: true,
@@ -76,7 +76,7 @@ const initialState: IMapState = {
             {
                 id: 1,
                 scenarioId: 1,
-                matrix: [['#ec4', '#d4d'], ['#4e4', '#d4d']],
+                matrix: [[{ color: '#ec4' }, { color: '#d4d' }], [{ color: '#4e4' }, { color: '#d4d' }]],
                 performance: { best: 2, good: 3, normal: 4 },
                 estimationType: 'steps',
                 isShowExample: true,
@@ -89,7 +89,11 @@ const initialState: IMapState = {
             {
                 id: 2,
                 scenarioId: 1,
-                matrix: [['black', 'black', 'white'], ['white', 'black', 'white'], ['white', 'black', 'black']],
+                matrix: [
+                    [{ color: 'black' }, { color: 'black' }, { color: 'white' }],
+                    [{ color: 'white' }, { color: 'black' }, { color: 'white' }],
+                    [{ color: 'white' }, { color: 'black' }, { color: 'black' }]
+                ],
                 performance: { best: 2, good: 3, normal: 4 },
                 estimationType: 'steps',
                 isShowExample: true,
@@ -102,7 +106,11 @@ const initialState: IMapState = {
             {
                 id: 3,
                 scenarioId: 1,
-                matrix: [['#d44', '#dd4', '#d4d'], ['#d4d', '#d44', '#dd4'], ['#dd4', '#d4d', '#d44']],
+                matrix: [
+                    [{ color: '#d44' }, { color: '#dd4' }, { color: '#d4d' }],
+                    [{ color: '#d4d' }, { color: '#d44' }, { color: '#dd4' }],
+                    [{ color: '#dd4' }, { color: '#d4d' }, { color: '#d44' }]
+                ],
                 performance: { best: 2, good: 3, normal: 4 },
                 estimationType: 'steps',
                 isShowExample: true,
@@ -117,7 +125,7 @@ const initialState: IMapState = {
             {
                 id: 0,
                 scenarioId: 2,
-                matrix: [['black', 'white'], ['white', 'black']],
+                matrix: [[{ color: 'black' }, { color: 'white' }], [{ color: 'white' }, { color: 'black' }]],
                 performance: { best: 2, good: 3, normal: 4 },
                 estimationType: 'steps',
                 isShowExample: true,
@@ -130,7 +138,7 @@ const initialState: IMapState = {
             {
                 id: 1,
                 scenarioId: 2,
-                matrix: [['#ec4', '#d4d'], ['#4e4', '#d4d']],
+                matrix: [[{ color: '#ec4' }, { color: '#d4d' }], [{ color: '#4e4' }, { color: '#d4d' }]],
                 performance: { best: 2, good: 3, normal: 4 },
                 estimationType: 'steps',
                 isShowExample: true,
@@ -143,7 +151,11 @@ const initialState: IMapState = {
             {
                 id: 2,
                 scenarioId: 2,
-                matrix: [['black', 'black', 'white'], ['white', 'black', 'white'], ['white', 'black', 'black']],
+                matrix: [
+                    [{color: 'black' }, { color: 'black' }, { color: 'white' }],
+                    [{ color: 'white' }, { color: 'black' }, { color: 'white' }],
+                    [{ color: 'white' }, { color: 'black' }, { color: 'black' }]
+                ],
                 performance: { best: 2, good: 3, normal: 4 },
                 estimationType: 'steps',
                 isShowExample: true,
@@ -156,7 +168,11 @@ const initialState: IMapState = {
             {
                 id: 3,
                 scenarioId: 2,
-                matrix: [['#d44', '#dd4', '#d4d'], ['#d4d', '#d44', '#dd4'], ['#dd4', '#d4d', '#d44']],
+                matrix: [
+                    [{ color: '#d44' }, { color: '#dd4' }, { color: '#d4d' }],
+                    [{ color: '#d4d' }, { color: '#d44' }, { color: '#dd4' }],
+                    [{ color: '#dd4' }, { color: '#d4d' }, { color: '#d44' }]
+                ],
                 performance: { best: 2, good: 3, normal: 4 },
                 estimationType: 'steps',
                 isShowExample: true,

@@ -123,14 +123,14 @@ export const roundColItems = curry(
 );
 
 export const isMatricesEqual = curry(
-  (left: TileConfig[][], right: TileConfig[][]): boolean => {
+  (left: TileInfo[][], right: TileInfo[][]): boolean => {
     if (left.length !== right.length || left[0].length !== right[0].length) {
       return false;
     }
 
     for (let i = 0, rows = left.length; i < rows; i += 1) {
       for (let j = 0, cols = left[i].length; j < cols; j += 1) {
-        if (left[i][j] !== right[i][j]) {
+        if (left[i][j].color !== right[i][j].color || left[i][j].image !== right[i][j].image) {
           return false;
         }
       }

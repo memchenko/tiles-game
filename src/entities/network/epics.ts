@@ -1,6 +1,6 @@
 import { of, merge, from } from 'rxjs';
 import { mergeMap, catchError, map } from 'rxjs/operators';
-import { ofType, ActionsObservable, StateObservable } from 'redux-observable';
+import { ofType, ActionsObservable } from 'redux-observable';
 
 import { buildUrl } from './utils';
 import {
@@ -13,7 +13,6 @@ import {
 } from './actions';
 import {
     RequestStatus,
-    IStateWithNetwork,
     Actions,
 } from './types';
 
@@ -21,11 +20,12 @@ const getEpic = (
     action$: ActionsObservable<ReturnType<typeof get>>,
 ) => action$.pipe(
     ofType(Actions.Get),
-    mergeMap(({ payload: { key, data, path, pathParams } }: ReturnType<typeof get>) => merge(
+    mergeMap(({ payload: { key, data, path, pathParams, headers } }: ReturnType<typeof get>) => merge(
         of(setRequest({ key, status: RequestStatus.Pending })),
         from(
             fetch(buildUrl(path, pathParams, data), {
                 method: 'GET',
+                headers,
             })
         ).pipe(
             mergeMap(res => from(res.json())),
@@ -41,12 +41,12 @@ const postEpic = (
     action$: ActionsObservable<ReturnType<typeof post>>,
 ) => action$.pipe(
     ofType(Actions.Post),
-    mergeMap(({ payload: { key, data, path, pathParams } }: ReturnType<typeof post>) => merge(
+    mergeMap(({ payload: { key, data, path, pathParams, headers } }: ReturnType<typeof post>) => merge(
         of(setRequest({ key, status: RequestStatus.Pending })),
         from(
             fetch(buildUrl(path, pathParams), {
                 method: 'POST',
-                headers: {
+                headers: headers || {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(data),
@@ -65,11 +65,12 @@ const patchEpic = (
     action$: ActionsObservable<ReturnType<typeof patch>>,
 ) => action$.pipe(
     ofType(Actions.Patch),
-    mergeMap(({ payload: { key, data, path, pathParams } }: ReturnType<typeof patch>) => merge(
+    mergeMap(({ payload: { key, data, path, pathParams, headers } }: ReturnType<typeof patch>) => merge(
         of(setRequest({ key, status: RequestStatus.Pending })),
         from(
             fetch(buildUrl(path, pathParams, data), {
                 method: 'PATCH',
+                headers,
             })
         ).pipe(
             mergeMap(res => from(res.json())),
@@ -85,12 +86,12 @@ const putEpic = (
     action$: ActionsObservable<ReturnType<typeof put>>,
 ) => action$.pipe(
     ofType(Actions.Put),
-    mergeMap(({ payload: { key, data, path, pathParams } }: ReturnType<typeof put>) => merge(
+    mergeMap(({ payload: { key, data, path, pathParams, headers } }: ReturnType<typeof put>) => merge(
         of(setRequest({ key, status: RequestStatus.Pending })),
         from(
             fetch(buildUrl(path, pathParams), {
                 method: 'PUT',
-                headers: {
+                headers: headers || {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(data),
@@ -109,11 +110,12 @@ const deleteEpic = (
     action$: ActionsObservable<ReturnType<typeof del>>,
 ) => action$.pipe(
     ofType(Actions.Delete),
-    mergeMap(({ payload: { key, path, pathParams } }: ReturnType<typeof del>) => merge(
+    mergeMap(({ payload: { key, path, pathParams, headers } }: ReturnType<typeof del>) => merge(
         of(setRequest({ key, status: RequestStatus.Pending })),
         from(
             fetch(buildUrl(path, pathParams), {
                 method: 'DELETE',
+                headers,
             })
         ).pipe(
             mergeMap(res => from(res.json())),

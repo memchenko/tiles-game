@@ -4,7 +4,7 @@ import { ActionsObservable, ofType } from 'redux-observable';
 import { iif, of, empty } from 'rxjs';
 import { filter, take, mergeMap } from 'rxjs/operators';
 
-import { BASE_URL, API, Paths } from '../../constants/urls';
+import { BASE_URL, API, ApiPaths, AssetsPaths } from '../../constants/urls';
 import {
     IQueryStringData,
     IPathParamsData,
@@ -15,7 +15,7 @@ import {
 import { setRequest } from './actions';
 
 export function buildUrl(
-    path: Paths,
+    path: ApiPaths | AssetsPaths,
     pathParams?: IPathParamsData,
     data?: IQueryStringData,
 ): string {
@@ -32,7 +32,7 @@ export function buildUrl(
 }
 
 export function generatePathWithParams(
-    path: Paths,
+    path: ApiPaths | AssetsPaths,
     pathParams: IPathParamsData = {},
 ) {
     return Object.entries(pathParams)

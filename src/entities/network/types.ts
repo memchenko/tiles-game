@@ -1,6 +1,6 @@
 import { lens } from 'ramda';
 
-import { Paths } from '../../constants/urls';
+import { ApiPaths, AssetsPaths } from '../../constants/urls';
 
 export enum Actions {
     Get = '@request/GET',
@@ -52,9 +52,10 @@ export interface IRequestKey {
 }
 
 export interface INetworkActionArgs<T> extends IRequestKey {
-    path: Paths;
+    path: ApiPaths | AssetsPaths;
     data?: T;
     pathParams?: IPathParamsData;
+    headers?: Headers;
 }
 
 export interface ISetRequestActionArgs extends IRequestKey {

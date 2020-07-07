@@ -25,7 +25,7 @@ export default function ScenarioDetails() {
                 <img src={ poster } alt="Poster image of puzzle" />
             </header>
             <div>
-                <span>{ progress }</span>
+                <span>{ progress / scenarios.list.length }</span>
                 <span>{ difficulty }</span>
             </div>
             <p>{ description }</p>

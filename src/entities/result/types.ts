@@ -10,10 +10,12 @@ export interface ISetResultData {
     result: Results;
 }
 
+export interface IStepsResults {
+    [stepId: string]: Results;
+}
+
 export interface IResultState {
-    [scenarioId: string]: {
-        [stepId: string]: Results,
-    };
+    [scenarioId: string]: IStepsResults;
 }
 
 export interface IStateWithResult {

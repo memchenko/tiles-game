@@ -1,3 +1,3 @@
-export const enum ErrorTypes {
+export enum ErrorTypes {
     UnknownTable = 'UnknownTable',
 }

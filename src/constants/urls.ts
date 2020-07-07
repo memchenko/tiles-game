@@ -10,14 +10,15 @@ export enum AppRoutes {
 
     ScenarioDetails = '/scenario/:scenarioId/details',
     ScenarioMap = '/scenario/:scenarioId/map',
-    ScenarioPlay = '/scenario/:scenarioId/play/:stepNumber',
+    ScenarioPlay = '/scenario/:scenarioId/play/:stepId',
 }
 
-export const BASE_URL = 'http://localhost:3000';
-export const API = '/api/0.0.1';
-export const enum ApiPaths {
+export const BASE_URL = `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}`;
+export const API = process.env.REACT_APP_API_ENDPOINT;
+export enum ApiPaths {
     Token = '/token',
 };
-export const enum AssetsPaths {
+export enum AssetsPaths {
     Map = '/assets/maps/:scenarioId.html',
 }
+console.log(BASE_URL);

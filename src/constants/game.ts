@@ -1,29 +1,29 @@
-export const enum Difficulties {
-    Easy,
-    Medium,
-    Hard,
-    Expert,
-    God,
+export enum Difficulties {
+    Easy = 'easy',
+    Medium = 'medium',
+    Hard = 'hard',
+    Expert = 'expert',
+    God = 'god',
 }
 
-export const enum Directions {
+export enum Directions {
     X,
     Y,
 }
 
-export const enum PuzzleTypes {
+export enum PuzzleTypes {
     BW,
     Monochrome,
     Colorful,
 }
 
-export const enum Results {
+export enum Results {
     Normal = 'normal',
     Good = 'good',
     Best = 'best',
 }
 
-export const enum PuzzleResult {
+export enum PuzzleResult {
     Success,
     Failure,
 }

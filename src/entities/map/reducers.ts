@@ -7,8 +7,8 @@ const initialState: IMapState = {
     list: {
         '0': [
             {
-                id: 0,
-                scenarioId: 0,
+                id: '0',
+                scenarioId: '0',
                 matrix: [[{ color: 'black' }, { color: 'white' }], [{ color: 'white' }, { color: 'black' }]],
                 performance: { best: 2, good: 3, normal: 4 },
                 estimationType: 'steps',
@@ -20,8 +20,8 @@ const initialState: IMapState = {
                 isImage: false,
             },
             {
-                id: 1,
-                scenarioId: 0,
+                id: '1',
+                scenarioId: '0',
                 matrix: [[{ color: '#ec4' }, { color: '#d4d' }], [{ color: '#4e4' }, { color: '#d4d' }]],
                 performance: { best: 2, good: 3, normal: 4 },
                 estimationType: 'steps',
@@ -29,12 +29,12 @@ const initialState: IMapState = {
                 title: 'Owl',
                 isLast: false,
                 htmlDescriptionOnEnd: 'Forest bird',
-                openOnStepSolved: 0,
+                openOnStepSolved: '0',
                 isImage: false,
             },
             {
-                id: 2,
-                scenarioId: 0,
+                id: '2',
+                scenarioId: '0',
                 matrix: [[{ color: 'black' }, { color: 'black' }, { color: 'white' }], [{ color: 'white' }, { color: 'black' }, { color: 'white' }], [{ color: 'white' }, { color: 'black' }, { color: 'black' }]],
                 performance: { best: 2, good: 3, normal: 4 },
                 estimationType: 'steps',
@@ -42,12 +42,12 @@ const initialState: IMapState = {
                 title: 'One more bird',
                 isLast: false,
                 htmlDescriptionOnEnd: 'Whoa really bird',
-                openOnStepSolved: 1,
+                openOnStepSolved: '1',
                 isImage: false,
             },
             {
-                id: 3,
-                scenarioId: 0,
+                id: '3',
+                scenarioId: '0',
                 matrix: [[{ color: '#d44' }, { color: '#dd4' }, { color: '#d4d' }], [{ color: '#d4d' }, { color: '#d44' }, { color: '#dd4' }], [{ color: '#dd4' }, { color: '#d4d' }, { color: '#d44' }]],
                 performance: { best: 2, good: 3, normal: 4 },
                 estimationType: 'steps',
@@ -55,14 +55,14 @@ const initialState: IMapState = {
                 title: 'Final',
                 isLast: true,
                 htmlDescriptionOnEnd: 'It was boss!',
-                openOnStepSolved: 1,
+                openOnStepSolved: '1',
                 isImage: false,
             }
         ],
         '1': [
             {
-                id: 0,
-                scenarioId: 1,
+                id: '0',
+                scenarioId: '1',
                 matrix: [[{ color: 'black' }, { color: 'white' }], [{ color: 'white' }, { color: 'black' }]],
                 performance: { best: 2, good: 3, normal: 4 },
                 estimationType: 'steps',
@@ -74,8 +74,8 @@ const initialState: IMapState = {
                 isImage: false,
             },
             {
-                id: 1,
-                scenarioId: 1,
+                id: '1',
+                scenarioId: '1',
                 matrix: [[{ color: '#ec4' }, { color: '#d4d' }], [{ color: '#4e4' }, { color: '#d4d' }]],
                 performance: { best: 2, good: 3, normal: 4 },
                 estimationType: 'steps',
@@ -83,12 +83,12 @@ const initialState: IMapState = {
                 title: 'Palm',
                 isLast: false,
                 htmlDescriptionOnEnd: 'Palms are south trees',
-                openOnStepSolved: 0,
+                openOnStepSolved: '0',
                 isImage: false,
             },
             {
-                id: 2,
-                scenarioId: 1,
+                id: '2',
+                scenarioId: '1',
                 matrix: [
                     [{ color: 'black' }, { color: 'black' }, { color: 'white' }],
                     [{ color: 'white' }, { color: 'black' }, { color: 'white' }],
@@ -100,12 +100,12 @@ const initialState: IMapState = {
                 title: 'Apple tree',
                 isLast: false,
                 htmlDescriptionOnEnd: 'Growing apples',
-                openOnStepSolved: 1,
+                openOnStepSolved: '1',
                 isImage: false,
             },
             {
-                id: 3,
-                scenarioId: 1,
+                id: '3',
+                scenarioId: '1',
                 matrix: [
                     [{ color: '#d44' }, { color: '#dd4' }, { color: '#d4d' }],
                     [{ color: '#d4d' }, { color: '#d44' }, { color: '#dd4' }],
@@ -117,14 +117,14 @@ const initialState: IMapState = {
                 title: 'Final',
                 isLast: true,
                 htmlDescriptionOnEnd: 'It was boss!',
-                openOnStepSolved: 2,
+                openOnStepSolved: '2',
                 isImage: false,
             }
         ],
         '2': [
             {
-                id: 0,
-                scenarioId: 2,
+                id: '0',
+                scenarioId: '2',
                 matrix: [[{ color: 'black' }, { color: 'white' }], [{ color: 'white' }, { color: 'black' }]],
                 performance: { best: 2, good: 3, normal: 4 },
                 estimationType: 'steps',
@@ -136,8 +136,8 @@ const initialState: IMapState = {
                 isImage: false,
             },
             {
-                id: 1,
-                scenarioId: 2,
+                id: '1',
+                scenarioId: '2',
                 matrix: [[{ color: '#ec4' }, { color: '#d4d' }], [{ color: '#4e4' }, { color: '#d4d' }]],
                 performance: { best: 2, good: 3, normal: 4 },
                 estimationType: 'steps',
@@ -145,12 +145,12 @@ const initialState: IMapState = {
                 title: 'Mars',
                 isLast: false,
                 htmlDescriptionOnEnd: 'Fourth planet',
-                openOnStepSolved: 0,
+                openOnStepSolved: '0',
                 isImage: false,
             },
             {
-                id: 2,
-                scenarioId: 2,
+                id: '2',
+                scenarioId: '2',
                 matrix: [
                     [{color: 'black' }, { color: 'black' }, { color: 'white' }],
                     [{ color: 'white' }, { color: 'black' }, { color: 'white' }],
@@ -162,12 +162,12 @@ const initialState: IMapState = {
                 title: 'Pluto',
                 isLast: false,
                 htmlDescriptionOnEnd: 'Not a planet',
-                openOnStepSolved: 1,
+                openOnStepSolved: '1',
                 isImage: false,
             },
             {
-                id: 3,
-                scenarioId: 2,
+                id: '3',
+                scenarioId: '2',
                 matrix: [
                     [{ color: '#d44' }, { color: '#dd4' }, { color: '#d4d' }],
                     [{ color: '#d4d' }, { color: '#d44' }, { color: '#dd4' }],
@@ -179,7 +179,7 @@ const initialState: IMapState = {
                 title: 'Sun',
                 isLast: true,
                 htmlDescriptionOnEnd: 'It was boss!',
-                openOnStepSolved: 2,
+                openOnStepSolved: '2',
                 isImage: false,
             }
         ]

@@ -18,7 +18,7 @@ export interface IMapInfo {
     title: string;
     isLast: boolean;
     htmlDescriptionOnEnd: string;
-    openOnStepSolved: number | null;
+    openOnStepSolved: number | string | null;
     isImage: boolean;
 }
 

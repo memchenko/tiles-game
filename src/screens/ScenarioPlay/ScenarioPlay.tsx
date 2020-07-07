@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 import { isMatricesEqual } from '../../lib/grid/calc-grid';
 import { shuffleMtx } from '../../lib/shuffle';
-import { getMapByScenarioId } from '../../entities/map';
+import { getMapByScenarioId, IStateWithMap, IMapInfo } from '../../entities/map';
 import TilesGrid from '../../components/TilesGrid';
 import TilesGridInteractive from '../../components/TilesGridInteractive';
 import { TileInfo } from '../../lib/grid/types';
@@ -12,7 +12,7 @@ import { TileInfo } from '../../lib/grid/types';
 export default function ScenarioPlay() {
     const [isSolved, setSolved] = useState(false);
     const { scenarioId, stepId } = useParams();
-    const scenarioMap = useSelector(getMapByScenarioId(scenarioId));
+    const scenarioMap = useSelector<IStateWithMap, IMapInfo[]>(getMapByScenarioId(scenarioId));
     const step = scenarioMap.find(({ id }) => id === stepId);
 
     if (!step) {

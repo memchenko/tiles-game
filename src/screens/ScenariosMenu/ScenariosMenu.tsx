@@ -15,7 +15,7 @@ export default function ScenariosMenu() {
         <ul>
             {
                 scenarios.list.map(
-                    ({ id, ...scenario }) => <ScenarioItem key={ id } id={ id } {...scenario} />
+                    ({ id, ...scenario }) => <ScenarioItem key={ id } id={ id } { ...scenario } />
                 )
             }
         </ul>

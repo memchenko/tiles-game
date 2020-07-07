@@ -26,7 +26,7 @@ function logChanges(mtx: TileInfo[][]) {
 
 export default function PuzzlePlay() {
     const { pathname, state } = useLocation();
-    const generateMtx: any = routeMatricesMap(state);
+    const generateMtx: any = routeMatricesMap(state as string);
     const [mtx] = useState(generateMtx[pathname](3, 3, .5) as TileInfo[][]);
 
     return mtx

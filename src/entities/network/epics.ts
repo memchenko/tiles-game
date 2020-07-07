@@ -2,13 +2,14 @@ import { of, merge, from } from 'rxjs';
 import { mergeMap, catchError, map } from 'rxjs/operators';
 import { ofType, ActionsObservable } from 'redux-observable';
 
-import { buildUrl } from './utils';
+import { buildUrl, buildNotApiUrl } from './utils';
 import {
     get,
     post,
     patch,
     put,
     del,
+    getAsset,
     setRequest,
 } from './actions';
 import {
@@ -29,6 +30,27 @@ const getEpic = (
             })
         ).pipe(
             mergeMap(res => from(res.json())),
+            map(data => setRequest({ key, status: RequestStatus.Success, data })),
+            catchError(err => of(
+                setRequest({ key, status: RequestStatus.Fail, data: err }),
+            ))
+        )
+    )),
+);
+
+const getAssetEpic = (
+    action$: ActionsObservable<ReturnType<typeof getAsset>>
+) => action$.pipe(
+    ofType(Actions.GetAsset),
+    mergeMap(({ payload: { key, data, path, pathParams, headers } }: ReturnType<typeof getAsset>) => merge(
+        of(setRequest({ key, status: RequestStatus.Pending })),
+        from(
+            fetch(buildNotApiUrl(path, pathParams, data), {
+                method: 'GET',
+                headers,
+            })
+        ).pipe(
+            mergeMap(res => from(res.blob())),
             map(data => setRequest({ key, status: RequestStatus.Success, data })),
             catchError(err => of(
                 setRequest({ key, status: RequestStatus.Fail, data: err }),
@@ -133,4 +155,5 @@ export default [
     patchEpic,
     putEpic,
     deleteEpic,
+    getAssetEpic,
 ];

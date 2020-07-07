@@ -19,19 +19,24 @@ export function buildUrl(
     pathParams?: IPathParamsData,
     data?: IQueryStringData,
 ): string {
-    let queryParams = data
-        ? Object.entries(data).reduce((acc, [key, value], i) => {
-            return i === 0
-                ? `?${key}=${value}`
-                : `${acc}&${key}=${value}`
-        }, '')
-        : '';
-    const parameterizedPath = generatePathWithParams(path, pathParams);
+    let queryParams = buildQueryParams(data);
+    const parameterizedPath = buildPathWithParams(path, pathParams);
 
     return `${BASE_URL}${API}${parameterizedPath}${queryParams}`;
 }
 
-export function generatePathWithParams(
+export function buildNotApiUrl(
+    path: ApiPaths | AssetsPaths,
+    pathParams?: IPathParamsData,
+    data?: IQueryStringData,
+): string {
+    let queryParams = buildQueryParams(data);
+    const parameterizedPath = buildPathWithParams(path, pathParams);
+
+    return `${BASE_URL}${parameterizedPath}${queryParams}`;
+}
+
+export function buildPathWithParams(
     path: ApiPaths | AssetsPaths,
     pathParams: IPathParamsData = {},
 ) {
@@ -39,6 +44,16 @@ export function generatePathWithParams(
         .reduce((acc, [key, value]) => (
             acc.replace(`:${key}`, String(value))
         ), path as unknown as string);
+}
+
+export function buildQueryParams(data?: IQueryStringData) {
+    return data
+        ? Object.entries(data).reduce((acc, [key, value], i) => {
+            return i === 0
+                ? `?${key}=${value}`
+                : `${acc}&${key}=${value}`
+        }, '')
+        : '';
 }
 
 export const createEmptyRequest = (): IRequestData => ({

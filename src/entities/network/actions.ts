@@ -18,6 +18,11 @@ export const get = createActionCreator(
     resolve => (data: INetworkActionArgs<IQueryStringData>) => resolve(data)
 );
 
+export const getAsset = createActionCreator(
+    Actions.GetAsset,
+    resolve => (data: INetworkActionArgs<IQueryStringData>) => resolve(data)
+);
+
 export const patch = createActionCreator(
     Actions.Patch,
     resolve => (data: INetworkActionArgs<IQueryStringData>) => resolve(data)

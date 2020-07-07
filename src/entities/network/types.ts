@@ -8,6 +8,7 @@ export enum Actions {
     Patch = '@request/PATCH',
     Put = '@request/PUT',
     Delete = '@request/DELETE',
+    GetAsset = '@request/GET_ASSET',
     SetRequest = '@request/SET_REQUEST',
 }
 
@@ -41,10 +42,10 @@ export interface IRequestData<T = unknown> {
 }
 
 export enum RequestStatus {
-    Pending,
-    Success,
-    Fail,
-    Idle,
+    Pending = 'pending',
+    Success = 'success',
+    Fail = 'fail',
+    Idle = 'idle',
 }
 
 export interface IRequestKey {

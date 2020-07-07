@@ -10,6 +10,6 @@ export const padStart = curry((
     placeholder: string
 ) => String(str).padStart(length, placeholder));
 
-export const getStrLeadingZero2 = partialRight(padStart, [2, '0']);
+export const getStrLeadingZero2 = partialRight(padStart, [2, '0']) as unknown as ((str: string) => string);
 
 export const sliceStr = (str: string) => String.prototype.slice.bind(str);

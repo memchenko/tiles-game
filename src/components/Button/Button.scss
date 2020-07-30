@@ -1,0 +1,56 @@
+.button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    cursor: pointer;
+    border: none;
+
+    &:active,
+    &:focus {
+        outline: none;
+    }
+
+    &__text {
+        font-family: 'Archivo', sans-serif;
+        font-weight: 900;
+        font-style: normal;
+        letter-spacing: 5%;
+        text-transform: uppercase;
+        color: white;
+    }
+
+    &--primary {
+        background-color: var(--color-primary);
+    }
+
+    &--secondary {
+        background-color: var(--color-secondary);
+    }
+
+    &--m {
+        height: 4rem;
+        padding: 1rem 3rem;
+        border-radius: 2rem;
+        box-shadow: 0 0.4rem 1.5rem 0 var(--color-shadow);
+    }
+
+    &--m &__text {
+        font-size: 1.6rem;
+    }
+
+    &--l {
+        height: 5rem;
+        padding: 1.5rem 3.5rem;
+        border-radius: 2.5rem;
+        box-shadow: 0 1rem 2rem 0 var(--color-shadow);
+    }
+
+    &--l &__text {
+        font-size: 2rem;
+    }
+
+    &--full-width {
+        width: 100%;
+    }
+}

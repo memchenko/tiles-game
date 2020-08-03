@@ -1,3 +1,6 @@
+$grid-columns: 8;
+$grid-rows: 8;
+
 :root {
     --color-primary: #F7567C;
     --color-secondary: #5D576B;
@@ -9,11 +12,11 @@
 
     --text-size: 1.8rem;
 
-    --grid-col-number: 8;
+    --grid-col-number: #{$grid-columns};
     --grid-col-gutter: 1rem;
     --grid-col-margin: 2rem;
 
-    --grid-row-number: 8;
+    --grid-row-number: #{$grid-rows};
     --grid-row-gutter: 2rem;
     --grid-row-margin: 5rem;
 

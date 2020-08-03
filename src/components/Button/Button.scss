@@ -15,7 +15,7 @@
         font-family: 'Archivo', sans-serif;
         font-weight: 900;
         font-style: normal;
-        letter-spacing: 5%;
+        letter-spacing: 0.1rem;
         text-transform: uppercase;
         color: white;
     }
@@ -50,7 +50,7 @@
         font-size: 2rem;
     }
 
-    &--full-width {
+    &--full-wide {
         width: 100%;
     }
 }

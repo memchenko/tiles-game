@@ -1,5 +1,7 @@
 export enum AppRoutes {
     Root = '/',
+    Credits = '/credits',
+
     Play = '/play',
     Scenario = '/scenario',
     

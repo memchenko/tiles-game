@@ -6,8 +6,10 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior: none;
 }
 
 @import './styles/fonts.scss';
 @import './styles/variables.scss';
 @import './styles//grid.scss';
+@import './styles/utils.scss';

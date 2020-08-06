@@ -9,5 +9,4 @@ export enum IconTypes {
 
 export interface IIconProps {
     type: IconTypes;
-    color: string;
 }

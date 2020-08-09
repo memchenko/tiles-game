@@ -4,8 +4,24 @@ import cn from 'classnames';
 import { ILayoutProps } from './types';
 import './Layout.scss';
 
-export default function Layout(props: ILayoutProps) {
+import Header from '../Header';
+
+export default function Layout({
+    headerProps,
+    children,
+}: ILayoutProps) {
     return (
-        <div className={ cn('layout', 'grid') }>{ props.children }</div>
+        <div className={ cn('layout', 'grid') }>
+            { headerProps
+                ? (
+                    <div className="layout__header">
+                        
+                        <Header { ...headerProps } />
+                    </div>
+                )
+                : null
+            }
+            { children }
+        </div>
     );
 }

@@ -1,4 +1,13 @@
 .layout {
     height: 100vh;
     background-color: var(--color-bg);
+
+    position: relative;
+
+    &__header {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+    }
 }

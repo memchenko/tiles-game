@@ -1,0 +1,12 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    &__performance {
+        font: bold 1.8rem var(--font-primary);
+        color: var(--color-secondary);
+        text-transform: uppercase;
+    }
+}

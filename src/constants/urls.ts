@@ -3,6 +3,8 @@ export enum AppRoutes {
     Credits = '/credits',
 
     Play = '/play',
+    PlayMenu = '/play/menu',
+
     Scenario = '/scenario',
     
     PlayPuzzle = '/play/:puzzleType',
@@ -23,4 +25,3 @@ export enum ApiPaths {
 export enum AssetsPaths {
     Map = '/assets/maps/:scenarioId.html',
 }
-console.log(BASE_URL);

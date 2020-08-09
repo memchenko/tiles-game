@@ -12,11 +12,15 @@ function App() {
   return (
     <Router>
       <Switch>
-        <Route path={ AppRoutes.Root } component={ MainMenu } exact />
+        <Route path={ AppRoutes.Root } exact>
+          <MainMenu />
+        </Route>
         <Route path={ AppRoutes.Scenario } component={ ScenariosMenu } exact />
         <Route path={ AppRoutes.ScenarioDetails } component={ ScenarioDetails } />
         <Route path={ AppRoutes.ScenarioPlay } component={ ScenarioPlay } />
-        <Route path={ AppRoutes.Play } component={ PuzzlePlay } exact />
+        <Route path={ AppRoutes.Play }>
+          <PuzzlePlay />
+        </Route>
       </Switch>
     </Router>
   );

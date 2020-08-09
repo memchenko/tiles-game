@@ -7,8 +7,8 @@ import BurgerIcon from '../BurgerIcon';
 import RefreshIcon from '../RefreshIcon';
 import BackIcon from '../BackIcon';
 import ShareIcon, { ShareIconColors } from '../ShareIcon';
-
-
+import StarIcon from '../StarIcon';
+import EmptyStarIcon from '../EmptyStarIcon';
 
 const ICON_RENDERERS: {
     [key: string]: [
@@ -22,6 +22,8 @@ const ICON_RENDERERS: {
     [IconTypes.Back]: [BackIcon, null],
     [IconTypes.Share]: [ShareIcon, null],
     [IconTypes.ShareActive]: [ShareIcon, { color: ShareIconColors.Active, }],
+    [IconTypes.Star]: [StarIcon, null],
+    [IconTypes.StarEmpty]: [EmptyStarIcon, null],
 };
 
 export default React.memo(function Icon({ type }: IIconProps) {

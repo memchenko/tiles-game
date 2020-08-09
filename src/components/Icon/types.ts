@@ -1,5 +1,7 @@
 import { IBackIconProps } from '../BackIcon';
 import { IShareIconProps } from '../ShareIcon';
+import { IStarIconProps } from '../StarIcon';
+import { IEmptyStarIconProps } from '../EmptyStarIcon';
 
 export enum IconTypes {
     Burger = 'burger',
@@ -13,7 +15,9 @@ export enum IconTypes {
 
 export type IconsProps =
     | IShareIconProps
-    | IBackIconProps;
+    | IBackIconProps
+    | IStarIconProps
+    | IEmptyStarIconProps;
 
 export interface IIconProps {
     type: IconTypes;

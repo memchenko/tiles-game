@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { IShareIconProps } from './types';
+import { IShareIconProps, ShareIconColors } from './types';
 import './ShareIcon.scss';
 
-export default function ShareIcon(props: IShareIconProps) {
+export default function ShareIcon({ color }: IShareIconProps) {
     return (
         <svg
             width="28"
@@ -13,7 +13,7 @@ export default function ShareIcon(props: IShareIconProps) {
         >
             <path
                 d="M9.86 14v.304l10.044 4.992c.893-.771 1.948-1.157 3.166-1.157 1.38 0 2.546.477 3.5 1.43.953.954 1.43 2.12 1.43 3.5s-.477 2.547-1.43 3.5c-.954.954-2.12 1.431-3.5 1.431s-2.547-.477-3.5-1.43c-.954-.954-1.43-2.12-1.43-3.5v-.305L8.095 17.774c-.893.77-1.948 1.156-3.166 1.156-1.38 0-2.546-.476-3.5-1.43C.477 16.546 0 15.38 0 14s.477-2.546 1.43-3.5c.954-.954 2.12-1.43 3.5-1.43 1.218 0 2.273.385 3.166 1.156l10.043-4.991V4.93c0-1.38.477-2.546 1.43-3.5C20.524.477 21.69 0 23.07 0s2.547.477 3.5 1.43C27.524 2.384 28 3.55 28 4.93s-.477 2.547-1.43 3.5c-.954.954-2.12 1.43-3.5 1.43-1.218 0-2.273-.385-3.166-1.156L9.861 13.696V14z"
-                fill="#5D576B"
+                fill={ color || ShareIconColors.Inactive }
             />
         </svg>
     );

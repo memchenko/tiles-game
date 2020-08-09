@@ -1,24 +1,31 @@
 import React from 'react';
 
-import { IIconProps, IconTypes } from './types';
+import { IIconProps, IconTypes, IconsProps } from './types';
 import './Icon.scss';
 
 import BurgerIcon from '../BurgerIcon';
 import RefreshIcon from '../RefreshIcon';
 import BackIcon from '../BackIcon';
-import ShareIcon from '../ShareIcon';
+import ShareIcon, { ShareIconColors } from '../ShareIcon';
+
+
 
 const ICON_RENDERERS: {
-    [key: string]: React.FunctionComponent;
+    [key: string]: [
+        React.FunctionComponent<any>,
+        | IconsProps
+        | null
+    ];
 } = {
-    [IconTypes.Burger]: BurgerIcon,
-    [IconTypes.Refresh]: RefreshIcon,
-    [IconTypes.Back]: BackIcon,
-    [IconTypes.Share]: ShareIcon,
+    [IconTypes.Burger]: [BurgerIcon, null],
+    [IconTypes.Refresh]: [RefreshIcon, null],
+    [IconTypes.Back]: [BackIcon, null],
+    [IconTypes.Share]: [ShareIcon, null],
+    [IconTypes.ShareActive]: [ShareIcon, { color: ShareIconColors.Active, }],
 };
 
-export default React.memo(function Icon(props: IIconProps) {
-    const IconRenderer = ICON_RENDERERS[props.type];
+export default React.memo(function Icon({ type }: IIconProps) {
+    const [IconRenderer, iconProps] = ICON_RENDERERS[type];
 
-    return <IconRenderer />;
+    return <IconRenderer { ...(iconProps || {}) } />;
 });

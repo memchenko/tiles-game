@@ -4,6 +4,7 @@ export enum AppRoutes {
 
     Play = '/play',
     PlayMenu = '/play/menu',
+    PlayResult = '/play/result',
 
     Scenario = '/scenario',
     

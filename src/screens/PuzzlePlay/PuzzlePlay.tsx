@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import {
     useLocation,
     useHistory,
@@ -7,6 +7,7 @@ import {
     useRouteMatch,
 } from 'react-router-dom';
 import cn from 'classnames';
+import { cond, T, always } from 'ramda';
 
 import './PuzzlePlay.scss';
 
@@ -16,7 +17,7 @@ import { PerformanceTypes } from '../../constants/game';
 import TilesGrid from '../../components/TilesGrid';
 import TilesGridInteractive from '../../components/TilesGridInteractive';
 import { AppRoutes } from '../../constants/urls';
-import PlayMenu from '../../components/PlayMenu';
+import Menu from '../../components/Menu';
 
 const mtx = [
     ['#F7567C', '#5D576B', '#EDB88B'].map(color => ({ color })),
@@ -25,15 +26,47 @@ const mtx = [
 ];
 
 export default function PuzzlePlay() {
+    const [isShare, setShare] = useState(false);
     const { state } = useLocation<{ isNew?: boolean; isRetry?: boolean; }>();
     const history = useHistory();
+    
     const goPlayMenu = useCallback(() => {
         history.push(AppRoutes.PlayMenu);
     }, []);
-    const goPlay = useCallback(() => {
+    const goBack = useCallback(() => {
         history.push(AppRoutes.Play)
     }, []);
-    const isMenuOpened = useRouteMatch(AppRoutes.PlayMenu);
+    const goRetry = useCallback(() => {
+        history.push(AppRoutes.Play, { isRefersh: true, });
+    }, []);
+    const goHome = useCallback(() => {
+        history.push(AppRoutes.Root);
+    }, []);
+    const goNext = () => {};
+    
+    const isMenuOpened = Boolean(useRouteMatch(AppRoutes.PlayMenu));
+    const isResultOpened = Boolean(useRouteMatch(AppRoutes.PlayResult));
+    
+    const handleShareIconClick = useCallback(() => {
+        setShare(!isShare);
+    }, [isShare]);
+    const getLeftIconType = useCallback(cond([
+        [always(Boolean(isMenuOpened)), always(IconTypes.Back)],
+        [T, always(IconTypes.Burger)],
+    ]), [isMenuOpened]);
+    const getRightIconType = useCallback(cond([
+        [always(isResultOpened && !isShare), always(IconTypes.Share)],
+        [always(isResultOpened && isShare), always(IconTypes.ShareActive)],
+        [T, always(IconTypes.Refresh)],
+    ]), [isResultOpened, isShare]);
+    const getLeftIconHandler = useCallback(cond([
+        [always(isMenuOpened), always(goBack)],
+        [always(!isMenuOpened), always(goPlayMenu)],
+    ]), [isMenuOpened]);
+    const getRightIconHandler = useCallback(cond([
+        [always(isResultOpened && !isMenuOpened), always(handleShareIconClick)],
+        [T, always(goRetry)],
+    ]), [isMenuOpened, isShare, isResultOpened]);
 
     useEffect(() => {
         if (state && state.isNew) {
@@ -44,19 +77,24 @@ export default function PuzzlePlay() {
     return (
         <Layout
             headerProps={{
-                leftIconType: isMenuOpened ? IconTypes.Back : IconTypes.Burger,
-                rightIconType: IconTypes.Refresh,
-                onLeftIconClick: isMenuOpened ? goPlay : goPlayMenu,
-                onRightIconClick: (event: any) => {},
+                leftIconType: getLeftIconType(),
+                rightIconType: getRightIconType(),
+                onLeftIconClick: getLeftIconHandler(),
+                onRightIconClick: getRightIconHandler(),
                 performanceType: PerformanceTypes.Time,
                 performanceValue: '1:34',
             }}
         >
             <div className="row-1"></div>
             <div className={ cn('row-2', 'grid-row') }>
-                <div className={ cn('col-center-2', 'puzzle-play-example') }>
+                <div className={ cn('col-center-2', 'puzzle-play-example', {
+                    undisplay: isShare,
+                }) }>
                     <TilesGrid matrix={ mtx } />
                 </div>
+                <div className={ cn({
+                    undisplay: !isShare,
+                }) }>Share</div>
             </div>
             <div className={ cn('row-5', 'puzzle-play-area') }>
                 <Switch>
@@ -68,8 +106,22 @@ export default function PuzzlePlay() {
                             />
                         </div>
                     </Route>
+                    <Route path={ AppRoutes.PlayResult }>
+                        <Menu
+                            list={[
+                                { text: 'Retry', onClick: goRetry },
+                                { text: 'Next', onClick: goNext },
+                            ]}
+                        />
+                    </Route>
                     <Route path={ AppRoutes.PlayMenu }>
-                        <PlayMenu />
+                        <Menu
+                            list={[
+                                { text: 'Home', onClick: goHome },
+                                { text: 'Retry', onClick: goRetry },
+                                { text: 'Continue', onClick: goBack },
+                            ]}
+                        />
                     </Route>
                 </Switch>
             </div>

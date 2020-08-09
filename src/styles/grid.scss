@@ -13,7 +13,7 @@
 .grid-row {
     display: grid;
     grid-template-columns: repeat(var(--grid-col-number), 1fr);
-    grid-column: 1 / #{$grid-columns + 1};
+    grid-column: 1 / span #{$grid-columns + 1};
 }
 
 @for $i from 1 to ($grid-columns + 1) {

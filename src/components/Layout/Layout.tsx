@@ -14,8 +14,7 @@ export default function Layout({
         <div className={ cn('layout', 'grid') }>
             { headerProps
                 ? (
-                    <div className="layout__header">
-                        
+                    <div className={ cn('layout__header') }>
                         <Header { ...headerProps } />
                     </div>
                 )

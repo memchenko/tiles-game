@@ -38,3 +38,8 @@ export enum ScenarioMapCssClasses {
 export enum ScenarioMapDataAttrs {
     Level = 'scenario-level',
 }
+
+export enum PerformanceTypes {
+    Time = 'time',
+    Moves = 'moves',
+}

@@ -6,7 +6,6 @@ import MainMenu from './screens/MainMenu';
 import ScenariosMenu from './screens/ScenariosMenu';
 import ScenarioDetails from './screens/ScenarioDetails';
 import ScenarioPlay from './screens/ScenarioPlay';
-import PuzzlesMenu from './screens/PuzzlesMenu';
 import PuzzlePlay from './screens/PuzzlePlay';
 
 function App() {
@@ -17,8 +16,7 @@ function App() {
         <Route path={ AppRoutes.Scenario } component={ ScenariosMenu } exact />
         <Route path={ AppRoutes.ScenarioDetails } component={ ScenarioDetails } />
         <Route path={ AppRoutes.ScenarioPlay } component={ ScenarioPlay } />
-        <Route path={ AppRoutes.Play } component={ PuzzlesMenu } exact />
-        <Route path={ AppRoutes.PlayPuzzle } component={ PuzzlePlay } />
+        <Route path={ AppRoutes.Play } component={ PuzzlePlay } exact />
       </Switch>
     </Router>
   );

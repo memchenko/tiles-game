@@ -1,10 +1,11 @@
 import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import './MainMenu.scss';
+
 import { AppRoutes } from '../../constants/urls';
 import Layout from '../../components/Layout';
-import Button, { ButtonTypes, ButtonSizes, ButtonResponzivenesses } from '../../components/Button';
-import './MainMenu.scss';
+import Menu from '../../components/Menu';
 
 export default function MainMenu() {
     const history = useHistory();
@@ -25,38 +26,13 @@ export default function MainMenu() {
             </div>
             
             <div className='row-3 menu'>
-                <div className='grid-row menu__button'>
-                    <div className='col-center-4'>
-                        <Button
-                            size={ ButtonSizes.M }
-                            type={ ButtonTypes.Secondary }
-                            responsiveness={ ButtonResponzivenesses.FullWide }
-                            onClick={ goCredits }
-                        >Credits</Button>
-                    </div>
-                </div>
-                
-                <div className='grid-row menu__button'>
-                    <div className='col-center-4'>
-                        <Button
-                            size={ ButtonSizes.M }
-                            type={ ButtonTypes.Secondary }
-                            responsiveness={ ButtonResponzivenesses.FullWide }
-                            onClick={ goNew }
-                        >New</Button>
-                    </div>
-                </div>
-
-                <div className='grid-row menu__button'>
-                    <div className='col-center-6'>
-                        <Button
-                            size={ ButtonSizes.L }
-                            type={ ButtonTypes.Primary }
-                            responsiveness={ ButtonResponzivenesses.FullWide }
-                            onClick={ goPlay }
-                        >Play</Button>
-                    </div>
-                </div>
+                <Menu
+                    list={[
+                        { text: 'Credits', onClick: goCredits },
+                        { text: 'New', onClick: goNew },
+                        { text: 'Play', onClick: goPlay },
+                    ]}
+                />
             </div>
         </Layout>
     );

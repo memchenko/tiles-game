@@ -1,1 +1,19 @@
-.puzzle-play {}
+.puzzle-play {
+    &-example {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem 0;
+    }
+
+    &-area {
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        padding: 2rem 0 0 0;
+
+        &__grid {
+            width: 75%;
+        }
+    }
+}

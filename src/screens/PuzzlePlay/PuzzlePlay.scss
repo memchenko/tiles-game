@@ -1,4 +1,4 @@
-.puzzle-play {
+.play {
     &-example {
         display: flex;
         align-items: center;
@@ -8,12 +8,50 @@
 
     &-area {
         display: flex;
-        align-items: flex-end;
-        justify-content: center;
+        flex-direction: column;
+        justify-content: flex-end;
+
         padding: 2rem 0 0 0;
+
+        &--centered {
+            align-items: center;
+        }
 
         &__grid {
             width: 75%;
         }
+
+        &__result {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            margin-bottom: 10rem;
+        }
+
+        &__stars {
+            display: flex;
+            align-items: center;
+            margin-bottom: 3rem;
+
+            & > * + * {
+                margin-left: 0.5rem;
+            }
+        }
+
+        &__ideal {
+            font: 900 1.8rem var(--font-primary);
+            color: var(--color-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1rem;
+        }
+    }
+
+    &-share {
+        grid-column: 1 / span 9;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
     }
 }

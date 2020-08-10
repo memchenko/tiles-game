@@ -12,12 +12,13 @@ import { cond, T, always } from 'ramda';
 import './PuzzlePlay.scss';
 
 import Layout from '../../components/Layout';
-import { IconTypes } from '../../components/Icon';
-import { PerformanceTypes } from '../../constants/game';
+import Icon, { IconTypes } from '../../components/Icon';
+import { PerformanceTypes, Results } from '../../constants/game';
 import TilesGrid from '../../components/TilesGrid';
 import TilesGridInteractive from '../../components/TilesGridInteractive';
 import { AppRoutes } from '../../constants/urls';
 import Menu from '../../components/Menu';
+import ShareCard from '../../components/ShareCard';
 
 const mtx = [
     ['#F7567C', '#5D576B', '#EDB88B'].map(color => ({ color })),
@@ -86,20 +87,35 @@ export default function PuzzlePlay() {
             }}
         >
             <div className="row-1"></div>
-            <div className={ cn('row-2', 'grid-row') }>
-                <div className={ cn('col-center-2', 'puzzle-play-example', {
+            <div className={ cn('grid-row', {
+                'row-2': !isShare,
+                'row-5': isShare,
+            }) }>
+                <div className={ cn('col-center-2', 'play-example', {
                     undisplay: isShare,
                 }) }>
                     <TilesGrid matrix={ mtx } />
                 </div>
-                <div className={ cn({
-                    undisplay: !isShare,
-                }) }>Share</div>
+                {
+                    isShare && (
+                        <div className={ cn('play-share') }>
+                            <ShareCard
+                                performance={ Results.Good }
+                                matrix={ mtx }
+                                text="Time 01:34"
+                            />
+                        </div>
+                    )
+                }
             </div>
-            <div className={ cn('row-5', 'puzzle-play-area') }>
+            <div className={ cn('play-area', {
+                'play-area--centered': !isMenuOpened && !isResultOpened,
+                'row-5': !isShare,
+                'row-2': isShare,
+            }) }>
                 <Switch>
                     <Route path={ AppRoutes.Play } exact>
-                        <div className="puzzle-play-area__grid">
+                        <div className="play-area__grid">
                             <TilesGridInteractive
                                 matrix={ mtx }
                                 onMatrixChange={ () => {} }
@@ -107,6 +123,18 @@ export default function PuzzlePlay() {
                         </div>
                     </Route>
                     <Route path={ AppRoutes.PlayResult }>
+                        <div className={ cn('play-area__result', {
+                            undisplay: isShare,
+                        }) }>
+                            <div className="play-area__stars">
+                                <Icon type={ IconTypes.Star } />
+                                <Icon type={ IconTypes.Star } />
+                                <Icon type={ IconTypes.StarEmpty } />
+                            </div>
+                            <div className="play-area__ideal">
+                                Ideal 01:10
+                            </div>
+                        </div>
                         <Menu
                             list={[
                                 { text: 'Retry', onClick: goRetry },

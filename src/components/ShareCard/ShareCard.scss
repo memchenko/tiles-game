@@ -1,0 +1,44 @@
+.share-card {
+    width: 80%;
+    border: 1px solid var(--color-secondary);
+    padding: 3rem;
+    border-radius: 1rem;
+    box-sizing: border-box;
+
+    &__header {
+        font: 900 3.6rem var(--font-primary);
+        color: var(--color-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.1rem;
+        margin-bottom: 2rem;
+    }
+
+    &__body {
+        display: flex;
+        flex-direction: row;
+    }
+
+    &__grid {
+        width: 40%;
+        height: 100%;
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: flex-end;
+        flex-grow: 1;
+    }
+
+    &__stars {
+        margin-bottom: 2rem;
+    }
+
+    &__text {
+        font: 900 1.8rem var(--font-primary);
+        color: var(--font-color-primary);
+        text-transform: uppercase;
+        letter-spacing: 0.1rem;
+    }
+}

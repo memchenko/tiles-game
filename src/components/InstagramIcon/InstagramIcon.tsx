@@ -5,7 +5,12 @@ import './InstagramIcon.scss';
 
 export default function InstagramIcon(props: IInstagramIconProps) {
     return (
-        <svg viewBox="8.29 9.157 22.247 22.135" xmlns="http://www.w3.org/2000/svg">
+        <svg
+            viewBox="8.29 9.157 22.247 22.135"
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+        >
             <g transform="matrix(0.087523, 0, 0, 0.087523, -2.288037, -1.109605)">
                 <path
                     d="M 247.088 243.754 m -65.259 0 a 65.259 65.259 0 1 0 130.518 0 a 65.259 65.259 0 1 0 -130.518 0 Z M 247.088 243.754 m -39.154 0 a 39.154 39.154 0 0 1 78.308 0 a 39.154 39.154 0 0 1 -78.308 0 Z"

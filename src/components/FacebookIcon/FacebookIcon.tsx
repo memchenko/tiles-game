@@ -5,7 +5,12 @@ import './FacebookIcon.scss';
 
 export default function FacebookIcon(props: IFacebookIconProps) {
     return (
-        <svg viewBox="152.931 48.574 17.564 34.099" xmlns="http://www.w3.org/2000/svg">
+        <svg
+            viewBox="152.931 48.574 17.564 34.099"
+            xmlns="http://www.w3.org/2000/svg"
+            width="15"
+            height="15"
+        >
             <g transform="matrix(0.10789, 0, 0, 0.10789, 129.315536, 37.805069)">
                 <path
                     d="M 327.561 100.119 L 381.658 100.119 L 381.658 153.27 L 342.837 153.27 L 327.561 100.119 Z M 266.787 159.764 L 324.408 172.834 L 324.408 415.87 L 266.787 415.87 L 266.787 159.764 Z"

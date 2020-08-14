@@ -19,6 +19,7 @@ import TilesGridInteractive from '../../components/TilesGridInteractive';
 import { AppRoutes } from '../../constants/urls';
 import Menu from '../../components/Menu';
 import ShareCard from '../../components/ShareCard';
+import SocialBlock from '../../components/SocialBlock';
 import useShare from '../../lib/hooks/useShare';
 
 const mtx = [
@@ -115,6 +116,19 @@ export default function PuzzlePlay() {
                                 performance={ Results.Good }
                                 matrix={ mtx }
                                 text="Time 01:34"
+                            />
+                        </div>
+                    )
+                }
+                {
+                    isShare && !isNative && (
+                        <div className="col-center-2">
+                            <SocialBlock
+                                buttonsProps={[
+                                    { type: IconTypes.Facebook, onClick: () => {} },
+                                    { type: IconTypes.Twitter, onClick: () => {} },
+                                    { type: IconTypes.Instagram, onClick: () => {} },
+                                ]}
                             />
                         </div>
                     )

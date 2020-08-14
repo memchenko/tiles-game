@@ -11,6 +11,9 @@ export enum IconTypes {
     Back = 'back',
     Star = 'star',
     StarEmpty = 'star-empty',
+    Facebook = 'facebook',
+    Twitter = 'twitter',
+    Instagram = 'instagram',
 }
 
 export type IconsProps =

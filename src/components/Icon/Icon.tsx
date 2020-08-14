@@ -9,6 +9,9 @@ import BackIcon from '../BackIcon';
 import ShareIcon, { ShareIconColors } from '../ShareIcon';
 import StarIcon from '../StarIcon';
 import EmptyStarIcon from '../EmptyStarIcon';
+import FacebookIcon from '../FacebookIcon';
+import TwitterIcon from '../TwitterIcon';
+import InstagramIcon from '../InstagramIcon';
 
 const ICON_RENDERERS: {
     [key: string]: [
@@ -24,6 +27,9 @@ const ICON_RENDERERS: {
     [IconTypes.ShareActive]: [ShareIcon, { color: ShareIconColors.Active, }],
     [IconTypes.Star]: [StarIcon, null],
     [IconTypes.StarEmpty]: [EmptyStarIcon, null],
+    [IconTypes.Facebook]: [FacebookIcon, null],
+    [IconTypes.Twitter]: [TwitterIcon, null],
+    [IconTypes.Instagram]: [InstagramIcon, null],
 };
 
 export default React.memo(function Icon({ type }: IIconProps) {

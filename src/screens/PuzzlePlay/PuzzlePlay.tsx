@@ -19,6 +19,7 @@ import TilesGridInteractive from '../../components/TilesGridInteractive';
 import { AppRoutes } from '../../constants/urls';
 import Menu from '../../components/Menu';
 import ShareCard from '../../components/ShareCard';
+import useShare from '../../lib/hooks/useShare';
 
 const mtx = [
     ['#F7567C', '#5D576B', '#EDB88B'].map(color => ({ color })),
@@ -30,26 +31,37 @@ export default function PuzzlePlay() {
     const [isShare, setShare] = useState(false);
     const { state } = useLocation<{ isNew?: boolean; isRetry?: boolean; }>();
     const history = useHistory();
+    const [isNative, share] = useShare();
     
     const goPlayMenu = useCallback(() => {
+        setShare(false);
         history.push(AppRoutes.PlayMenu);
     }, []);
     const goBack = useCallback(() => {
-        history.push(AppRoutes.Play)
+        history.goBack();
     }, []);
     const goRetry = useCallback(() => {
+        setShare(false);
         history.push(AppRoutes.Play, { isRefersh: true, });
     }, []);
     const goHome = useCallback(() => {
         history.push(AppRoutes.Root);
     }, []);
-    const goNext = () => {};
+    const goNext = () => {
+        setShare(false);
+    };
     
     const isMenuOpened = Boolean(useRouteMatch(AppRoutes.PlayMenu));
     const isResultOpened = Boolean(useRouteMatch(AppRoutes.PlayResult));
     
     const handleShareIconClick = useCallback(() => {
         setShare(!isShare);
+        if (isShare && share) {
+            share({
+                title: 'Look at my result!',
+                text: '01:24',
+            }).then(() => setShare(false));
+        }
     }, [isShare]);
     const getLeftIconType = useCallback(cond([
         [always(Boolean(isMenuOpened)), always(IconTypes.Back)],

@@ -19,7 +19,6 @@ import TilesGridInteractive from '../../components/TilesGridInteractive';
 import { AppRoutes } from '../../constants/urls';
 import Menu from '../../components/Menu';
 import ShareCard from '../../components/ShareCard';
-import SocialBlock from '../../components/SocialBlock';
 import useShare from '../../lib/hooks/useShare';
 
 const mtx = [
@@ -57,7 +56,7 @@ export default function PuzzlePlay() {
     
     const handleShareIconClick = useCallback(() => {
         setShare(!isShare);
-        if (isShare && share) {
+        if (isShare && isNative) {
             share({
                 title: 'Look at my result!',
                 text: '01:24',
@@ -69,6 +68,7 @@ export default function PuzzlePlay() {
         [T, always(IconTypes.Burger)],
     ]), [isMenuOpened]);
     const getRightIconType = useCallback(cond([
+        [always(isResultOpened && !isNative), always(undefined)],
         [always(isResultOpened && !isShare), always(IconTypes.Share)],
         [always(isResultOpened && isShare), always(IconTypes.ShareActive)],
         [T, always(IconTypes.Refresh)],
@@ -78,6 +78,7 @@ export default function PuzzlePlay() {
         [always(!isMenuOpened), always(goPlayMenu)],
     ]), [isMenuOpened]);
     const getRightIconHandler = useCallback(cond([
+        [always(isResultOpened && !isNative), always(undefined)],
         [always(isResultOpened && !isMenuOpened), always(handleShareIconClick)],
         [T, always(goRetry)],
     ]), [isMenuOpened, isShare, isResultOpened]);
@@ -116,19 +117,6 @@ export default function PuzzlePlay() {
                                 performance={ Results.Good }
                                 matrix={ mtx }
                                 text="Time 01:34"
-                            />
-                        </div>
-                    )
-                }
-                {
-                    isShare && !isNative && (
-                        <div className="col-center-2">
-                            <SocialBlock
-                                buttonsProps={[
-                                    { type: IconTypes.Facebook, onClick: () => {} },
-                                    { type: IconTypes.Twitter, onClick: () => {} },
-                                    { type: IconTypes.Instagram, onClick: () => {} },
-                                ]}
                             />
                         </div>
                     )
@@ -173,7 +161,7 @@ export default function PuzzlePlay() {
                             list={[
                                 { text: 'Home', onClick: goHome },
                                 { text: 'Retry', onClick: goRetry },
-                                { text: 'Continue', onClick: goBack },
+                                { text: 'Resume', onClick: goBack },
                             ]}
                         />
                     </Route>

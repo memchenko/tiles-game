@@ -15,11 +15,27 @@ export default function Header({
 }: IHeaderProps) {
     return (
         <div className="header">
-            <IconButton type={ leftIconType } onClick={ onLeftIconClick }/>
+            {
+                leftIconType && onLeftIconClick
+                    ? (
+                        <IconButton type={ leftIconType } onClick={ onLeftIconClick }/>
+                    )
+                    : (
+                        <span></span>
+                    )
+            }
             <span className="header__performance">
                 { performanceType } { performanceValue }
             </span>
-            <IconButton type={ rightIconType } onClick={ onRightIconClick } />
+            {
+                rightIconType && onRightIconClick
+                    ? (
+                        <IconButton type={ rightIconType } onClick={ onRightIconClick } />
+                    )
+                    : (
+                        <span></span>
+                    )
+            }
         </div>
     );
 }

@@ -38,27 +38,6 @@ const getEpic = (
     )),
 );
 
-const getAssetEpic = (
-    action$: ActionsObservable<ReturnType<typeof getAsset>>
-) => action$.pipe(
-    ofType(Actions.GetAsset),
-    mergeMap(({ payload: { key, data, path, pathParams, headers } }: ReturnType<typeof getAsset>) => merge(
-        of(setRequest({ key, status: RequestStatus.Pending })),
-        from(
-            fetch(buildNotApiUrl(path, pathParams, data), {
-                method: 'GET',
-                headers,
-            })
-        ).pipe(
-            mergeMap(res => from(res.blob())),
-            map(data => setRequest({ key, status: RequestStatus.Success, data })),
-            catchError(err => of(
-                setRequest({ key, status: RequestStatus.Fail, data: err }),
-            ))
-        )
-    )),
-);
-
 const postEpic = (
     action$: ActionsObservable<ReturnType<typeof post>>,
 ) => action$.pipe(
@@ -155,5 +134,4 @@ export default [
     patchEpic,
     putEpic,
     deleteEpic,
-    getAssetEpic,
 ];

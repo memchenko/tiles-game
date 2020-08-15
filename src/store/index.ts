@@ -6,9 +6,7 @@ import rootReducer from './rootReducer';
 import { WindowWithReduxDevTools } from './types';
 
 import { epics as networkEpics } from '../entities/network';
-import { epics as scenarioEpics } from '../entities/scenario';
-import { epics as mapEpics } from '../entities/map';
-import { epics as resultEpics } from '../entities/result';
+import { epics as playEpics } from '../entities/play';
 
 const windowWithReduxDevTools = window as WindowWithReduxDevTools;
 const devTools = windowWithReduxDevTools.__REDUX_DEVTOOLS_EXTENSION__
@@ -26,9 +24,7 @@ const store = createStore(
 
 epicMiddleware.run(combineEpics<any>(
   ...networkEpics,
-  ...scenarioEpics,
-  ...mapEpics,
-  ...resultEpics,
+  ...playEpics,
 ));
 
 export default store;

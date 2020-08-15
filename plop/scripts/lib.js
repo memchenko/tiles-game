@@ -3,65 +3,54 @@ const path = require('path');
 const { capitalize } = require('./utils');
 
 const files = [
-    'styles',
-    'component',
-    'index',
     'types',
-];
-
-const componentTypes = [
-    'components',
-    'screens',
+    'index',
 ];
 
 module.exports = (plop) => {
     plop.setGenerator(
-        'component',
+        'lib',
         {
-            description: 'react component boilerplate',
+            description: 'react lib boilerplate',
             prompts: [
                 {
                     type: 'input',
-                    name: 'entityName',
-                    message: 'Specify name of the entity: lower case; if it consists of few words then separate it with comma',
-                },
-                {
-                    type: 'list',
-                    name: 'componentType',
-                    message: 'Folder to put component in',
-                    choices: componentTypes,
+                    name: 'libName',
+                    message: 'Specify name of the lib: lower case; if it consists of few words then separate it with comma',
                 },
             ],
             actions: [
                 (answers) => {
                     process.chdir(plop.getPlopfilePath());
 
-                    const entityNameWords = answers.entityName.split(',').map(word => word.trim());
+                    const libNameWords = answers.libName.split(',').map(word => word.trim());
                     const modifiedAnswers = {
                         ...answers,
-                        entityName: {
-                            capitalized: entityNameWords.map(capitalize).join(''),
-                            kebabCased: entityNameWords.join('-'),
+                        libName: {
+                            camelCased: [libNameWords[0]].concat(libNameWords.slice(1).map(capitalize).join('')),
+                            capitalized: libNameWords.map(capitalize).join(''),
+                            kebabCased: libNameWords.join('-'),
                         },
+                        files: files.reduce((acc, fileName) => {
+                            acc[fileName] = true;
+                            return acc;
+                        }, {}),
                     };
                     const mapFileNameToConfig = (fileName) => {
-                        const name = ['component', 'styles'].includes(fileName)
-                            ? modifiedAnswers.entityName.capitalized
-                            : fileName;
-                        const ext = fileName === 'styles'
-                            ? 'scss'
-                            : fileName === 'component'
-                            ? 'tsx'
-                            : 'ts';
                         return {
-                            directory: `./src/${modifiedAnswers.componentType}/${modifiedAnswers.entityName.capitalized}`,
-                            fileName: `${name}.${ext}`,
-                            templateFilePath: `./plop/templates/component/${fileName}.hbs`,
+                            directory: `./src/lib/${modifiedAnswers.libName.kebabCased}`,
+                            fileName: `${fileName}.ts`,
+                            templateFilePath: `./plop/templates/lib/${fileName}.hbs`,
                         };
                     };
                     const filesToCreate = files
+                        .filter(fileName => modifiedAnswers.files[fileName])
                         .map(mapFileNameToConfig)
-                        .concat(mapFileNameToConfig('index'));
+                        .concat({
+                            directory: `./src/lib/${modifiedAnswers.libName.kebabCased}`,
+                            fileName: `${modifiedAnswers.libName.kebabCased}.ts`,
+                            templateFilePath: `./plop/templates/lib/lib.hbs`,
+                        });
                     const cwd = process.cwd();
 
                     for (const data of filesToCreate) {

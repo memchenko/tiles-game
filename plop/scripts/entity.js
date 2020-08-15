@@ -12,7 +12,7 @@ const files = [
 
 module.exports = (plop) => {
     plop.setGenerator(
-        'react-entity',
+        'entity',
         {
             description: 'react entity boilerplate',
             prompts: [

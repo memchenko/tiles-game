@@ -1,13 +1,17 @@
+import { TileInfo } from '../../lib/grid/types';
+
 export enum Actions {
-    SetPlay = '@play/SET_PLAY'
+    SetLevel = '@play/SET_LEVEL',
 }
 
-export interface ISetPlayData {
-    
+export interface ISetLevelData {
+    level: number;
 }
 
 export interface IPlayState {
-
+    level: number;
+    matrix: TileInfo[][];
+    performances: [number, number, number];
 }
 
 export interface IStateWithPlay {

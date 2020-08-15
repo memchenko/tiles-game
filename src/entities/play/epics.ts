@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 
 import {} from './types';
 import {
-    setPlay,
+    setLevel,
 } from './actions';
 import {
     makeResponseObservable,

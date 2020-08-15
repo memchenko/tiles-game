@@ -1,8 +1,8 @@
 import { createActionCreator } from 'deox';
 
-import { Actions, ISetPlayData } from './types';
+import { Actions, ISetLevelData } from './types';
 
-export const setPlay = createActionCreator(
-    Actions.SetPlay,
-    resolve => (data: ISetPlayData) => resolve(data)
+export const setLevel = createActionCreator(
+    Actions.SetLevel,
+    resolve => (data: ISetLevelData) => resolve(data)
 );

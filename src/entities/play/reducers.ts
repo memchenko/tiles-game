@@ -12,8 +12,11 @@ import generateMatrix from '../../lib/generate-matrix';
 
 const initialState: IPlayState = {
     level: 0,
-    matrix: [],
-    performances: [0, 0, 0],
+    matrix: generateMatrix({
+        colorsNumber: 2,
+        tilesSideNumber: 2,
+    }),
+    performances: getLevelTimes(2, 0),
 };
 
 export default createReducer(initialState, handle => ([

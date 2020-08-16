@@ -7,7 +7,8 @@ import {
     useRouteMatch,
 } from 'react-router-dom';
 import cn from 'classnames';
-import { cond, T, always } from 'ramda';
+import { cond, T, always, view } from 'ramda';
+import { useSelector, useDispatch } from 'react-redux';
 
 import './PuzzlePlay.scss';
 
@@ -20,19 +21,25 @@ import { AppRoutes } from '../../constants/urls';
 import Menu from '../../components/Menu';
 import ShareCard from '../../components/ShareCard';
 import useShare from '../../lib/hooks/useShare';
-
-const mtx = [
-    ['#F7567C', '#5D576B', '#EDB88B'].map(color => ({ color })),
-    ['#F7567C', '#5D576B', '#EDB88B'].reverse().map(color => ({ color })),
-    ['#F7567C', '#5D576B', '#EDB88B'].map(color => ({ color })),
-];
+import { setLevel, playLens } from '../../entities/play';
+import { shuffleMtx } from '../../lib/shuffle';
+import { TileInfo } from '../../lib/grid/types';
+import { isMatricesEqual } from '../../lib/grid/calc-grid';
 
 export default function PuzzlePlay() {
+    const [isSolved, setSolved] = useState(false);
     const [isShare, setShare] = useState(false);
     const { state } = useLocation<{ isNew?: boolean; isRetry?: boolean; }>();
     const history = useHistory();
     const [isNative, share] = useShare();
+    const { level, matrix, performances } = useSelector(view(playLens));
+    const dispatch = useDispatch();
+    let shuffledMatrix = shuffleMtx<TileInfo>(matrix);
     
+    while (isMatricesEqual(matrix, shuffledMatrix)) {
+        shuffledMatrix = shuffleMtx<TileInfo>(matrix);
+    }
+
     const goPlayMenu = useCallback(() => {
         setShare(false);
         history.push(AppRoutes.PlayMenu);
@@ -47,9 +54,12 @@ export default function PuzzlePlay() {
     const goHome = useCallback(() => {
         history.push(AppRoutes.Root);
     }, []);
-    const goNext = () => {
+    const goNext = useCallback(() => {
         setShare(false);
-    };
+        setSolved(false);
+        dispatch(setLevel({ level: level + 1 }));
+        history.push(AppRoutes.Play);
+    }, [level]);
     
     const isMenuOpened = Boolean(useRouteMatch(AppRoutes.PlayMenu));
     const isResultOpened = Boolean(useRouteMatch(AppRoutes.PlayResult));
@@ -63,6 +73,12 @@ export default function PuzzlePlay() {
             }).then(() => setShare(false));
         }
     }, [isShare]);
+    const handleMatrixChange = useCallback((changedMatrix: TileInfo[][]) => {
+        if (isMatricesEqual(changedMatrix, matrix)) {
+            history.push(AppRoutes.PlayResult);
+            setSolved(true);
+        }
+    }, [matrix]);
     const getLeftIconType = useCallback(cond([
         [always(Boolean(isMenuOpened)), always(IconTypes.Back)],
         [T, always(IconTypes.Burger)],
@@ -108,14 +124,14 @@ export default function PuzzlePlay() {
                 <div className={ cn('col-center-2', 'play-example', {
                     undisplay: isShare,
                 }) }>
-                    <TilesGrid matrix={ mtx } />
+                    <TilesGrid matrix={ matrix } />
                 </div>
                 {
                     isShare && (
                         <div className={ cn('play-share') }>
                             <ShareCard
                                 performance={ Results.Good }
-                                matrix={ mtx }
+                                matrix={ matrix }
                                 text="Time 01:34"
                             />
                         </div>
@@ -131,8 +147,8 @@ export default function PuzzlePlay() {
                     <Route path={ AppRoutes.Play } exact>
                         <div className="play-area__grid">
                             <TilesGridInteractive
-                                matrix={ mtx }
-                                onMatrixChange={ () => {} }
+                                matrix={ shuffledMatrix }
+                                onMatrixChange={ handleMatrixChange }
                             />
                         </div>
                     </Route>

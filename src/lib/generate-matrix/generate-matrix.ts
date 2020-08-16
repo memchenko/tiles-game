@@ -20,7 +20,7 @@ export default function generateMatrix({
             acc.push([color, numberOfTimesForColor]);
             return acc;
         }, [] as [string, number][]);
-    const quotient = tilesNumber % numberOfTimesForColor;
+    const quotient = tilesNumber - (colorsNumber * numberOfTimesForColor);
 
     for (let i = 0; i < quotient; i++) {
         const index = Math.floor(randomWithin(0, colors.length));
@@ -28,7 +28,7 @@ export default function generateMatrix({
     }
 
     for (let i = 0; i < tilesNumber; i++) {
-        const index = Math.floor(randomWithin(0, colors.length));
+        const index = Math.floor(randomWithin(0, colors.length - 1));
         const entry = colors[index];
         result.push({ color: entry[0] });
         entry[1]--;

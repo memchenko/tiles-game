@@ -32,7 +32,7 @@ export function getLinearSeries(y1: number, y2: number, length: number) {
   // 1) function y = mx + b used to get y points as series
   // 2) m and b being found by 2 points
   // 3) x is always 1 to "length"
-  const xs = range(1, length);
+  const xs = range(1, length + 1);
   const m = (y2 - y1) / (xs[xs.length - 1] - xs[0]);
   // b is calculated using first point (y1 and x1)
   const b = y1 - m * xs[0];

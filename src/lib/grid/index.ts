@@ -19,6 +19,9 @@ import {
   scan,
   first,
   last,
+  skipWhile,
+  filter,
+  catchError,
 } from 'rxjs/operators';
 import {
   getGridData,
@@ -39,6 +42,7 @@ import {
 } from './calc-grid';
 import { Directions } from '../../constants/game';
 import { TileInfo, TileConfig } from './types';
+import { isTouchDevice } from '../../utils/client';
 
 const X = Directions.X;
 const Y = Directions.Y;
@@ -46,6 +50,7 @@ const Y = Directions.Y;
 export default class GridManager {
   private id = `_${(Date.now() * Math.random()).toString(36).replace(/\./g, '')}`;
   private TIME_INTERVAL_MS = 8;
+  private IS_TOUCH_DEVICE = isTouchDevice();
 
   private matrix: TileInfo[][];
   private gridData: ReturnType<typeof getGridData>;
@@ -53,7 +58,7 @@ export default class GridManager {
   private canvasNode?: HTMLCanvasElement;
   private ctx?: CanvasRenderingContext2D;
 
-  private pointerDown$?: Observable<MouseEvent>;
+  private pointerDown$?: Observable<MouseEvent | Touch>;
   private pointerMove$?: Observable<{
     speed: number;
     acceleration: number;
@@ -64,12 +69,16 @@ export default class GridManager {
     };
   }>;
   private pointerFinisher$?: Observable<Event>;
+  private touch: Touch | null = null;
 
   private config?: TileConfig[][];
 
   positionChanged$: Subject<TileConfig[][]>;
 
   private getSpeed: (x0: number, x1: number) => number;
+
+  private direction: Directions | null = null;
+  private isErrored: boolean = false;
 
   constructor(matrix: TileInfo[][]) {
     this.matrix = matrix;
@@ -123,7 +132,20 @@ export default class GridManager {
 
   private setStartMove() {
     if (this.canvasNode) {
-      this.pointerDown$ = fromEvent<MouseEvent>(this.canvasNode, 'mousedown');
+      if (this.IS_TOUCH_DEVICE) {
+        this.pointerDown$ = fromEvent<TouchEvent>(this.canvasNode, 'touchstart').pipe(
+          filter(() => !this.touch),
+          tap((event) => {
+            const touches = event.targetTouches;
+            this.touch = touches[0]; 
+          }),
+          map(() => {
+            return this.touch as Touch;
+          }),
+        );
+      } else {
+        this.pointerDown$ = fromEvent<MouseEvent>(this.canvasNode, 'mousedown');
+      }
     } else {
       throw new Error('No canvasNode provided');
     }
@@ -131,8 +153,40 @@ export default class GridManager {
 
   private setFinishMove = () => {
     if (this.canvasNode) {
-      this.pointerFinisher$ = fromEvent(this.canvasNode, 'mouseout')
-        .pipe(merge(fromEvent(this.canvasNode, 'mouseup')));
+      if (this.IS_TOUCH_DEVICE) {
+        this.pointerFinisher$ =  fromEvent<TouchEvent>(this.canvasNode, 'touchend').pipe(
+          merge(fromEvent<TouchEvent>(this.canvasNode, 'touchcancel')),
+          filter((event) => {
+            if (!this.touch) {
+              return false;
+            }
+
+            const touches = event.changedTouches;
+
+            for (let i = 0; i < touches.length; i++) {
+              if (touches[i].identifier === this.touch.identifier) {
+                return true;
+              }
+            }
+
+            return false;
+          }),
+        );
+      } else {
+        this.pointerFinisher$ =  fromEvent(this.canvasNode, 'mouseout')
+          .pipe(merge(fromEvent(this.canvasNode, 'mouseup')));
+      }
+
+      this.pointerFinisher$ = this.pointerFinisher$.pipe(
+        tap(() => {
+          if (!this.isErrored) {
+            this.canvasNode!.style.pointerEvents = 'none';
+          } else {
+            this.isErrored = false;
+          }
+        }),
+      );
+      
     } else {
       throw new Error('No canvasNode provided');
     }
@@ -156,16 +210,55 @@ export default class GridManager {
       throw new Error('No canvasNode provided');
     }
 
-    const mousemove$ = fromEvent<MouseEvent>(this.canvasNode, 'mousemove').pipe(
-      throttleTime(this.TIME_INTERVAL_MS),
-      pairwise()
-    );
+    if (!this.pointerFinisher$) {
+      throw new Error('No pointerFinisher provided');
+    }
+
+    let mousemove$;
+
+    if (this.IS_TOUCH_DEVICE) {
+      mousemove$ = fromEvent<TouchEvent>(this.canvasNode, 'touchmove').pipe(
+        filter((event) => {
+          if (!this.touch) {
+            return false;
+          }
+
+          const touches = event.changedTouches;
+          for (let i = 0; i < touches.length; i++) {
+            if (touches[i].identifier === this.touch.identifier) {
+              return true;
+            }
+          }
+          return false;
+        }),
+        map((event) => {
+          const touches = event.changedTouches;
+
+          for (let i = 0; i < touches.length; i++) {
+            if (touches[i].identifier === this.touch!.identifier) {
+              return touches[i] as Touch;
+            }
+          }
+
+          return this.touch as Touch;
+        }),
+        throttleTime(this.TIME_INTERVAL_MS),
+        pairwise(),
+        takeUntil(this.pointerFinisher$),
+      );
+    } else {
+      mousemove$ = fromEvent<MouseEvent>(this.canvasNode, 'mousemove').pipe(
+        throttleTime(this.TIME_INTERVAL_MS),
+        pairwise(),
+        takeUntil(this.pointerFinisher$),
+      );
+    }
 
     const x$ = this.getXMovingObservable({ mousemove$, quadrant });
     const y$ = this.getYMovingObservable({ mousemove$, quadrant });
     const moves$ = this.getMovesObservable({ mousemove$, x$, y$ });
     const distances$ = this.getBezierDistancesObservable(moves$);  
-
+    
     this.moveWithAcceleration(distances$);
     this.driveLineUp(distances$);
 
@@ -173,9 +266,13 @@ export default class GridManager {
   }
 
   private getXMovingObservable({ mousemove$, quadrant }: {
-    mousemove$: Observable<[MouseEvent, MouseEvent]>;
+    mousemove$: Observable<[{ clientX: number; clientY: number; }, { clientX: number; clientY: number; }]>;
     quadrant: { row: number; column: number; };
   }) {
+    if (!this.pointerFinisher$) {
+      throw new Error('No pointerFinisher$ initialized');
+    }
+
     const self = this;
     return mousemove$.pipe(
       scan(({ speed, ...rest }, [{clientX: x0}, {clientX: x1}]) => {
@@ -187,12 +284,12 @@ export default class GridManager {
       tap(({ speed }) => {
         const offset = speed * Math.sqrt(self.TIME_INTERVAL_MS);
         self.moveHorizontal({ quadrant, offset });
-      })
+      }),
     );
   }
 
   private getYMovingObservable({ mousemove$, quadrant }: {
-    mousemove$: Observable<[MouseEvent, MouseEvent]>;
+    mousemove$: Observable<[{ clientX: number; clientY: number; }, { clientX: number; clientY: number; }]>;
     quadrant: { row: number; column: number; };
   }) {
     const self = this;
@@ -205,13 +302,13 @@ export default class GridManager {
       }, { speed: 0, acceleration: 0, direction: Y, quadrant }),
       tap(({ speed }) => {
         const offset = speed * Math.sqrt(self.TIME_INTERVAL_MS);
-        self.moveVertical({ quadrant, offset })
-      })
+        self.moveVertical({ quadrant, offset });
+      }),
     );
   }
 
   private getMovesObservable({ mousemove$, x$, y$ }: {
-    mousemove$: Observable<[MouseEvent, MouseEvent]>;
+    mousemove$: Observable<[{ clientX: number; clientY: number; }, { clientX: number; clientY: number; }]>;
     x$: Observable<{
       speed: number;
       acceleration: number;
@@ -230,19 +327,26 @@ export default class GridManager {
     }
 
     return mousemove$.pipe(
-      first(),
       map(getDirection),
-      switchMap(direction => direction === X ? x$ : y$),
-      takeUntil(this.pointerFinisher$)
+      skipWhile(direction => direction === null),
+      first(),
+      tap((direction) => {
+        if (this.direction === null) {
+          this.direction = direction;
+        }
+      }),
+      switchMap(() => this.direction === X ? x$ : y$),
+      takeUntil(this.pointerFinisher$),
     );
   }
 
-  private getBezierDistancesObservable(moves$: Observable<{
+  private getBezierDistancesObservable(moves$: Observable<any>): Observable<{
     speed: number;
     acceleration: number;
     direction: Directions;
     quadrant: { row: number; column: number; };
-  }>) {
+    factor: number;
+  }> {
     const self = this;
     return moves$.pipe(
       last(),
@@ -264,7 +368,8 @@ export default class GridManager {
       tap(({ factor, speed, direction, quadrant }) => {
         const offset = speed * Math.sqrt(self.TIME_INTERVAL_MS) * (1 + factor);
         self.move({ direction, quadrant, offset });
-      })
+      }),
+      catchError(x => of(x))
     ).subscribe();
   }
 
@@ -290,21 +395,38 @@ export default class GridManager {
           0;
 
         return Math.abs(speed) < 5 ?
-          of([{ quadrant, direction, ...rest, speed: -1 * speed }]) :
+          of([{ quadrant, direction, ...rest, speed: -1 * speed, }]) :
           zip(
             from(Array.from({ length: 20 }, (_, index) => ({
               quadrant,
               direction,
               ...rest,
-              speed: -1 * speed / (2 ** (index + 1))
+              speed: -1 * speed / (2 ** (index + 1)),
             }))),
             interval(self.TIME_INTERVAL_MS)
           );
       }),
       tap(([{ direction, quadrant, speed }]) => {
         self.move({ direction, quadrant, offset: speed });
-      })
-    ).subscribe();
+      }),
+      catchError((x) => {
+        return of(x).pipe(
+          tap((x) => {
+            console.warn(x);
+            this.isErrored = true;
+            this.direction = null;
+            this.canvasNode!.style.pointerEvents = 'initial';
+            this.touch = null;
+          }),
+        );
+      }),
+    ).subscribe({
+      complete: () => {
+        this.direction = null;
+        this.canvasNode!.style.pointerEvents = 'initial';
+        this.touch = null;
+      },
+    });
   }
 
   private move({ direction, quadrant, offset }: {

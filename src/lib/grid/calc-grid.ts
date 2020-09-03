@@ -150,7 +150,7 @@ export const getQuadrant = curry(
       rowsLen: number;
       colsLen: number;
     },
-    e: MouseEvent
+    e: { clientX: number; clientY: number; }
   ): { row: number; column: number; } => {
     const [x, y] = [e.clientX - left, e.clientY - top];
     const [rowHeight, colWidth] = [width / colsLen, height / rowsLen];
@@ -188,9 +188,8 @@ const getQuadrantIdx: ((
 };
 
 export const getDirection = (
-  [prevEvent, currentEvent]: [MouseEvent, MouseEvent]
-): Directions => {
-  const defaultDirection = Directions.X;
+  [prevEvent, currentEvent]: [{ clientX: number; clientY: number; }, { clientX: number; clientY: number; }]
+): Directions | null => {
   const xDiff = Math.abs(currentEvent.clientX - prevEvent.clientX);
   const yDiff = Math.abs(currentEvent.clientY - prevEvent.clientY);
 
@@ -198,7 +197,7 @@ export const getDirection = (
     Directions.X :
     yDiff > xDiff ?
     Directions.Y :
-    defaultDirection;
+    null;
 };
 
 export const getAcceleration = curry(

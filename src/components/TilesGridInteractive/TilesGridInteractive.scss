@@ -1,5 +1,6 @@
 .tiles-grid-interactive {
     width: 100%;
+    touch-action: none;
 
     &__canvas {
         display: block;

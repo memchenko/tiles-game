@@ -388,18 +388,21 @@ export default class GridManager {
           throw new Error('No config provided');
         }
 
+        const column = self.config[0][quadrant.column].y;
+        const row = self.config[quadrant.row][0].x;
         const speed = direction === X ?
-          self.config[quadrant.row][0].x :
+          row :
           direction === Y ?
-          self.config[0][quadrant.column].y :
-          0;
+          column :
+          Math.max(row, column);
+        const adjustedDirection = speed === row ? X : Y;
 
         return Math.abs(speed) < 5 ?
-          of([{ quadrant, direction, ...rest, speed: -1 * speed, }]) :
+          of([{ quadrant, direction: adjustedDirection, ...rest, speed: -1 * speed, }]) :
           zip(
             from(Array.from({ length: 20 }, (_, index) => ({
               quadrant,
-              direction,
+              direction: adjustedDirection,
               ...rest,
               speed: -1 * speed / (2 ** (index + 1)),
             }))),

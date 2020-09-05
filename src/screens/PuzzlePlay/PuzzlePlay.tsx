@@ -27,19 +27,37 @@ import { TileInfo } from '../../lib/grid/types';
 import { isMatricesEqual } from '../../lib/grid/calc-grid';
 
 export default function PuzzlePlay() {
-    const [isSolved, setSolved] = useState(false);
     const [isShare, setShare] = useState(false);
+    const [timerValue, setTimerValue] = useState<number>(0);
+    const [timer, setTimer] = useState<ReturnType<(typeof setInterval)> | null>(null);
+    const [matrixForPlay, setMatrixForPlay] = useState<TileInfo[][] | null>(null);
     const { state } = useLocation<{ isNew?: boolean; isRetry?: boolean; }>();
     const history = useHistory();
     const [isNative, share] = useShare();
     const { level, matrix, performances } = useSelector(view(playLens));
     const dispatch = useDispatch();
-    let shuffledMatrix = shuffleMtx<TileInfo>(matrix);
     
-    while (isMatricesEqual(matrix, shuffledMatrix)) {
-        shuffledMatrix = shuffleMtx<TileInfo>(matrix);
-    }
+    useEffect(() => {
+        if (!matrixForPlay) {
+            let shuffledMatrix = shuffleMtx<TileInfo>(matrix);
+            while (isMatricesEqual(matrix, shuffledMatrix)) {
+                shuffledMatrix = shuffleMtx<TileInfo>(matrix);
+            }
+            setMatrixForPlay(shuffledMatrix);
+            startInterval();
+        }
+    }, [matrixForPlay]);
 
+    const startInterval = useCallback(() => {
+        let currentTimerValue = 1;
+
+        setTimer(
+            setInterval(() => {
+                setTimerValue(currentTimerValue);
+                currentTimerValue++;
+            }, 1000)
+        );
+    }, []);
     const goPlayMenu = useCallback(() => {
         setShare(false);
         history.push(AppRoutes.PlayMenu);
@@ -48,15 +66,19 @@ export default function PuzzlePlay() {
         history.goBack();
     }, []);
     const goRetry = useCallback(() => {
+        clearInterval(timer!);
         setShare(false);
+        setMatrixForPlay(null);
+        setTimerValue(0);
         history.push(AppRoutes.Play, { isRefersh: true, });
-    }, []);
+    }, [timer]);
     const goHome = useCallback(() => {
         history.push(AppRoutes.Root);
     }, []);
     const goNext = useCallback(() => {
         setShare(false);
-        setSolved(false);
+        setMatrixForPlay(null);
+        setTimerValue(0);
         dispatch(setLevel({ level: level + 1 }));
         history.push(AppRoutes.Play);
     }, [level]);
@@ -69,16 +91,16 @@ export default function PuzzlePlay() {
         if (isShare && isNative) {
             share({
                 title: 'Look at my result!',
-                text: '01:24',
+                text: `${Math.floor(timerValue / 60)}:${String(timerValue % 60).padStart(2, '0')}`,
             }).then(() => setShare(false));
         }
-    }, [isShare]);
+    }, [isShare, timerValue]);
     const handleMatrixChange = useCallback((changedMatrix: TileInfo[][]) => {
         if (isMatricesEqual(changedMatrix, matrix)) {
             history.push(AppRoutes.PlayResult);
-            setSolved(true);
+            clearInterval(timer!);
         }
-    }, [matrix]);
+    }, [matrix, timer]);
     const getLeftIconType = useCallback(cond([
         [always(Boolean(isMenuOpened)), always(IconTypes.Back)],
         [T, always(IconTypes.Burger)],
@@ -97,7 +119,7 @@ export default function PuzzlePlay() {
         [always(isResultOpened && !isNative), always(undefined)],
         [always(isResultOpened && !isMenuOpened), always(handleShareIconClick)],
         [T, always(goRetry)],
-    ]), [isMenuOpened, isShare, isResultOpened]);
+    ]), [isMenuOpened, isShare, isResultOpened, timer]);
 
     useEffect(() => {
         if (state && state.isNew) {
@@ -113,7 +135,7 @@ export default function PuzzlePlay() {
                 onLeftIconClick: getLeftIconHandler(),
                 onRightIconClick: getRightIconHandler(),
                 performanceType: PerformanceTypes.Time,
-                performanceValue: '1:34',
+                performanceValue: `${Math.floor(timerValue / 60)}:${String(timerValue % 60).padStart(2, '0')}`,
             }}
         >
             <div className="row-1"></div>
@@ -132,7 +154,7 @@ export default function PuzzlePlay() {
                             <ShareCard
                                 performance={ Results.Good }
                                 matrix={ matrix }
-                                text="Time 01:34"
+                                text={ `My time ${Math.floor(timerValue / 60)}:${String(timerValue % 60).padStart(2, '0')}` }
                             />
                         </div>
                     )
@@ -145,32 +167,51 @@ export default function PuzzlePlay() {
             }) }>
                 <Switch>
                     <Route path={ AppRoutes.Play } exact>
-                        <div className="play-area__grid">
-                            <TilesGridInteractive
-                                matrix={ shuffledMatrix }
-                                onMatrixChange={ handleMatrixChange }
-                            />
-                        </div>
+                        {
+                            matrixForPlay && (
+                                <div className="play-area__grid">
+                                    <TilesGridInteractive
+                                        matrix={ matrixForPlay! }
+                                        onMatrixChange={ handleMatrixChange }
+                                    />
+                                </div>
+                            )
+                        }
                     </Route>
                     <Route path={ AppRoutes.PlayResult }>
                         <div className={ cn('play-area__result', {
                             undisplay: isShare,
                         }) }>
                             <div className="play-area__stars">
-                                <Icon type={ IconTypes.Star } />
-                                <Icon type={ IconTypes.Star } />
-                                <Icon type={ IconTypes.StarEmpty } />
+                                {
+                                    performances
+                                        .map((performance: number) => timerValue > performance ? IconTypes.StarEmpty : IconTypes.Star)
+                                        .reverse()
+                                        .map((iconType: IconTypes, i: number) => (<Icon key={ i } type={ iconType } />))
+                                }
                             </div>
                             <div className="play-area__ideal">
-                                Ideal 01:10
+                                Ideal { `${`${Math.floor(performances[0] / 60)}:${String(performances[0] % 60).padStart(2, '0')}`}` }
                             </div>
                         </div>
-                        <Menu
-                            list={[
-                                { text: 'Retry', onClick: goRetry },
-                                { text: 'Next', onClick: goNext },
-                            ]}
-                        />
+                        {
+                            timerValue < performances[2]
+                                ? (
+                                    <Menu
+                                        list={[
+                                            { text: 'Retry', onClick: goRetry },
+                                            { text: 'Next', onClick: goNext },
+                                        ]}
+                                    />
+                                )
+                                : (
+                                    <Menu
+                                        list={[
+                                            { text: 'Retry', onClick: goRetry },
+                                        ]}
+                                    />
+                                )
+                        }
                     </Route>
                     <Route path={ AppRoutes.PlayMenu }>
                         <Menu

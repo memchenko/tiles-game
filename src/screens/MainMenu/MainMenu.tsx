@@ -1,19 +1,26 @@
 import React, { useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { view } from 'ramda';
 
 import './MainMenu.scss';
 
 import { AppRoutes } from '../../constants/urls';
 import Layout from '../../components/Layout';
 import Menu from '../../components/Menu';
+import { playLens, setLevel } from '../../entities/play';
 
 export default function MainMenu() {
     const history = useHistory();
+    const { level } = useSelector(view(playLens));
+    const dispatch = useDispatch();
+
     const goCredits = useCallback(() => {
         history.push(AppRoutes.Credits);
     }, []);
     const goNew = useCallback(() => {
-        history.push(AppRoutes.Play, { isNew: true });
+        dispatch(setLevel({ level: 0 }));
+        history.push(AppRoutes.Play);
     }, []);
     const goPlay = useCallback(() => {
         history.push(AppRoutes.Play);
@@ -26,13 +33,26 @@ export default function MainMenu() {
             </div>
             
             <div className='row-3 menu'>
-                <Menu
-                    list={[
-                        { text: 'Credits', onClick: goCredits },
-                        { text: 'New', onClick: goNew },
-                        { text: 'Play', onClick: goPlay },
-                    ]}
-                />
+                {
+                    level > 0
+                        ? (
+                            <Menu
+                                list={[
+                                    { text: 'Credits', onClick: goCredits },
+                                    { text: 'New', onClick: goNew },
+                                    { text: 'Continue', onClick: goPlay },
+                                ]}
+                            />
+                        )
+                        : (
+                            <Menu
+                                list={[
+                                    { text: 'Credits', onClick: goCredits },
+                                    { text: 'Play', onClick: goPlay },
+                                ]}
+                            />
+                        )
+                }
             </div>
         </Layout>
     );

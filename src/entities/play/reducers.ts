@@ -1,7 +1,7 @@
 import { createReducer } from 'deox';
 
 import { IPlayState } from './types';
-import { setLevel } from './actions';
+import { setLevel, setSolved, setUnsolved } from './actions';
 
 import {
     getGridSideNumber,
@@ -17,6 +17,7 @@ const initialState: IPlayState = {
         tilesSideNumber: 2,
     }),
     performances: getLevelTimes(2, 0),
+    isSolved: false,
 };
 
 export default createReducer(initialState, handle => ([
@@ -35,7 +36,22 @@ export default createReducer(initialState, handle => ([
                 level,
                 matrix,
                 performances,
+                isSolved: false,
             };
         }
+    ),
+    handle(
+        setSolved,
+        state => ({
+            ...state,
+            isSolved: true,
+        })
+    ),
+    handle(
+        setUnsolved,
+        state => ({
+            ...state,
+            isSolved: false,
+        })
     ),
 ]));

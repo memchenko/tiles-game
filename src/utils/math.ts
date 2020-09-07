@@ -29,6 +29,9 @@ export const getRoundedDivision = (
 export const multiplyAll = unapply(reduce<number, number>(multiply, 1));
 
 export function getLinearSeries(y1: number, y2: number, length: number) {
+  if (length === 1) {
+    return [y1];
+  }
   // 1) function y = mx + b used to get y points as series
   // 2) m and b being found by 2 points
   // 3) x is always 1 to "length"

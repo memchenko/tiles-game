@@ -4,6 +4,7 @@ import { IUseShareData } from './types';
 
 export default function useShare(): [boolean, (data: IUseShareData) => Promise<void>] {
     const isNative = Boolean(navigator.share);
+
     const handler = useCallback((data: IUseShareData) => {
         return navigator.share(data as ShareData);
     }, []);

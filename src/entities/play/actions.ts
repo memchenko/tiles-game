@@ -6,3 +6,7 @@ export const setLevel = createActionCreator(
     Actions.SetLevel,
     resolve => (data: ISetLevelData) => resolve(data)
 );
+
+export const setSolved = createActionCreator(Actions.SetSolved);
+
+export const setUnsolved = createActionCreator(Actions.SetUnsolved);

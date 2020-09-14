@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import cn from 'classnames';
 
 import {
@@ -9,6 +9,8 @@ import {
 } from './types';
 import './Button.scss';
 
+import sounds, { SoundTypes } from '../../lib/sound';
+
 export default function Button({
     children,
     size = ButtonSizes.M,
@@ -18,11 +20,15 @@ export default function Button({
 }: IButtonProps) {
     const buttonModifiers = [size, type, responsiveness]
         .map(modifier => `button--${modifier}`);
+    const handleClick = useCallback(() => {
+        sounds.start(SoundTypes.Click);
+        onClick();
+    }, [onClick]);
 
     return (
         <button
             className={ cn('button', ...buttonModifiers) }
-            onClick={ onClick }
+            onClick={ handleClick }
         >
             <span  className='button__text'>{ children }</span>
         </button>

@@ -10,6 +10,14 @@ body {
   background-color: var(--color-bg);
 }
 
+input,
+textarea,
+button,
+select,
+a {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
 @import './styles/fonts.scss';
 @import './styles/variables.scss';
 @import './styles//grid.scss';

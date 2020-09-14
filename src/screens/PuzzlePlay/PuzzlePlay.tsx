@@ -12,6 +12,7 @@ import { TileInfo } from '../../lib/grid/types';
 import { isMatricesEqual } from '../../lib/grid/calc-grid';
 import PuzzlePlayScreen from '../../components/PuzzlePlayScreen';
 import { formatSeconds } from '../../utils/time';
+import sounds, { SoundTypes } from '../../lib/sound';
 
 export default function PuzzlePlay() {
     const [isShare, setShare] = useState(false);
@@ -73,20 +74,23 @@ export default function PuzzlePlay() {
             }).then(() => setShare(false));
         }
     }, [isShare, timerValue]);
-    const handleMatrixChange = useCallback((changedMatrix: TileInfo[][]) => {
+    const handleMatrixChange = (changedMatrix: TileInfo[][]) => {
         if (isMatricesEqual(changedMatrix, matrix)) {
             dispatch(setSolved());
             history.push(AppRoutes.PlayResult);
             clearInterval(timer!);
+
+            if (timerValue <= performances[2]) {
+                sounds.start(SoundTypes.ResultSuccess);
+            }
         }
-    }, [matrix, timer]);
+    };
     const retry = useCallback(() => {
         clearInterval(timer!);
         setShare(false);
         setMatrixForPlay(null);
         setTimerValue(0);
         dispatch(setUnsolved());
-        console.log('whtever');
         history.push(AppRoutes.Play);
     }, [timer]);
     const startInterval = useCallback(() => {

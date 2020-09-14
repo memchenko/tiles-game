@@ -7,7 +7,7 @@ import {
   Subject,
   Observable,
 } from 'rxjs';
-import { compose } from 'ramda';
+import { compose, tap as sideEffect } from 'ramda';
 import {
   tap,
   map,
@@ -38,11 +38,14 @@ import {
   getDirection,
   getAcceleration,
   getSpeed,
-  getArrOfDistancesFromBezierToIdentity
+  getArrOfDistancesFromBezierToIdentity,
+  matrixToConfig,
 } from './calc-grid';
 import { Directions } from '../../constants/game';
 import { TileInfo, TileConfig } from './types';
 import { isTouchDevice } from '../../utils/client';
+import sounds, { SoundTypes } from '../sound';
+import { writeToDebug } from '../../utils/develop';
 
 const X = Directions.X;
 const Y = Directions.Y;
@@ -137,7 +140,8 @@ export default class GridManager {
           filter(() => !this.touch),
           tap((event) => {
             const touches = event.targetTouches;
-            this.touch = touches[0]; 
+            this.touch = touches[0];
+            navigator.vibrate(15);
           }),
           map(() => {
             return this.touch as Touch;
@@ -214,7 +218,7 @@ export default class GridManager {
       throw new Error('No pointerFinisher provided');
     }
 
-    let mousemove$;
+    let mousemove$: Observable<[Touch, Touch] | [MouseEvent, MouseEvent]>;
 
     if (this.IS_TOUCH_DEVICE) {
       mousemove$ = fromEvent<TouchEvent>(this.canvasNode, 'touchmove').pipe(
@@ -458,13 +462,20 @@ export default class GridManager {
       throw new Error('No canvas context provided');
     }
 
+
     this.config = compose<
+      TileConfig[][],
       TileConfig[][],
       TileConfig[][],
       TileConfig[][]
     >(
       roundRowItems(row),
       shiftRowBy({ row, offset }),
+      sideEffect((config: TileConfig[][]) => {
+        if (config[row][0].x === 0) {
+          navigator.vibrate(10);
+        }
+      }),
     )(this.config);
     redrawRow(this.config[row], this.ctx);
   }
@@ -486,10 +497,16 @@ export default class GridManager {
     this.config = compose<
       TileConfig[][],
       TileConfig[][],
+      TileConfig[][],
       TileConfig[][]
     >(
       roundColItems(column),
-      shiftColBy({ column, offset })
+      shiftColBy({ column, offset }),
+      sideEffect((config: TileConfig[][]) => {
+        if (config[0][column].y === 0) {
+          navigator.vibrate(10);
+        }
+      }),
     )(this.config);
     redrawColumn(this.config.map(row => row[column]), this.ctx);
   }

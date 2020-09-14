@@ -7,6 +7,7 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "@types/classnames": "^2.2.10",
+    "@types/howler": "^2.2.1",
     "@types/jest": "^24.9.1",
     "@types/node": "^12.12.47",
     "@types/ramda": "^0.26.18",
@@ -20,6 +21,7 @@
     "fantasy-land": "^4.1.0",
     "folktale": "^2.3.2",
     "glob": "^7.1.6",
+    "howler": "^2.2.0",
     "json-server": "^0.16.1",
     "localforage": "^1.7.4",
     "node-sass": "^4.14.1",
@@ -42,12 +44,12 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "dev": "REACT_APP_API_HOST=localhost REACT_APP_API_PORT=3030 REACT_APP_API_ENDPOINT=/api react-scripts start",
+    "dev": "HOST=0.0.0.0 REACT_APP_API_HOST=localhost REACT_APP_API_PORT=3030 REACT_APP_API_ENDPOINT=/api react-scripts start",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "plop": "plop",
     "typecheck": "tsc",
-    "mock": "json-server ./mocks/db.json"
+    "mock": "json-server --host=$LOCAL_IP ./mocks/db.json"
   },
   "eslintConfig": {
     "extends": "react-app"

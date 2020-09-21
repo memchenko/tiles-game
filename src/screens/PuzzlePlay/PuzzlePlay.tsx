@@ -74,17 +74,19 @@ export default function PuzzlePlay() {
             }).then(() => setShare(false));
         }
     }, [isShare, timerValue]);
-    const handleMatrixChange = (changedMatrix: TileInfo[][]) => {
+    const playOnSolvedSound = () => {
+        if (timerValue <= performances[2]) {
+            sounds.start(SoundTypes.ResultSuccess);
+        }
+    };
+    const handleMatrixChange = useCallback((changedMatrix: TileInfo[][]) => {
         if (isMatricesEqual(changedMatrix, matrix)) {
             dispatch(setSolved());
             history.push(AppRoutes.PlayResult);
             clearInterval(timer!);
-
-            if (timerValue <= performances[2]) {
-                sounds.start(SoundTypes.ResultSuccess);
-            }
+            playOnSolvedSound();
         }
-    };
+    }, [matrix, timer]);
     const retry = useCallback(() => {
         clearInterval(timer!);
         setShare(false);

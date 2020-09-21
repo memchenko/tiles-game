@@ -1,7 +1,7 @@
 import { curry } from 'ramda';
 import BezierEasing from 'bezier-easing';
 import { Directions } from '../../constants/game';
-import { TileInfo, TileConfig } from './types';
+import { TileInfo, TileConfig, IPoint, IQuadrant } from './types';
 
 export const matrixToConfig = curry(
   (
@@ -150,9 +150,9 @@ export const getQuadrant = curry(
       rowsLen: number;
       colsLen: number;
     },
-    e: { clientX: number; clientY: number; }
-  ): { row: number; column: number; } => {
-    const [x, y] = [e.clientX - left, e.clientY - top];
+    point: IPoint
+  ): IQuadrant => {
+    const [x, y] = [point.x - left, point.y - top];
     const [rowHeight, colWidth] = [width / colsLen, height / rowsLen];
     let [lastRow, lastColumn] = [0, 0];
 
@@ -188,10 +188,10 @@ const getQuadrantIdx: ((
 };
 
 export const getDirection = (
-  [prevEvent, currentEvent]: [{ clientX: number; clientY: number; }, { clientX: number; clientY: number; }]
+  [prevCoords, currentCoords]: [IPoint, IPoint]
 ): Directions | null => {
-  const xDiff = Math.abs(currentEvent.clientX - prevEvent.clientX);
-  const yDiff = Math.abs(currentEvent.clientY - prevEvent.clientY);
+  const xDiff = Math.abs(currentCoords.x - prevCoords.x);
+  const yDiff = Math.abs(currentCoords.y - prevCoords.y);
 
   return xDiff > yDiff ?
     Directions.X :

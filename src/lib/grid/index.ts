@@ -42,7 +42,7 @@ import {
   matrixToConfig,
 } from './calc-grid';
 import { Directions } from '../../constants/game';
-import { TileInfo, TileConfig } from './types';
+import { TileInfo, TileConfig, IPoint } from './types';
 import { isTouchDevice } from '../../utils/client';
 import sounds, { SoundTypes } from '../sound';
 import { writeToDebug } from '../../utils/develop';
@@ -50,7 +50,10 @@ import { writeToDebug } from '../../utils/develop';
 const X = Directions.X;
 const Y = Directions.Y;
 
-export default class GridManager {
+export { default } from './gridv2';
+export * from './types';
+
+export class GridManager {
   private id = `_${(Date.now() * Math.random()).toString(36).replace(/\./g, '')}`;
   private TIME_INTERVAL_MS = 8;
   private IS_TOUCH_DEVICE = isTouchDevice();
@@ -201,6 +204,7 @@ export default class GridManager {
 
     if (this.pointerDown$) {
       this.pointerMove$ = this.pointerDown$.pipe(
+        map(({ clientX: x, clientY: y }) => ({ x, y })),
         map(getQuadrantOfTheGrid),
         switchMap(this.getMouseMoveObservable)
       );
@@ -331,6 +335,7 @@ export default class GridManager {
     }
 
     return mousemove$.pipe(
+      map(([{ clientX: x, clientY: y }, { clientX: x1, clientY: y1 }]) => ([{ x, y }, { x: x1, y: y1 }] as [IPoint, IPoint])),
       map(getDirection),
       skipWhile(direction => direction === null),
       first(),

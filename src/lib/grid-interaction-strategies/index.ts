@@ -1,0 +1,1 @@
+export { getGridInteractionStrategy } from './GridInteractionsStrategy';

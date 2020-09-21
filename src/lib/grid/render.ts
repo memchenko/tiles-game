@@ -110,6 +110,8 @@ export const getGridData = (
     ctx, config, mtx,
     width, height,
     rowsLen: mtx.length, colsLen: mtx[0].length,
+    tileWidth,
+    tileHeight,
     ...canvasCoords
   };
 };

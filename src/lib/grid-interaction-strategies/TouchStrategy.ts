@@ -40,13 +40,13 @@ export class TouchStrategy implements IInteractionObservables {
             filter(this.isActiveTouch),
             map((event) => {
                 const touches = event.changedTouches;
-      
+
                 for (let i = 0; i < touches.length; i++) {
                   if (touches[i].identifier === this.touch!.identifier) {
                     return touches[i];
                   }
                 }
-
+                
                 return this.touch!;
             }),
             map(({ clientX: x, clientY: y }) => ({ x, y })),

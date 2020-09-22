@@ -20,8 +20,6 @@ import {
     drawGrid,
     redrawColumn,
     redrawRow,
-} from './render';
-import {
     getSpeed,
     getQuadrant,
     getDirection,
@@ -30,7 +28,7 @@ import {
     roundColItems,
     roundRowItems,
     getArrOfDistancesFromBezierToIdentity,
-} from './calc-grid';
+} from './utils';
 import { states, directionCoordMap } from './constants';
 
 import { Directions } from '../../constants/game';
@@ -39,7 +37,7 @@ import Stateful from '../stateful';
 export default class GridManager extends Stateful<States> {
     private ID = `_${(Date.now() * Math.random()).toString(36).replace(/\./g, '')}`;
     private TICK_MS = Math.floor(1000 / 60);
-    private MOVE_THROTTLE = this.TICK_MS / 2;
+    private MOVE_THROTTLE = this.TICK_MS / 3;
     private FINISHING_ITERATIONS = 14;
 
     private matrix: TileInfo[][];
@@ -214,6 +212,15 @@ export default class GridManager extends Stateful<States> {
         this.offsets.push(...offsets);
 
         const subscriber = this.renderer$!.subscribe(() => {
+            const { direction, config, quadrant } = this;
+            const currentPosition = direction === Directions.X
+                ? config![quadrant!.row][0].x
+                : config![0][quadrant!.column].y;
+
+            if (this.offsets.length === 0 && currentPosition !== 0) {
+                this.offsets.push(-1 * currentPosition);
+                return;
+            }
             if (this.offsets.length === 0) {
                 this.finishMove();
                 subscriber.unsubscribe();
@@ -224,16 +231,19 @@ export default class GridManager extends Stateful<States> {
     private calculateRemainder() {
         const { offsets, direction, quadrant, gridData, config } = this;
         const isX = direction === Directions.X;
-        const currentPosition = isX
+        let currentPosition = isX
             ? config![quadrant!.row][0].x
             : config![0][quadrant!.column].y;
         const divider = isX
             ? gridData.tileWidth
             : gridData.tileHeight;
         const totalOffset = sum(offsets);
-        const res = -1 * ((totalOffset % divider + currentPosition)) % divider;
 
-        return res;
+        if (Math.abs(currentPosition) > divider / 2) {
+            currentPosition = (Math.abs(currentPosition) - divider) * Math.sign(currentPosition);
+        }
+
+        return -1 * ((totalOffset % divider + currentPosition)) % divider;
     }
 
     private finishMove() {

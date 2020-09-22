@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
-import { drawGrid, getGridData } from '../../lib/grid/render';
+import { drawGrid, getGridData } from '../../lib/grid';
 
 import { ITilesGridProps } from './types';
 import './TilesGrid.scss';

@@ -1,4 +1,4 @@
-import { TileInfo } from '../../lib/grid/types';
+import { TileInfo } from '../../lib/grid';
 
 export enum Actions {
     SetLevel = '@play/SET_LEVEL',

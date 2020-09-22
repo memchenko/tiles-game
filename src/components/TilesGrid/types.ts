@@ -1,4 +1,4 @@
-import { TileInfo } from '../../lib/grid/types';
+import { TileInfo } from '../../lib/grid';
 
 export interface ITilesGridProps {
     matrix: TileInfo[][];

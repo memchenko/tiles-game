@@ -8,7 +8,7 @@ import {
   shiftRowBy,
   tailToHeadCol,
   tailToHeadRow
-} from '../calc-grid';
+} from '..';
 import { roundTo } from '../../../../utils/math';
 
 describe('cals-grid.js functions', () => {

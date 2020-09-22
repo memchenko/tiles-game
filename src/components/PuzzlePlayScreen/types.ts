@@ -1,4 +1,4 @@
-import { TileInfo } from '../../lib/grid/types';
+import { TileInfo } from '../../lib/grid';
 import { IconTypes } from '../../components/Icon';
 
 export interface IPuzzlePlayScreenProps {

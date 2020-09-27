@@ -47,7 +47,7 @@ export default class GridManager extends Stateful<States> {
     private ctx: CanvasRenderingContext2D | null = null;
 
     positionChanged$: Subject<TileConfig[][]> = new Subject();
-    finishMove$: Subject<void> = new Subject();
+    finishMove$: Subject<TileConfig[][]> = new Subject();
 
     private initializer$: IInteractionObservables['initializer'] | null = null;
     private mover$: IInteractionObservables['mover'] | null = null;
@@ -113,6 +113,7 @@ export default class GridManager extends Stateful<States> {
         this.setFinisher(finisher$);
 
         this.on(States.Initialized, this.handleInitialized.bind(this));
+        this.on(States.Initialized, this.setPositionChangeEmitter.bind(this));
         this.on(States.Moving, this.handleMoving.bind(this));
         this.on(States.Finishing, this.handleFinishing.bind(this));
         this.on(States.DriveUp, this.handleDrivingUp.bind(this));
@@ -145,6 +146,31 @@ export default class GridManager extends Stateful<States> {
         );
 
         this.finisher$.subscribe();
+    }
+
+    private setPositionChangeEmitter() {
+        let last: any = 0;
+
+        const renderSub = this.renderer$!.subscribe(() => {
+            const isX = this.direction === Directions.X;
+
+            if (this.offsets.length !== last) {
+                if (!isX && this.config![0][this.quadrant!.column].y === 0) {
+                    this.emitPositionChanged();
+                }
+    
+                if (isX && this.config![this.quadrant!.row][0].x === 0) {
+                    this.emitPositionChanged();
+                }
+
+                last = this.offsets.length;
+            }
+        });
+
+        const finishSub = this.finishMove$.subscribe(() => {
+            renderSub.unsubscribe();
+            finishSub.unsubscribe();
+        });
     }
 
     private handleInitialized(coords: IPoint) {
@@ -254,7 +280,7 @@ export default class GridManager extends Stateful<States> {
 
         this.setState(null);
 
-        this.finishMove$.next();
+        this.finishMove$.next(this.config);
         this.emitPositionChanged();
     }
 

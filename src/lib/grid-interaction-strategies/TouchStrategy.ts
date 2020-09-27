@@ -1,5 +1,5 @@
 import { fromEvent } from 'rxjs';
-import { map, merge, mapTo, tap, filter, } from 'rxjs/operators';
+import { map, mapTo, tap, filter, } from 'rxjs/operators';
 
 import { IInteractionObservables } from '../grid';
 
@@ -55,7 +55,6 @@ export class TouchStrategy implements IInteractionObservables {
 
     private setFinisher(element: HTMLElement) {
         this.finisher = fromEvent<TouchEvent>(element, 'touchend').pipe(
-            merge(fromEvent<TouchEvent>(element, 'touchcancel')),
             filter(this.isActiveTouch),
             tap(() => this.touch = null),
             mapTo(undefined),

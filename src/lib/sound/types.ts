@@ -1,9 +1,7 @@
 export enum SoundTypes {
-    Background,
     Moving,
     Click,
     ResultSuccess,
-    ResultFailure,
 }
 
 export interface ISoundPlayer {

@@ -35,6 +35,20 @@ export default class Stateful<States> {
         this.stateHandlers.set(state, handlers);
     }
 
+    off(state: States, handler: Function) {
+        const handlers = this.stateHandlers.get(state);
+
+        if (!handlers) {
+            return;
+        }
+
+        const index = handlers.indexOf(handler);
+
+        if (index >= 0) {
+            handlers.splice(index, 1);
+        }
+    }
+
     private invokeHandlers(state: States | null, context: unknown) {
         if (!this.stateHandlers.has(state)) {
             return;

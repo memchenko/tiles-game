@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs';
+
 import { TileInfo } from '../../lib/grid';
 import { IconTypes } from '../../components/Icon';
 

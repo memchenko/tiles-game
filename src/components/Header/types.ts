@@ -7,7 +7,7 @@ export interface IHeaderProps {
     rightIconType?: IconTypes;
     onLeftIconClick?: IIconButtonProps['onClick'];
     onRightIconClick?: IIconButtonProps['onClick'];
-    performanceType: PerformanceTypes;
-    performanceValue: string;
+    performanceType?: PerformanceTypes;
+    performanceValue?: string;
     className?: string;
 }

@@ -8,11 +8,11 @@ import './MainMenu.scss';
 import { AppRoutes } from '../../constants/urls';
 import Layout from '../../components/Layout';
 import Menu from '../../components/Menu';
-import { playLens, setLevel } from '../../entities/play';
+import { playLens, setLevel, setUnsolved } from '../../entities/play';
 
 export default function MainMenu() {
     const history = useHistory();
-    const { level } = useSelector(view(playLens));
+    const { level, isSolved } = useSelector(view(playLens));
     const dispatch = useDispatch();
 
     const goCredits = useCallback(() => {
@@ -23,8 +23,12 @@ export default function MainMenu() {
         history.push(AppRoutes.Play);
     }, []);
     const goPlay = useCallback(() => {
+        if (level === 0 && isSolved) {
+            dispatch(setUnsolved());
+        }
+
         history.push(AppRoutes.Play);
-    }, []);
+    }, [level, isSolved, dispatch]);
 
     return (
         <Layout>

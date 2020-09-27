@@ -24,9 +24,17 @@ export default function Header({
                         <span></span>
                     )
             }
-            <span className="header__performance">
-                { performanceType } { performanceValue }
-            </span>
+            {
+                performanceType && performanceValue
+                    ? (
+                        <span className="header__performance">
+                            { performanceType } { performanceValue }
+                        </span>
+                    )
+                    : (
+                        <span></span>
+                    )
+            }
             {
                 rightIconType && onRightIconClick
                     ? (

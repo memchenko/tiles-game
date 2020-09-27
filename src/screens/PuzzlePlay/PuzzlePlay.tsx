@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useCallback, useState, useRef } from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 import { cond, T, always, view } from 'ramda';
 import { useSelector, useDispatch } from 'react-redux';
@@ -15,13 +15,14 @@ import sounds, { SoundTypes } from '../../lib/sound';
 
 export default function PuzzlePlay() {
     const [isShare, setShare] = useState(false);
-    const [timerValue, setTimerValue] = useState<number>(0);
+    const [timerValue, setTimerValue] = useState(0);
     const [timer, setTimer] = useState<ReturnType<(typeof setInterval)> | null>(null);
     const [matrixForPlay, setMatrixForPlay] = useState<TileInfo[][] | null>(null);
     const history = useHistory();
     const [isNative, share] = useShare();
     const { level, matrix, performances, isSolved } = useSelector(view(playLens));
     const dispatch = useDispatch();
+    const staticTimerValue = useRef(0);
     
     useEffect(() => {
         if (!matrixForPlay) {
@@ -46,9 +47,10 @@ export default function PuzzlePlay() {
         setShare(false);
         setMatrixForPlay(null);
         setTimerValue(0);
+        staticTimerValue.current = 0;
         dispatch(setLevel({ level }));
         history.push(AppRoutes.Play);
-    }, [timer, level]);
+    }, [timer, level, staticTimerValue]);
     const goHome = useCallback(() => {
         clearInterval(timer!);
         history.push(AppRoutes.Root);
@@ -57,9 +59,10 @@ export default function PuzzlePlay() {
         setShare(false);
         setMatrixForPlay(null);
         setTimerValue(0);
+        staticTimerValue.current = 0;
         dispatch(setLevel({ level: level + 1 }));
         history.push(AppRoutes.Play);
-    }, [level]);
+    }, [level, staticTimerValue]);
 
     const isMenuOpened = Boolean(useRouteMatch(AppRoutes.PlayMenu));
     const isResultOpened = Boolean(useRouteMatch(AppRoutes.PlayResult));
@@ -73,11 +76,11 @@ export default function PuzzlePlay() {
             }).then(() => setShare(false));
         }
     }, [isShare, timerValue]);
-    const playOnSolvedSound = () => {
-        if (timerValue <= performances[2]) {
+    const playOnSolvedSound = useCallback(() => {
+        if (staticTimerValue.current <= performances[2]) {
             sounds.start(SoundTypes.ResultSuccess);
         }
-    };
+    }, [staticTimerValue, performances]);
     const handleMatrixChange = useCallback((changedMatrix: TileInfo[][]) => {
         if (isMatricesEqual(changedMatrix, matrix)) {
             dispatch(setSolved());
@@ -91,19 +94,21 @@ export default function PuzzlePlay() {
         setShare(false);
         setMatrixForPlay(null);
         setTimerValue(0);
+        staticTimerValue.current = 0;
         dispatch(setUnsolved());
         history.push(AppRoutes.Play);
-    }, [timer]);
+    }, [timer, staticTimerValue]);
     const startInterval = useCallback(() => {
         let currentTimerValue = 1;
 
         setTimer(
             setInterval(() => {
                 setTimerValue(currentTimerValue);
+                staticTimerValue.current = currentTimerValue;
                 currentTimerValue++;
             }, 1000)
         );
-    }, []);
+    }, [staticTimerValue]);
 
     const getLeftIconType = useCallback(cond([
         [always(Boolean(isMenuOpened)), always(IconTypes.Back)],
@@ -128,7 +133,7 @@ export default function PuzzlePlay() {
 
     return (
         matrixForPlay && <PuzzlePlayScreen
-            isSolved={isSolved}
+            isSolved={ isSolved }
             isShare={ isShare }
             isPlaying={ !isMenuOpened && !isResultOpened }
             performances={ performances }

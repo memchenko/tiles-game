@@ -1,19 +1,20 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 import cn from 'classnames';
 
 import './PuzzlePlayScreen.scss';
 import { IPuzzlePlayScreenProps } from './types';
 
-import Layout from '../../components/Layout';
-import Icon, { IconTypes } from '../../components/Icon';
+import Layout from '../Layout';
+import Icon, { IconTypes } from '../Icon';
 import { PerformanceTypes, Results } from '../../constants/game';
-import TilesGrid from '../../components/TilesGrid';
-import TilesGridInteractive from '../../components/TilesGridInteractive';
+import TilesGrid from '../TilesGrid';
+import TilesGridInteractive from '../TilesGridInteractive';
 import { AppRoutes } from '../../constants/urls';
-import Menu from '../../components/Menu';
-import ShareCard from '../../components/ShareCard';
+import Menu from '../Menu';
+import ShareCard from '../ShareCard';
 import { formatSeconds } from '../../utils/time';
+import OpenIfInited from '../OpenIfInited';
 
 export default function PuzzlePlayScreen({
     isSolved,
@@ -75,8 +76,10 @@ export default function PuzzlePlayScreen({
                 'row-2': isShare,
             }) }>
                 <Switch>
-                    <Route path={ AppRoutes.Play } exact>
-                        {
+                    <OpenIfInited
+                        path={ AppRoutes.Play }
+                        exact
+                        render={() => (
                             shuffledMatrix && (
                                 <div className="play-area__grid">
                                     <TilesGridInteractive
@@ -85,75 +88,85 @@ export default function PuzzlePlayScreen({
                                     />
                                 </div>
                             )
-                        }
-                    </Route>
-                    <Route path={ AppRoutes.PlayResult }>
-                        <div className={ cn('play-area__result', {
-                            undisplay: isShare,
-                        }) }>
-                            <div className="play-area__stars">
+                        )}
+                    />
+                    <OpenIfInited
+                        path={ AppRoutes.PlayResult }
+                        render={() => (
+                            <>
+                                <div className={ cn('play-area__result', {
+                                    undisplay: isShare,
+                                }) }>
+                                    <div className="play-area__stars">
+                                        {
+                                            performances
+                                                .map((performance: number) => timerValue > performance ? IconTypes.StarEmpty : IconTypes.Star)
+                                                .reverse()
+                                                .map((iconType: IconTypes, i: number) => (<Icon key={ i } type={ iconType } />))
+                                        }
+                                    </div>
+                                    <div className="play-area__ideal">
+                                        Ideal { formatSeconds(performances[0]) }
+                                    </div>
+                                </div>
                                 {
-                                    performances
-                                        .map((performance: number) => timerValue > performance ? IconTypes.StarEmpty : IconTypes.Star)
-                                        .reverse()
-                                        .map((iconType: IconTypes, i: number) => (<Icon key={ i } type={ iconType } />))
+                                    isSuccessfullySolved
+                                        ? (
+                                            <Menu
+                                                list={[
+                                                    { text: 'Retry', onClick: onRetryClick },
+                                                    { text: 'Next', onClick: onNextClick },
+                                                ]}
+                                            />
+                                        )
+                                        : (
+                                            <Menu
+                                                list={[
+                                                    { text: 'Retry', onClick: onRetryClick },
+                                                ]}
+                                            />
+                                        )
                                 }
-                            </div>
-                            <div className="play-area__ideal">
-                                Ideal { formatSeconds(performances[0]) }
-                            </div>
-                        </div>
-                        {
-                            isSuccessfullySolved
-                                ? (
-                                    <Menu
-                                        list={[
-                                            { text: 'Retry', onClick: onRetryClick },
-                                            { text: 'Next', onClick: onNextClick },
-                                        ]}
-                                    />
-                                )
-                                : (
-                                    <Menu
-                                        list={[
-                                            { text: 'Retry', onClick: onRetryClick },
-                                        ]}
-                                    />
-                                )
-                        }
-                    </Route>
-                    <Route path={ AppRoutes.PlayMenu }>
-                        {
-                            isSolved && isSuccessfullySolved
-                            ? (
-                                <Menu
-                                    list={[
-                                        { text: 'Home', onClick: onHomeClick },
-                                        { text: 'Retry', onClick: onRetryClick },
-                                        { text: 'Next', onClick: onNextClick },
-                                    ]}
-                                />
-                            )
-                            : isSolved && !isSuccessfullySolved 
-                            ? (
-                                <Menu
-                                    list={[
-                                        { text: 'Home', onClick: onHomeClick },
-                                        { text: 'Retry', onClick: onRetryClick },
-                                    ]}
-                                />
-                            )
-                            : (
-                                <Menu
-                                    list={[
-                                        { text: 'Home', onClick: onHomeClick },
-                                        { text: 'Retry', onClick: onRetryClick },
-                                        { text: 'Resume', onClick: onBackClick },
-                                    ]}
-                                />
-                            )
-                        }
-                    </Route>
+                            </>
+                        )}
+                    />
+                    <OpenIfInited
+                        path={ AppRoutes.PlayMenu }
+                        render={() => (
+                            <>
+                                {
+                                    isSolved && isSuccessfullySolved
+                                    ? (
+                                        <Menu
+                                            list={[
+                                                { text: 'Home', onClick: onHomeClick },
+                                                { text: 'Retry', onClick: onRetryClick },
+                                                { text: 'Next', onClick: onNextClick },
+                                            ]}
+                                        />
+                                    )
+                                    : isSolved && !isSuccessfullySolved 
+                                    ? (
+                                        <Menu
+                                            list={[
+                                                { text: 'Home', onClick: onHomeClick },
+                                                { text: 'Retry', onClick: onRetryClick },
+                                            ]}
+                                        />
+                                    )
+                                    : (
+                                        <Menu
+                                            list={[
+                                                { text: 'Home', onClick: onHomeClick },
+                                                { text: 'Retry', onClick: onRetryClick },
+                                                { text: 'Resume', onClick: onBackClick },
+                                            ]}
+                                        />
+                                    )
+                                }
+                            </>
+                        )}
+                    />
                 </Switch>
             </div>
         </Layout>

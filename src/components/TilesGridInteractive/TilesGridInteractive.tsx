@@ -3,8 +3,9 @@ import React, { useEffect, useRef } from 'react';
 import { ITilesGridInteractiveProps } from './types';
 import './TilesGridInteractive.scss';
 
-import GridManager from '../../lib/grid';
+import GridManager, { States } from '../../lib/grid';
 import { getGridInteractionStrategy } from '../../lib/grid-interaction-strategies';
+import sound, { SoundTypes } from '../../lib/sound';
 
 function TilesGridInteractive({ matrix, onMatrixChange }: ITilesGridInteractiveProps) {
     const canvas = useRef(null);
@@ -24,12 +25,28 @@ function TilesGridInteractive({ matrix, onMatrixChange }: ITilesGridInteractiveP
         const strategy = getGridInteractionStrategy(canvasEl);
         ['width', 'height'].forEach(attr => canvasEl.setAttribute(attr, String(width)));
 
-        gridManager.current = new GridManager(matrix);
-        gridManager.current.init(Object.assign(
+        const grid = gridManager.current = new GridManager(matrix);
+
+        grid.init(Object.assign(
             strategy,
             { canvas: canvasEl }
         ));
-        gridManager.current.positionChanged$.subscribe(onMatrixChange);
+        
+        const positionChangedSub = grid.positionChanged$.subscribe(() => {
+            navigator.vibrate(10);
+        });
+        const finishMoveSub = grid.finishMove$.subscribe(onMatrixChange);
+        const handleInitialized = () => {
+            sound.start(SoundTypes.Moving);
+        };
+
+        grid.on(States.Initialized, handleInitialized);
+
+        return () => {
+            positionChangedSub.unsubscribe();
+            finishMoveSub.unsubscribe();
+            grid.off(States.Initialized, handleInitialized);
+        };
     }, [matrix, onMatrixChange, canvas, gridManager]);
 
     return (

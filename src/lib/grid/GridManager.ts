@@ -2,7 +2,8 @@ import {
     Subject,
     Observable,
     interval,
-    animationFrameScheduler,
+    from,
+    zip,
 } from 'rxjs';
 import { filter, tap, throttleTime, share } from 'rxjs/operators';
 import { compose, sum } from 'ramda';
@@ -39,6 +40,7 @@ export default class GridManager extends Stateful<States> {
     private TICK_MS = Math.floor(1000 / 60);
     private MOVE_THROTTLE = this.TICK_MS / 3;
     private FINISHING_ITERATIONS = 14;
+    private ACCELERATION_DECREASE = 4;
 
     private matrix: TileInfo[][];
     private gridData: ReturnType<typeof getGridData>;
@@ -58,7 +60,9 @@ export default class GridManager extends Stateful<States> {
     private direction: Directions | null = null;
     private coords: IPoint | null = null;
     private speed: number | null = null;
-    private offsets: number[] = [];
+    private moved$: Subject<number> = new Subject();
+    private observableOffsets$: Subject<number> = new Subject();
+    private pendingOffsets: number[] = [];
 
     private getSpeed: (x0: number, x1: number) => number;
 
@@ -149,21 +153,15 @@ export default class GridManager extends Stateful<States> {
     }
 
     private setPositionChangeEmitter() {
-        let last: any = 0;
-
         const renderSub = this.renderer$!.subscribe(() => {
             const isX = this.direction === Directions.X;
 
-            if (this.offsets.length !== last) {
-                if (!isX && this.config![0][this.quadrant!.column].y === 0) {
-                    this.emitPositionChanged();
-                }
-    
-                if (isX && this.config![this.quadrant!.row][0].x === 0) {
-                    this.emitPositionChanged();
-                }
+            if (!isX && this.config![0][this.quadrant!.column].y === 0) {
+                this.emitPositionChanged();
+            }
 
-                last = this.offsets.length;
+            if (isX && this.config![this.quadrant!.row][0].x === 0) {
+                this.emitPositionChanged();
             }
         });
 
@@ -195,27 +193,77 @@ export default class GridManager extends Stateful<States> {
             const offset = Math.ceil(this.speed! * Math.sqrt(this.TICK_MS));
 
             if (Math.abs(offset) > 0) {
-                this.offsets.push(offset);
+                this.pushOffset(offset);
             }
         }
     }
 
     private handleFinishing() {
-        getArrOfDistancesFromBezierToIdentity(
-            this.FINISHING_ITERATIONS
-        ).forEach((factor) => {
-            this.offsets.push(Math.ceil(this.speed! * Math.sqrt(this.TICK_MS) * (1 + factor)));
-        });
-
-        const subscriber = this.renderer$!.subscribe(() => {
-            if (this.offsets.length === 0) {
+        const sub = zip(
+            from(
+                getArrOfDistancesFromBezierToIdentity(
+                    this.FINISHING_ITERATIONS
+                )
+            ),
+            interval(this.TICK_MS),
+        ).pipe(
+            tap(([factor]) => {
+                const offset = Math.ceil(this.speed! * Math.sqrt(this.TICK_MS) * (1 + factor));
+                this.pushAdjustedOffset(offset);
+            }),
+        ).subscribe({
+            complete: () => {
                 this.setState(States.DriveUp);
-                subscriber.unsubscribe();
-            }
+                sub.unsubscribe();
+            },
         });
     }
 
     private handleDrivingUp() {
+        const offsets: number[] = this.getRemainderOffsets();
+        const drivingUpSub = zip(
+            from(offsets),
+            interval(this.TICK_MS),
+        ).pipe(
+            tap(([offset]) => {
+                this.pushOffset(offset);
+            }),
+        ).subscribe();
+
+        let isDrivedUp = false;
+        let lastOffset = false;
+        const finalAdjustmentSub = this.moved$.subscribe((offset) => {
+            const isLastItem = offset === offsets[offsets.length - 1];
+
+            if (lastOffset || (isLastItem && offsets.length === 1)) {
+                if (isDrivedUp) {
+                    drivingUpSub.unsubscribe();
+                    finalAdjustmentSub.unsubscribe();
+                    this.finishMove();
+                    return;
+                }
+
+                const offset = this.getCurrentOffset();
+
+                if (offset !== 0) {
+                    this.pushOffset(offset * -1);
+                } else {
+                    this.pushOffset(0);
+                }
+                isDrivedUp = true;
+
+                if (isLastItem && offsets.length === 1) {
+                    lastOffset = true;
+                }
+            }
+
+            if (isLastItem && !lastOffset) {
+                lastOffset = true;
+            }
+        });
+    }
+
+    private getRemainderOffsets() {
         const remainder = this.calculateRemainder();
         const offsets: number[] = [];
 
@@ -235,41 +283,29 @@ export default class GridManager extends Stateful<States> {
             }
         }
 
-        this.offsets.push(...offsets);
-
-        const subscriber = this.renderer$!.subscribe(() => {
-            const { direction, config, quadrant } = this;
-            const currentPosition = direction === Directions.X
-                ? config![quadrant!.row][0].x
-                : config![0][quadrant!.column].y;
-
-            if (this.offsets.length === 0 && currentPosition !== 0) {
-                this.offsets.push(-1 * currentPosition);
-                return;
-            }
-            if (this.offsets.length === 0) {
-                this.finishMove();
-                subscriber.unsubscribe();
-            }
-        });
+        return offsets;
     }
 
     private calculateRemainder() {
-        const { offsets, direction, quadrant, gridData, config } = this;
+        const { pendingOffsets, direction, quadrant, gridData, config } = this;
         const isX = direction === Directions.X;
-        let currentPosition = isX
-            ? config![quadrant!.row][0].x
-            : config![0][quadrant!.column].y;
+        let currentPosition = this.getCurrentOffset()
         const divider = isX
             ? gridData.tileWidth
             : gridData.tileHeight;
-        const totalOffset = sum(offsets);
+        const totalOffset = sum(pendingOffsets);
 
-        if (Math.abs(currentPosition) > divider / 2) {
-            currentPosition = (Math.abs(currentPosition) - divider) * Math.sign(currentPosition);
-        }
+        return -1 * (totalOffset + currentPosition) % divider;
+    }
 
-        return -1 * ((totalOffset % divider + currentPosition)) % divider;
+    private getCurrentOffset() {
+        const { direction, config, quadrant } = this;
+        const isX = direction === Directions.X;
+        const offset = isX
+            ? config![quadrant!.row][0].x
+            : config![0][quadrant!.column].y;
+
+        return offset;
     }
 
     private finishMove() {
@@ -285,8 +321,8 @@ export default class GridManager extends Stateful<States> {
     }
 
     private setRenderer() {
-        this.renderer$ = interval(this.TICK_MS, animationFrameScheduler).pipe(
-            tap(() => this.move()),
+        this.renderer$ = this.observableOffsets$.pipe(
+            tap(offset => requestAnimationFrame(() => this.move(offset))),
             share(),
         );
 
@@ -297,18 +333,33 @@ export default class GridManager extends Stateful<States> {
         });
     }
 
-    private move() {
-        if (!this.offsets.length) {
-            return;
-        }
+    private pushAdjustedOffset(offset: number) {
+        const adjustedOffset = this.getAdjustedOffset(offset);
+        
+        this.pendingOffsets.unshift(adjustedOffset);
+        this.observableOffsets$.next(adjustedOffset);
+    }
 
-        let offset = this.offsets.shift()!;
+    private pushOffset(offset: number) {
+        this.pendingOffsets.unshift(offset);
+        this.observableOffsets$.next(offset);
+    }
 
+    private getAdjustedOffset(offset: number) {
+        const { sign, abs, min } = Math;
+
+        return sign(offset) * min(abs(offset), this.gridData.tileWidth / this.ACCELERATION_DECREASE);
+    }
+
+    private move(offset: number) {
+        console.log(offset);
         if (this.direction === Directions.X) {
           this.moveHorizontal({ offset });
         } else if (this.direction === Directions.Y) {
           this.moveVertical({ offset });
         }
+        this.pendingOffsets.pop();
+        this.moved$.next(offset);
       }
     
       private moveHorizontal({ offset }: {

@@ -12,6 +12,7 @@ import { TileInfo, isMatricesEqual } from '../../lib/grid';
 import PuzzlePlayScreen from '../../components/PuzzlePlayScreen';
 import { formatSeconds } from '../../utils/time';
 import sounds, { SoundTypes } from '../../lib/sound';
+import analytics from '../../lib/analytics';
 
 export default function PuzzlePlay() {
     const [isShare, setShare] = useState(false);
@@ -50,6 +51,7 @@ export default function PuzzlePlay() {
         staticTimerValue.current = 0;
         dispatch(setLevel({ level }));
         history.push(AppRoutes.Play);
+        analytics.set('retriedTimes');
     }, [timer, level, staticTimerValue]);
     const goHome = useCallback(() => {
         clearInterval(timer!);
@@ -62,6 +64,8 @@ export default function PuzzlePlay() {
         staticTimerValue.current = 0;
         dispatch(setLevel({ level: level + 1 }));
         history.push(AppRoutes.Play);
+        analytics.set('maxLevels', level + 1);
+        analytics.set('gamesPlayed');
     }, [level, staticTimerValue]);
 
     const isMenuOpened = Boolean(useRouteMatch(AppRoutes.PlayMenu));
@@ -97,6 +101,7 @@ export default function PuzzlePlay() {
         staticTimerValue.current = 0;
         dispatch(setUnsolved());
         history.push(AppRoutes.Play);
+        analytics.set('retriedTimes');
     }, [timer, staticTimerValue]);
     const startInterval = useCallback(() => {
         let currentTimerValue = 1;

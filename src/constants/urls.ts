@@ -9,5 +9,4 @@ export enum AppRoutes {
 
 export const BASE_URL = `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}`;
 export const API = process.env.REACT_APP_API_ENDPOINT;
-export enum ApiPaths {
-};
+export enum ApiPaths {};

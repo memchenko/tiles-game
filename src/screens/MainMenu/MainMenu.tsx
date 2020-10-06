@@ -9,6 +9,7 @@ import { AppRoutes } from '../../constants/urls';
 import Layout from '../../components/Layout';
 import Menu from '../../components/Menu';
 import { playLens, setLevel, setUnsolved } from '../../entities/play';
+import analytics from '../../lib/analytics';
 
 export default function MainMenu() {
     const history = useHistory();
@@ -21,6 +22,8 @@ export default function MainMenu() {
     const goNew = useCallback(() => {
         dispatch(setLevel({ level: 0 }));
         history.push(AppRoutes.Play);
+        analytics.set('restartedTimes');
+        analytics.set('maxLevels', 0);
     }, []);
     const goPlay = useCallback(() => {
         if (level === 0 && isSolved) {

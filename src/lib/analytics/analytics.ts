@@ -1,6 +1,7 @@
 import lifecycle from 'page-lifecycle';
 import localforage from 'localforage';
 import { interval, Subscription } from 'rxjs';
+import { omit } from 'ramda';
 
 import { IAnalyticsData, PageStates, IStateChangeEvent, AnalyticsStates } from './types';
 import { KEYS_MAP, SIMPLIFY_VALUES_MAP, FIREBASE_ANALYTICS_DB } from './constants';
@@ -105,7 +106,10 @@ class Analytics extends Stateful<AnalyticsStates> {
             const data = this.prepareToSend(this.session);
             
             try {
-                await this.send(data, data[KEYS_MAP['sessionStart']]);
+                await this.send(
+                    omit([KEYS_MAP['sessionStart'], KEYS_MAP['clientId']], data),
+                    data[KEYS_MAP['sessionStart']]
+                );
             } catch(err) {
                 this.persist();
             }
@@ -132,7 +136,10 @@ class Analytics extends Stateful<AnalyticsStates> {
             const persistedData = JSON.parse(value);
             const data = this.prepareToSend(persistedData);
 
-            this.send(data, data[KEYS_MAP['sessionStart']]);
+            this.send(
+                omit([KEYS_MAP['sessionStart'], KEYS_MAP['clientId']], data),
+                data[KEYS_MAP['sessionStart']]
+            );
             this.store.removeItem(key);
         });
     }

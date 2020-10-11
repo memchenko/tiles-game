@@ -1,6 +1,6 @@
 {
   "short_name": "Tilo",
-  "name": "Tilo",
+  "name": "",
   "icons": [
     {
       "src": "favicon.ico",
@@ -20,6 +20,6 @@
   ],
   "start_url": ".",
   "display": "fullscreen",
-  "theme_color": "#f7567c",
+  "theme_color": "#eae0d5",
   "background_color": "#eae0d5"
 }

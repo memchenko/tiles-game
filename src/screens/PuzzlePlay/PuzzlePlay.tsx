@@ -24,7 +24,7 @@ export default function PuzzlePlay() {
     const { level, matrix, performances, isSolved } = useSelector(view(playLens));
     const dispatch = useDispatch();
     const staticTimerValue = useRef(0);
-    
+
     useEffect(() => {
         if (!matrixForPlay) {
             let shuffledMatrix = shuffleMtx<TileInfo>(matrix);
@@ -72,14 +72,8 @@ export default function PuzzlePlay() {
     const isResultOpened = Boolean(useRouteMatch(AppRoutes.PlayResult));
     
     const handleShareIconClick = useCallback(() => {
-        setShare(!isShare);
-        if (isShare && isNative) {
-            share({
-                title: 'Look at my result!',
-                text: formatSeconds(timerValue),
-            }).then(() => setShare(false));
-        }
-    }, [isShare, timerValue]);
+            setShare(!isShare);
+    }, [isShare]);
     const playOnSolvedSound = useCallback(() => {
         if (staticTimerValue.current <= performances[2]) {
             sounds.start(SoundTypes.ResultSuccess);
@@ -93,6 +87,28 @@ export default function PuzzlePlay() {
             playOnSolvedSound();
         }
     }, [matrix, timer]);
+    const handleShareCardDraw = useCallback((blob: Blob | null) => {
+        if (isShare && isNative) {
+            let file;
+
+            if (blob) {
+                file = new File([blob], 'file.jpeg', { type: 'image/jpeg' });
+            }
+
+            const shareData: any = {
+                text: `Hey! I solved ${level} level for only ${formatSeconds(timerValue)}. Try to beat my record in TILO game!`,
+                url: window.location.origin,
+            };
+
+            if (file) {
+                shareData.files = [file];
+            }
+            
+            share(shareData)
+                .catch(console.log)
+                .finally(() => setShare(false));
+        }
+    }, [isShare, timerValue, level]);
     const retry = useCallback(() => {
         clearInterval(timer!);
         setShare(false);
@@ -138,6 +154,7 @@ export default function PuzzlePlay() {
 
     return (
         matrixForPlay && <PuzzlePlayScreen
+            isNative={ isNative }
             isSolved={ isSolved }
             isShare={ isShare }
             isPlaying={ !isMenuOpened && !isResultOpened }
@@ -154,6 +171,7 @@ export default function PuzzlePlay() {
             onBackClick={ goBack }
             onNextClick={ goNext }
             onMatrixChange={ handleMatrixChange }
+            onShareCardDraw={ handleShareCardDraw }
         />
     );
 }

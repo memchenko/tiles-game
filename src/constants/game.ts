@@ -4,6 +4,7 @@ export enum Directions {
 }
 
 export enum Results {
+    Bad = 'bad',
     Normal = 'normal',
     Good = 'good',
     Best = 'best',

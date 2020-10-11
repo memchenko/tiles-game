@@ -352,7 +352,6 @@ export default class GridManager extends Stateful<States> {
     }
 
     private move(offset: number) {
-        console.log(offset);
         if (this.direction === Directions.X) {
           this.moveHorizontal({ offset });
         } else if (this.direction === Directions.Y) {

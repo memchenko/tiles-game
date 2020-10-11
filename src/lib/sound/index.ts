@@ -49,6 +49,7 @@ class Sound implements ISoundPlayer {
         Object.entries(SOUND_TYPE_TO_PATH).forEach(([key, path]) => {
             const config = {
                 src: [path],
+                format: path.split('.').slice(-1),
                 loop: LOOPABLE[key as unknown as keyof typeof LOOPABLE],
                 volume: VOLUME[key as unknown as keyof typeof VOLUME],
                 onload: () => this.triggerAllSoundsLoaded(key),

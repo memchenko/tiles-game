@@ -1,9 +1,8 @@
-import { Observable } from 'rxjs';
-
 import { TileInfo } from '../../lib/grid';
 import { IconTypes } from '../../components/Icon';
 
 export interface IPuzzlePlayScreenProps {
+    isNative: boolean;
     isSolved: boolean;
     isShare: boolean;
     isPlaying: boolean;
@@ -23,4 +22,5 @@ export interface IPuzzlePlayScreenProps {
     onBackClick(): void;
     onNextClick(): void;
     onMatrixChange(value: TileInfo[][]): void;
+    onShareCardDraw: (blob: Blob | null) => void;
 }

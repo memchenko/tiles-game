@@ -1,7 +1,6 @@
 import { IBackIconProps } from '../BackIcon';
 import { IShareIconProps } from '../ShareIcon';
-import { IStarIconProps } from '../StarIcon';
-import { IEmptyStarIconProps } from '../EmptyStarIcon';
+import { RefObject } from 'react';
 
 export enum IconTypes {
     Burger = 'burger',
@@ -18,10 +17,9 @@ export enum IconTypes {
 
 export type IconsProps =
     | IShareIconProps
-    | IBackIconProps
-    | IStarIconProps
-    | IEmptyStarIconProps;
+    | IBackIconProps;
 
 export interface IIconProps {
+    ref?: RefObject<HTMLElement>;
     type: IconTypes;
 }

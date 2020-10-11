@@ -7,6 +7,6 @@ export enum AppRoutes {
     PlayResult = '/play/result',
 }
 
-export const BASE_URL = `http://${process.env.REACT_APP_API_HOST}:${process.env.REACT_APP_API_PORT}`;
+export const BASE_URL = process.env.PUBLIC_URL;
 export const API = process.env.REACT_APP_API_ENDPOINT;
 export enum ApiPaths {};

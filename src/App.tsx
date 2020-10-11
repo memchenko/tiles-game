@@ -14,8 +14,8 @@ import Credits from './screens/Credits';
 function App() {
   const inited = useSelector(view(appLens));
 
-  return (
-    !inited
+  return (<>
+    {!inited
       ? (
         <LoadingPage />
       )
@@ -33,10 +33,13 @@ function App() {
               path={ AppRoutes.Credits }
               render={() => <Credits />}
             />
+            <Route path="*" exact>
+              <MainMenu />
+            </Route>
           </Switch>
         </Router>
-      )
-  );
+      )}
+  </>);
 }
 
 export default App;

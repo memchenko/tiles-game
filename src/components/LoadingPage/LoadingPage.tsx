@@ -6,10 +6,10 @@ import './LoadingPage.scss';
 
 import GridManager from '../../lib/grid';
 import {
-    COLOR_PRIMARY,
-    COLOR_SECONDARY,
-    COLOR_THIRDLY,
-    COLOR_STAR,
+    getPrimaryColor,
+    getSecondaryColor,
+    getThirdlyColor,
+    getStarColor,
 } from '../../constants/style';
 
 function *loop(arr: unknown[]) {
@@ -44,8 +44,8 @@ export default function LoadingPage() {
         ['width', 'height'].forEach(attr => canvasEl.setAttribute(attr, String(width)));
 
         grid.current = new GridManager([
-            [{ color: COLOR_PRIMARY() }, { color: COLOR_SECONDARY() }],
-            [{ color: COLOR_THIRDLY() }, { color: COLOR_STAR() }],
+            [{ color: getPrimaryColor() }, { color: getSecondaryColor() }],
+            [{ color: getThirdlyColor() }, { color: getStarColor() }],
         ]);
 
         const movements = loop([

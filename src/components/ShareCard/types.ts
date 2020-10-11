@@ -5,4 +5,5 @@ export interface IShareCardProps {
     performance: Results;
     text: string;
     matrix: TileInfo[][];
+    onDraw: (blob: Blob | null) => void;
 }

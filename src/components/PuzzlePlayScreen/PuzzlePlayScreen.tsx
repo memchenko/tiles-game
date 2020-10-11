@@ -17,6 +17,7 @@ import { formatSeconds } from '../../utils/time';
 import OpenIfInited from '../OpenIfInited';
 
 export default function PuzzlePlayScreen({
+    isNative,
     isSolved,
     isShare,
     isPlaying,
@@ -33,10 +34,20 @@ export default function PuzzlePlayScreen({
     onBackClick,
     onNextClick,
     onMatrixChange,
+    onShareCardDraw,
 }: IPuzzlePlayScreenProps) {
     const time = formatSeconds(timerValue);
     const isSuccessfullySolved = timerValue < performances[2];
-    
+    let performance = Results.Bad;
+
+    if (timerValue <= performances[0]) {
+        performance = Results.Best;
+    } else if (timerValue <= performances[1]) {
+        performance = Results.Good;
+    } else if (timerValue <= performances[2]) {
+        performance = Results.Normal;
+    }
+
     return (
         <Layout
             headerProps={{
@@ -59,15 +70,20 @@ export default function PuzzlePlayScreen({
                     <TilesGrid matrix={ matrix } />
                 </div>
                 {
-                    isShare && (
-                        <div className={ cn('play-share') }>
-                            <ShareCard
-                                performance={ Results.Good }
-                                matrix={ matrix }
-                                text={ `My time ${time}` }
-                            />
-                        </div>
-                    )
+                    isNative
+                        ? (
+                            <div className={ cn('play-share', {
+                                'play-share--invisible': !isShare
+                            }) }>
+                                <ShareCard
+                                    performance={ performance }
+                                    matrix={ matrix }
+                                    text={ `MY TIME ${time}` }
+                                    onDraw={ onShareCardDraw }
+                                />
+                            </div>
+                        )
+                        : null
                 }
             </div>
             <div className={ cn('play-area', {

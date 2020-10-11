@@ -1,0 +1,37 @@
+{
+  "hosting": {
+    "public": "build",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**",
+      "src/**",
+      "public/**",
+      "plop/**",
+      "mocks/**",
+      "docs/**",
+      "config-overrides.js",
+      "json-server.json",
+      "Makefile",
+      "package-lock.json",
+      "package.json",
+      "plopfile.js",
+      "README.md",
+      "tsconfig.json"
+    ],
+    "rewrites": [
+      {
+        "source": "/public/sounds/click.wav",
+        "destination": "/static/sounds/click.wav"
+      },
+      {
+        "source": "/public/sounds/success.flac",
+        "destination": "/static/sounds/success.flac"
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

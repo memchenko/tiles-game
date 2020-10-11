@@ -294,6 +294,10 @@ export default class GridManager extends Stateful<States> {
             ? gridData.tileWidth
             : gridData.tileHeight;
         const totalOffset = sum(pendingOffsets);
+        
+        if (Math.abs(currentPosition) > gridData.tileWidth / 2) {
+            return (gridData.tileWidth - Math.abs(currentPosition)) * Math.sign(currentPosition);
+        }
 
         return -1 * (totalOffset + currentPosition) % divider;
     }

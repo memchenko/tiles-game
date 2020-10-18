@@ -70,6 +70,10 @@ class Analytics extends Stateful<AnalyticsStates> {
 
     private async startSession() {
         try {
+            if (process.env.NODE_ENV !== 'production') {
+                throw null;
+            }
+
             let clientId: string = await this.store.getItem('clientId');
             const sessionStart = Date.now();
 
@@ -128,6 +132,10 @@ class Analytics extends Stateful<AnalyticsStates> {
     }
 
     private async flushPendingAnalytics() {
+        if (process.env.NODE_ENV !== 'production') {
+            return;
+        }
+
         await this.store.iterate((value: string, key) => {
             if (key === 'clientId') {
                 return;
@@ -191,8 +199,13 @@ class Analytics extends Stateful<AnalyticsStates> {
     }
 
     private destroy() {
-        this.pushSessionSub!.unsubscribe();
-        this.sessionDurationUpdaterSub!.unsubscribe();
+        if (this.pushSessionSub) {
+            this.pushSessionSub.unsubscribe();
+        }
+        if (this.sessionDurationUpdaterSub) {
+            this.sessionDurationUpdaterSub.unsubscribe();
+        }
+        
         lifecycle.removeEventListener('statechange', this.pause);
     }
 

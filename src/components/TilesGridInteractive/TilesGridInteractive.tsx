@@ -32,18 +32,15 @@ function TilesGridInteractive({ matrix, onMatrixChange }: ITilesGridInteractiveP
             { canvas: canvasEl }
         ));
         
-        const positionChangedSub = grid.positionChanged$.subscribe(() => {
-            navigator.vibrate(10);
-        });
         const finishMoveSub = grid.finishMove$.subscribe(onMatrixChange);
         const handleInitialized = () => {
             sound.start(SoundTypes.Moving);
+            navigator.vibrate(5);
         };
 
         grid.on(States.Initialized, handleInitialized);
 
         return () => {
-            positionChangedSub.unsubscribe();
             finishMoveSub.unsubscribe();
             grid.off(States.Initialized, handleInitialized);
         };

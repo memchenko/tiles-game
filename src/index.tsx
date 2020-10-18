@@ -7,8 +7,8 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 import App from './App';
 import createStore from './store';
+import Ads from './components/Ads';
 import * as serviceWorker from './serviceWorker';
-
 import './index.scss';
 
 const { store, persistor } = createStore();
@@ -24,6 +24,7 @@ ReactDOM.render(
         </AppContainer>
       </PersistGate>
     </Provider>
+    <Ads />
   </React.StrictMode>,
   document.getElementById('root')
 );

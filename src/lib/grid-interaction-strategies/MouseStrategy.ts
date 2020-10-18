@@ -17,8 +17,7 @@ export class MouseStrategy implements IInteractionObservables {
             map(({ clientX: x, clientY: y }) => ({ x, y })),
         );
 
-        this.finisher = fromEvent(element, 'mouseup').pipe(
-            merge(fromEvent(element, 'mouseout')),
+        this.finisher = fromEvent(document, 'mouseup').pipe(
             mapTo(undefined),
         );
     }

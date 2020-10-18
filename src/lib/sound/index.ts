@@ -28,7 +28,7 @@ const FADEABLE = {
 
 const VOLUME = {
     [SoundTypes.Moving]: 0.3,
-    [SoundTypes.Click]: 0.1,
+    [SoundTypes.Click]: 0.3,
     [SoundTypes.ResultSuccess]: 0.6,
 };
 

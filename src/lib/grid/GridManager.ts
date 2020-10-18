@@ -40,7 +40,7 @@ export default class GridManager extends Stateful<States> {
     private TICK_MS = Math.floor(1000 / 60);
     private MOVE_THROTTLE = this.TICK_MS / 3;
     private FINISHING_ITERATIONS = 14;
-    private ACCELERATION_DECREASE = 4;
+    private ACCELERATION_DECREASE = 15;
 
     private matrix: TileInfo[][];
     private gridData: ReturnType<typeof getGridData>;

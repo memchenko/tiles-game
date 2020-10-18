@@ -18,7 +18,7 @@ export class TouchStrategy implements IInteractionObservables {
 
         this.setInitializer(element);
         this.setMover(element);
-        this.setFinisher(element);
+        this.setFinisher();
     }
 
     private setInitializer(element: HTMLElement) {
@@ -53,8 +53,8 @@ export class TouchStrategy implements IInteractionObservables {
         );
     }
 
-    private setFinisher(element: HTMLElement) {
-        this.finisher = fromEvent<TouchEvent>(element, 'touchend').pipe(
+    private setFinisher() {
+        this.finisher = fromEvent<TouchEvent>(document, 'touchend').pipe(
             filter(this.isActiveTouch),
             tap(() => this.touch = null),
             mapTo(undefined),

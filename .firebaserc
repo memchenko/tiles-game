@@ -1,5 +1,17 @@
 {
   "projects": {
     "default": "tilo-test"
+  },
+  "targets": {
+    "tilo-test": {
+      "hosting": {
+        "prod": [
+          "tilo-prod"
+        ],
+        "test": [
+          "tilo-test"
+        ]
+      }
+    }
   }
 }

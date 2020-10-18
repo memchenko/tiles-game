@@ -11,4 +11,6 @@ dev_mac:
 prod_web:
 	npm run build:web; \
 	mkdir ./build/static/sounds; \
-	cp ./public/sounds/* ./build/static/sounds
+	cp ./public/sounds/* ./build/static/sounds; \
+	cp -f ./src/manifest.json ./build/manifest.json
+

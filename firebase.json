@@ -25,11 +25,11 @@
       "rewrites": [
         {
           "source": "/sounds/click.wav",
-          "destination": "/static/sounds/click.wav"
+          "destination": "/ounds/click.wav"
         },
         {
           "source": "/sounds/success.flac",
-          "destination": "/static/sounds/success.flac"
+          "destination": "/sounds/success.flac"
         },
         {
           "source": "**",
@@ -62,11 +62,11 @@
       "rewrites": [
         {
           "source": "/sounds/click.wav",
-          "destination": "/static/sounds/click.wav"
+          "destination": "/sounds/click.wav"
         },
         {
           "source": "/sounds/success.flac",
-          "destination": "/static/sounds/success.flac"
+          "destination": "/sounds/success.flac"
         },
         {
           "source": "**",

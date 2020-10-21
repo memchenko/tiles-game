@@ -21,8 +21,8 @@ const [assetManifest, precacheManifest] = [
 ];
 
 const assetManifestJson = JSON.parse(assetManifest);
-assetManifestJson.files['static/sounds/click.wav'] = '/static/sounds/click.wav';
-assetManifestJson.files['static/sounds/success.flac'] = '/static/sounds/success.flac';
+assetManifestJson.files['sounds/click.wav'] = '/sounds/click.wav';
+assetManifestJson.files['sounds/success.flac'] = '/sounds/success.flac';
 
 const newAssetManifest = JSON.stringify(assetManifestJson, null, 2);
 

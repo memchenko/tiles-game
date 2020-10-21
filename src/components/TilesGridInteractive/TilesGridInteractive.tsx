@@ -35,7 +35,6 @@ function TilesGridInteractive({ matrix, onMatrixChange }: ITilesGridInteractiveP
         const finishMoveSub = grid.finishMove$.subscribe(onMatrixChange);
         const handleInitialized = () => {
             sound.start(SoundTypes.Moving);
-            navigator.vibrate(5);
         };
 
         grid.on(States.Initialized, handleInitialized);

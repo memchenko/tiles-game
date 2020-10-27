@@ -1,0 +1,4 @@
+#Mon Oct 26 14:20:09 SAMT 2020
+base.0=/Users/memchenko/Projects/tiles-game/twa/app/build/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

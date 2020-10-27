@@ -1,0 +1,36 @@
+{
+    "logs": [
+        {
+            "outputFile": "/Users/memchenko/Projects/tiles-game/twa/app/build/intermediates/incremental/mergeReleaseResources/merged.dir/values-uk/values-uk.xml",
+            "map": [
+                {
+                    "source": "/Users/memchenko/.gradle/caches/transforms-2/files-2.1/03736cf4bc3669a69d502627b70a527e/core-1.1.0/res/values-uk/values-uk.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "6",
+                        "startColumns": "4",
+                        "startOffsets": "499",
+                        "endColumns": "100",
+                        "endOffsets": "595"
+                    }
+                },
+                {
+                    "source": "/Users/memchenko/.gradle/caches/transforms-2/files-2.1/ddbe425b3a6ef70c727329308989769d/browser-1.2.0/res/values-uk/values-uk.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,165,272,392",
+                        "endColumns": "109,106,119,106",
+                        "endOffsets": "160,267,387,494"
+                    }
+                }
+            ]
+        }
+    ]
+}

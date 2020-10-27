@@ -1,0 +1,5 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target" : { "namespace": "android_app", "package_name": "app.lgcly.tilo.twa",
+                   "sha256_cert_fingerprints": ["34:F9:64:A3:22:32:3C:8F:87:79:81:9B:D7:17:D2:1C:46:43:45:62:FC:19:F6:00:69:37:7F:2A:E1:9E:BE:90"] }
+    }]

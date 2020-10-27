@@ -1,0 +1,273 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<!--
+3    Copyright 2019 Google Inc. All Rights Reserved.
+4
+5     Licensed under the Apache License, Version 2.0 (the "License");
+6     you may not use this file except in compliance with the License.
+7     You may obtain a copy of the License at
+8
+9         http://www.apache.org/licenses/LICENSE-2.0
+10
+11     Unless required by applicable law or agreed to in writing, software
+12     distributed under the License is distributed on an "AS IS" BASIS,
+13     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+14     See the License for the specific language governing permissions and
+15     limitations under the License.
+16-->
+17<!--
+18 The "package" attribute is rewritten by the Gradle build with the value of applicationId.
+19     It is still required here, as it is used to derive paths, for instance when referring
+20     to an Activity by ".MyActivity" instead of the full name. If more Activities are added to the
+21     application, the package attribute will need to reflect the correct path in order to use
+22     the abbreviated format.
+23-->
+24<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+25    package="app.lgcly.tilo.twa"
+26    android:versionCode="1"
+27    android:versionName="1" >
+28
+29    <uses-sdk
+30        android:minSdkVersion="19"
+30-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml
+31        android:targetSdkVersion="29" />
+31-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml
+32
+33    <queries>
+33-->[com.google.androidbrowserhelper:androidbrowserhelper:2.0.0] /Users/memchenko/.gradle/caches/transforms-2/files-2.1/96596b9df58358f5b9c653d432555e38/androidbrowserhelper-2.0.0/AndroidManifest.xml:26:5-34:15
+34        <intent>
+34-->[com.google.androidbrowserhelper:androidbrowserhelper:2.0.0] /Users/memchenko/.gradle/caches/transforms-2/files-2.1/96596b9df58358f5b9c653d432555e38/androidbrowserhelper-2.0.0/AndroidManifest.xml:27:9-33:18
+35            <action android:name="android.intent.action.VIEW" />
+35-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:115:17-68
+35-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:115:25-66
+36
+37            <category android:name="android.intent.category.BROWSABLE" />
+37-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:117:17-77
+37-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:117:27-75
+38
+39            <data android:scheme="https" />
+39-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:118:17-119:54
+39-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:118:23-45
+40        </intent>
+41    </queries>
+42
+43    <application
+43-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:29:5-156:19
+44        android:name="app.lgcly.tilo.twa.Application"
+44-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:30:9-35
+45        android:allowBackup="true"
+45-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:31:9-35
+46        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+46-->[androidx.core:core:1.1.0] /Users/memchenko/.gradle/caches/transforms-2/files-2.1/03736cf4bc3669a69d502627b70a527e/core-1.1.0/AndroidManifest.xml:24:18-86
+47        android:icon="@mipmap/ic_launcher"
+47-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:32:9-43
+48        android:label="@string/appName"
+48-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:33:9-40
+49        android:manageSpaceActivity="com.google.androidbrowserhelper.trusted.ManageDataLauncherActivity"
+49-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:35:9-105
+50        android:supportsRtl="true"
+50-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:37:9-35
+51        android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+51-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:38:9-68
+52        <meta-data
+52-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:40:9-42:58
+53            android:name="asset_statements"
+53-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:41:13-44
+54            android:resource="@string/assetStatements" />
+54-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:42:13-55
+55        <meta-data
+55-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:45:13-47:58
+56            android:name="web_manifest_url"
+56-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:46:17-48
+57            android:value="@string/webManifestUrl" />
+57-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:47:17-55
+58        <meta-data
+58-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:50:9-52:52
+59            android:name="twa_generator"
+59-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:51:13-41
+60            android:value="@string/generatorApp" />
+60-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:52:13-49
+61
+62        <activity android:name="com.google.androidbrowserhelper.trusted.ManageDataLauncherActivity" >
+62-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:55:13-59:24
+62-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:55:23-104
+63            <meta-data
+63-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:56:13-58:53
+64                android:name="android.support.customtabs.trusted.MANAGE_SPACE_URL"
+64-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:57:17-83
+65                android:value="@string/launchUrl" />
+65-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:58:17-50
+66        </activity>
+67        <activity
+67-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:62:9-121:20
+68            android:name="app.lgcly.tilo.twa.LauncherActivity"
+68-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:62:19-50
+69            android:label="@string/launcherName" >
+69-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:63:13-49
+70            <meta-data
+70-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:64:13-65:53
+71                android:name="android.support.customtabs.trusted.DEFAULT_URL"
+71-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:64:24-85
+72                android:value="@string/launchUrl" />
+72-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:65:17-50
+73            <meta-data
+73-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:67:13-69:58
+74                android:name="android.support.customtabs.trusted.STATUS_BAR_COLOR"
+74-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:68:17-83
+75                android:resource="@color/colorPrimary" />
+75-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:69:17-55
+76            <meta-data
+76-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:71:13-73:61
+77                android:name="android.support.customtabs.trusted.NAVIGATION_BAR_COLOR"
+77-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:72:17-87
+78                android:resource="@color/navigationColor" />
+78-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:73:17-58
+79            <meta-data
+79-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:75:13-77:65
+80                android:name="android.support.customtabs.trusted.NAVIGATION_BAR_COLOR_DARK"
+80-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:76:17-92
+81                android:resource="@color/navigationColorDark" />
+81-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:77:17-62
+82            <meta-data
+82-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:79:13-81:68
+83                android:name="androix.browser.trusted.NAVIGATION_BAR_DIVIDER_COLOR"
+83-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:80:17-84
+84                android:resource="@color/navigationDividerColor" />
+84-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:81:17-65
+85            <meta-data
+85-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:83:13-85:72
+86                android:name="androix.browser.trusted.NAVIGATION_BAR_DIVIDER_COLOR_DARK"
+86-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:84:17-89
+87                android:resource="@color/navigationDividerColorDark" />
+87-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:85:17-69
+88            <meta-data
+88-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:87:13-88:54
+89                android:name="android.support.customtabs.trusted.SPLASH_IMAGE_DRAWABLE"
+89-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:87:24-95
+90                android:resource="@drawable/splash" />
+90-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:88:17-52
+91            <meta-data
+91-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:90:13-91:60
+92                android:name="android.support.customtabs.trusted.SPLASH_SCREEN_BACKGROUND_COLOR"
+92-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:90:24-104
+93                android:resource="@color/backgroundColor" />
+93-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:91:17-58
+94            <meta-data
+94-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:93:13-94:71
+95                android:name="android.support.customtabs.trusted.SPLASH_SCREEN_FADE_OUT_DURATION"
+95-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:93:24-105
+96                android:value="@integer/splashScreenFadeOutDuration" />
+96-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:94:17-69
+97            <meta-data
+97-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:96:13-97:60
+98                android:name="android.support.customtabs.trusted.FILE_PROVIDER_AUTHORITY"
+98-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:96:24-97
+99                android:value="@string/providerAuthority" />
+99-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:97:17-58
+100            <meta-data
+100-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:99:13-97
+101                android:name="android.app.shortcuts"
+101-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:99:24-60
+102                android:resource="@xml/shortcuts" />
+102-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:99:61-94
+103            <meta-data
+103-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:101:13-102:56
+104                android:name="android.support.customtabs.trusted.FALLBACK_STRATEGY"
+104-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:101:24-91
+105                android:value="@string/fallbackType" />
+105-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:102:17-53
+106            <meta-data
+106-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:105:13-106:45
+107                android:name="android.support.customtabs.trusted.DISPLAY_MODE"
+107-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:105:24-86
+108                android:value="immersive" />
+108-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:106:17-42
+109
+110            <intent-filter>
+110-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:109:13-112:29
+111                <action android:name="android.intent.action.MAIN" />
+111-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:110:17-69
+111-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:110:25-66
+112
+113                <category android:name="android.intent.category.LAUNCHER" />
+113-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:111:17-77
+113-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:111:27-74
+114            </intent-filter>
+115            <intent-filter android:autoVerify="true" >
+115-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:114:13-120:29
+115-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:114:28-53
+116                <action android:name="android.intent.action.VIEW" />
+116-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:115:17-68
+116-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:115:25-66
+117
+118                <category android:name="android.intent.category.DEFAULT" />
+118-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:116:17-76
+118-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:116:27-73
+119                <category android:name="android.intent.category.BROWSABLE" />
+119-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:117:17-77
+119-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:117:27-75
+120
+121                <data
+121-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:118:17-119:54
+122                    android:host="@string/hostName"
+122-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:119:21-52
+123                    android:scheme="https" />
+123-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:118:23-45
+124            </intent-filter>
+125        </activity>
+126        <activity android:name="com.google.androidbrowserhelper.trusted.FocusActivity" />
+126-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:123:9-90
+126-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:123:19-87
+127        <activity
+127-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:125:9-126:62
+128            android:name="com.google.androidbrowserhelper.trusted.WebViewFallbackActivity"
+128-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:125:19-97
+129            android:configChanges="orientation|screenSize" />
+129-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:126:13-59
+130
+131        <provider
+131-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:128:9-136:20
+132            android:name="androidx.core.content.FileProvider"
+132-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:129:13-62
+133            android:authorities="@string/providerAuthority"
+133-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:130:13-60
+134            android:exported="false"
+134-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:132:13-37
+135            android:grantUriPermissions="true" >
+135-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:131:13-47
+136            <meta-data
+136-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:133:13-135:53
+137                android:name="android.support.FILE_PROVIDER_PATHS"
+137-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:134:17-67
+138                android:resource="@xml/filepaths" />
+138-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:135:17-50
+139        </provider>
+140
+141        <service
+141-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:138:9-153:19
+142            android:name="com.google.androidbrowserhelper.trusted.DelegationService"
+142-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:139:13-85
+143            android:enabled="@bool/enableNotification"
+143-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:140:13-55
+144            android:exported="@bool/enableNotification" >
+144-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:141:13-56
+145            <meta-data
+145-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:144:17-146:70
+146                android:name="android.support.customtabs.trusted.SMALL_ICON"
+146-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:145:21-81
+147                android:value="@drawable/ic_notification_icon" />
+147-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:146:21-67
+148
+149            <intent-filter>
+149-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:149:13-152:29
+150                <action android:name="android.support.customtabs.trusted.TRUSTED_WEB_ACTIVITY_SERVICE" />
+150-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:150:17-105
+150-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:150:25-103
+151
+152                <category android:name="android.intent.category.DEFAULT" />
+152-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:116:17-76
+152-->/Users/memchenko/Projects/tiles-game/twa/app/src/main/AndroidManifest.xml:116:27-73
+153            </intent-filter>
+154        </service>
+155    </application>
+156
+157</manifest>

@@ -11,5 +11,7 @@ dev_mac:
 prod_web:
 	npm run build:web; \
 	cp -f ./src/manifest.json ./build/manifest.json; \
+	mkdir ./build/.well-known; \
+	cp -f ./twa/assetlinks.json ./build/.well-known/assetlinks.json; \
 	node build.js
 

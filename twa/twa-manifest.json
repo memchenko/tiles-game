@@ -1,0 +1,33 @@
+{
+  "packageId": "app.lgcly.tilo.twa",
+  "host": "tilo.lgcly.app",
+  "name": "TILO",
+  "launcherName": "TILO",
+  "display": "fullscreen",
+  "themeColor": "#EAE0D5",
+  "navigationColor": "#000000",
+  "navigationColorDark": "#000000",
+  "navigationDividerColor": "#000000",
+  "navigationDividerColorDark": "#000000",
+  "backgroundColor": "#EAE0D5",
+  "enableNotifications": false,
+  "startUrl": "/",
+  "iconUrl": "https://tilo.lgcly.app/logo512.png",
+  "maskableIconUrl": "https://tilo.lgcly.app/logo512.png",
+  "monochromeIconUrl": "https://tilo.lgcly.app/logo512.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "./android.keystore",
+    "alias": "android"
+  },
+  "appVersionName": "1",
+  "appVersionCode": 1,
+  "shortcuts": [],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://tilo.lgcly.app/manifest.json",
+  "fallbackType": "customtabs",
+  "features": {},
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "appVersion": "1"
+}

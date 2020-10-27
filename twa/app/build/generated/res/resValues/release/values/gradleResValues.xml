@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Automatically generated file. DO NOT MODIFY -->
+
+    <!-- Values from default config. -->
+    <string name="appName" translatable="false">TILO</string>
+    <string name="assetStatements" translatable="false">[{ \"relation\": [\"delegate_permission/common.handle_all_urls\"],\"target\": {\"namespace\": \"web\", \"site\": \"https://tilo.lgcly.app\"}}]</string>
+
+    <color name="backgroundColor">#EAE0D5</color>
+    <color name="colorPrimary">#EAE0D5</color>
+
+    <bool name="enableNotification">false</bool>
+    <bool name="enableSiteSettingsShortcut">true</bool>
+
+    <string name="fallbackType" translatable="false">customtabs</string>
+    <string name="generatorApp" translatable="false">bubblewrap-cli</string>
+    <string name="hostName" translatable="false">tilo.lgcly.app</string>
+    <string name="launchUrl" translatable="false">https://tilo.lgcly.app/</string>
+    <string name="launcherName" translatable="false">TILO</string>
+
+    <color name="navigationColor">#000000</color>
+    <color name="navigationColorDark">#000000</color>
+    <color name="navigationDividerColor">#000000</color>
+    <color name="navigationDividerColorDark">#000000</color>
+
+    <string name="providerAuthority" translatable="false">app.lgcly.tilo.twa.fileprovider</string>
+
+    <integer name="splashScreenFadeOutDuration">300</integer>
+
+    <string name="webManifestUrl" translatable="false">https://tilo.lgcly.app/manifest.json</string>
+
+</resources>

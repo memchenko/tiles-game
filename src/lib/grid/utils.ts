@@ -339,6 +339,12 @@ export const getGridData = (
   const [tileWidth, tileHeight] = [width / mtx[0].length, height / mtx.length];
   const config = matrixToConfig({ tileHeight, tileWidth }, mtx);
 
+  if (window.screen.orientation.type.includes('landscape')) {
+    const { top, left } = canvasCoords;
+    canvasCoords.top = left;
+    canvasCoords.left = top;
+  }
+
   return {
     ctx, config, mtx,
     width, height,

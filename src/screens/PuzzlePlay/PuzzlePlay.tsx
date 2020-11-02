@@ -41,7 +41,7 @@ export default function PuzzlePlay() {
         history.push(AppRoutes.PlayMenu);
     }, []);
     const goBack = useCallback(() => {
-        history.goBack();
+        history.push(AppRoutes.Play);
     }, []);
     const goRetry = useCallback(() => {
         clearInterval(timer!);

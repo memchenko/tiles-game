@@ -17,8 +17,13 @@ function TilesGrid({ matrix }: ITilesGridProps) {
         const canvasEl = canvas.current as unknown as HTMLCanvasElement;
         const containerEl = container.current as unknown as HTMLDivElement;
         const ctx = canvasEl.getContext('2d') as CanvasRenderingContext2D;
-        const { width } = containerEl.getBoundingClientRect();
-        ['width', 'height'].forEach(attr => canvasEl.setAttribute(attr, String(width)));
+        const { width, height } = containerEl.getBoundingClientRect();
+
+        if (window.screen.orientation.type.includes('landscape')) {
+            ['width', 'height'].forEach(attr => canvasEl.setAttribute(attr, String(height)));
+        } else {
+            ['width', 'height'].forEach(attr => canvasEl.setAttribute(attr, String(width)));
+        }
 
         drawGrid(ctx, getGridData({ mtx: matrix, context: ctx }).config);
     }, [matrix, canvas, container]);

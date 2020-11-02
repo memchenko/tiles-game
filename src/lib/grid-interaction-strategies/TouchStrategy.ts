@@ -5,6 +5,8 @@ import { IInteractionObservables } from '../grid';
 
 export class TouchStrategy implements IInteractionObservables {
     private touch: Touch | null = null;
+    private orientation: boolean | null = null;
+    private height: number | null = null;
 
     initializer!: IInteractionObservables['initializer'];
     mover!: IInteractionObservables['mover'];
@@ -27,10 +29,19 @@ export class TouchStrategy implements IInteractionObservables {
             tap((event) => {
                 const touches = event.targetTouches;
                 this.touch = touches[0];
+
+                if (window.screen.orientation.type.includes('landscape')) {
+                    this.orientation = false;
+                    this.height = document.body.getBoundingClientRect().height;
+                } else {
+                    this.orientation = true;
+                }
+
+                console.log(this.touch!.clientX, this.touch!.clientY, this.height);
             }),
             map(() => ({
-                x: this.touch!.clientX,
-                y: this.touch!.clientY,
+                x: this.orientation ? this.touch!.clientX : this.height! - this.touch!.clientY,
+                y: this.orientation ? this.touch!.clientY : this.touch!.clientX,
             })),
         );
     }
@@ -49,14 +60,21 @@ export class TouchStrategy implements IInteractionObservables {
                 
                 return this.touch!;
             }),
-            map(({ clientX: x, clientY: y }) => ({ x, y })),
+            map(({ clientX: x, clientY: y }) => ({
+                x: this.orientation ? x : this.height! - y,
+                y: this.orientation ? y : x
+            })),
         );
     }
 
     private setFinisher() {
         this.finisher = fromEvent<TouchEvent>(document, 'touchend').pipe(
             filter(this.isActiveTouch),
-            tap(() => this.touch = null),
+            tap(() => {
+                this.touch = null;
+                this.orientation = null;
+                this.height = null;
+            }),
             mapTo(undefined),
         );
     }

@@ -287,7 +287,7 @@ export default class GridManager extends Stateful<States> {
     }
 
     private calculateRemainder() {
-        const { pendingOffsets, direction, quadrant, gridData, config } = this;
+        const { pendingOffsets, direction, gridData } = this;
         const isX = direction === Directions.X;
         let currentPosition = this.getCurrentOffset()
         const divider = isX

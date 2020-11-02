@@ -21,9 +21,15 @@ function TilesGridInteractive({ matrix, onMatrixChange }: ITilesGridInteractiveP
         }
 
         const canvasEl = canvas.current as unknown as HTMLCanvasElement;
-        const { width } = canvasEl.getBoundingClientRect();
+        const { width, height } = canvasEl.getBoundingClientRect();
         const strategy = getGridInteractionStrategy(canvasEl);
         ['width', 'height'].forEach(attr => canvasEl.setAttribute(attr, String(width)));
+
+        if (window.screen.orientation.type.includes('landscape')) {
+            ['width', 'height'].forEach(attr => canvasEl.setAttribute(attr, String(height)));
+        } else {
+            ['width', 'height'].forEach(attr => canvasEl.setAttribute(attr, String(width)));
+        }
 
         const grid = gridManager.current = new GridManager(matrix);
 

@@ -13,5 +13,6 @@ prod_web:
 	cp -f ./src/manifest.json ./build/manifest.json; \
 	mkdir ./build/.well-known; \
 	cp -f ./twa/assetlinks.json ./build/.well-known/assetlinks.json; \
-	node build.js
+	node build.js; \
+	firebase deploy --only hosting:prod
 

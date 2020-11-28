@@ -10,7 +10,7 @@ import Credits from './screens/Credits';
 function App() {
   const history = useHistory();
   const backHandler = useCallback(() => {
-    history.push('/');
+    history.replace(AppRoutes.Root);
   }, [history]);
 
   useEffect(() => {

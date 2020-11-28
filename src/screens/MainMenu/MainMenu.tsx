@@ -17,20 +17,22 @@ export default function MainMenu() {
     const dispatch = useDispatch();
 
     const goCredits = useCallback(() => {
-        history.push(AppRoutes.Credits);
+        history.replace(AppRoutes.Credits);
     }, []);
     const goNew = useCallback(() => {
         dispatch(setLevel({ level: 0 }));
-        history.push(AppRoutes.Play);
+        history.replace(AppRoutes.Play);
         analytics.set('restartedTimes');
         analytics.set('maxLevels', 0);
     }, []);
     const goPlay = useCallback(() => {
         if (level === 0 && isSolved) {
             dispatch(setUnsolved());
+        } else if (isSolved) {
+            dispatch(setLevel({ level: level + 1 }));
         }
 
-        history.push(AppRoutes.Play);
+        history.replace(AppRoutes.Play);
     }, [level, isSolved, dispatch]);
 
     return (

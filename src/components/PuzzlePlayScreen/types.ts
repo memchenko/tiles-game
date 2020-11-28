@@ -8,6 +8,7 @@ export interface IPuzzlePlayScreenProps {
     isPlaying: boolean;
     performances: number[];
     timerValue: number;
+    level: number;
 
     matrix: TileInfo[][];
     shuffledMatrix: TileInfo[][];

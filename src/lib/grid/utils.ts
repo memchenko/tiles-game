@@ -1,12 +1,14 @@
 import { curry } from 'ramda';
 import BezierEasing from 'bezier-easing';
 import { chain } from 'fantasy-land';
+import { isMobile } from 'react-device-detect';
 
 import { TileInfo, TileConfig, IPoint, IQuadrant } from './types';
 
 import { getElement } from '../../utils/dom';
 import IO from '../../utils/IO';
 import { Directions } from '../../constants/game';
+import { DPI } from '../../constants/device';
 
 export const matrixToConfig = curry(
   (
@@ -336,10 +338,10 @@ export const getGridData = (
 ) => {
   const ctx = context ? context : getCanvasIO(selector as string).unsafePerformIO();
   const { width, height, ...canvasCoords } = getCanvasGeometry(ctx).unsafePerformIO();
-  const [tileWidth, tileHeight] = [width / mtx[0].length, height / mtx.length];
+  const [tileWidth, tileHeight] = [width * DPI / mtx[0].length, height * DPI / mtx.length];
   const config = matrixToConfig({ tileHeight, tileWidth }, mtx);
 
-  if (window.screen.orientation.type.includes('landscape')) {
+  if (isMobile && window.screen.orientation.type.includes('landscape')) {
     const { top, left } = canvasCoords;
     canvasCoords.top = left;
     canvasCoords.left = top;

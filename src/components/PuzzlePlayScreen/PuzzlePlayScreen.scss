@@ -2,8 +2,18 @@
     &-example {
         display: flex;
         align-items: center;
+        flex-direction: column;
         justify-content: center;
         padding: 1rem 0;
+    }
+
+    &-level {
+        font: 900 1.8rem var(--font-primary);
+        color: var(--color-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.1rem;
+        padding: 1rem;
+        white-space: nowrap;
     }
 
     &-area {
@@ -15,6 +25,7 @@
 
         &--centered {
             align-items: center;
+            justify-content: center;
         }
 
         &__grid {

@@ -1,3 +1,1 @@
-export { default } from './BackIcon';
-
-export * from './types';
+export { BackIcon } from './BackIcon';

@@ -1,11 +1,13 @@
 import React, { useEffect, useRef } from 'react';
+import { isMobile } from 'react-device-detect';
 
 import { ITilesGridInteractiveProps } from './types';
 import './TilesGridInteractive.scss';
 
-import GridManager, { States } from '../../lib/grid';
+import { GridManager, States } from '../../lib/grid';
 import { getGridInteractionStrategy } from '../../lib/grid-interaction-strategies';
 import sound, { SoundTypes } from '../../lib/sound';
+import { DPI } from '../../constants/device';
 
 function TilesGridInteractive({ matrix, onMatrixChange }: ITilesGridInteractiveProps) {
     const canvas = useRef(null);
@@ -23,12 +25,11 @@ function TilesGridInteractive({ matrix, onMatrixChange }: ITilesGridInteractiveP
         const canvasEl = canvas.current as unknown as HTMLCanvasElement;
         const { width, height } = canvasEl.getBoundingClientRect();
         const strategy = getGridInteractionStrategy(canvasEl);
-        ['width', 'height'].forEach(attr => canvasEl.setAttribute(attr, String(width)));
 
-        if (window.screen.orientation.type.includes('landscape')) {
-            ['width', 'height'].forEach(attr => canvasEl.setAttribute(attr, String(height)));
+        if (isMobile && window.screen.orientation.type.includes('landscape')) {
+            ['width', 'height'].forEach(attr => canvasEl.setAttribute(attr, String(height * DPI)));
         } else {
-            ['width', 'height'].forEach(attr => canvasEl.setAttribute(attr, String(width)));
+            ['width', 'height'].forEach(attr => canvasEl.setAttribute(attr, String(width * DPI)));
         }
 
         const grid = gridManager.current = new GridManager(matrix);

@@ -38,11 +38,15 @@ export default function PuzzlePlay() {
 
     const goPlayMenu = useCallback(() => {
         setShare(false);
-        history.push(AppRoutes.PlayMenu);
+        history.replace(AppRoutes.PlayMenu);
     }, []);
     const goBack = useCallback(() => {
-        history.push(AppRoutes.Play);
-    }, []);
+        if (isSolved) {
+            history.replace(AppRoutes.PlayResult);
+        } else {
+            history.replace(AppRoutes.Play);
+        }
+    }, [isSolved]);
     const goRetry = useCallback(() => {
         clearInterval(timer!);
         setShare(false);
@@ -50,12 +54,12 @@ export default function PuzzlePlay() {
         setTimerValue(0);
         staticTimerValue.current = 0;
         dispatch(setLevel({ level }));
-        history.push(AppRoutes.Play);
+        history.replace(AppRoutes.Play);
         analytics.set('retriedTimes');
     }, [timer, level, staticTimerValue]);
     const goHome = useCallback(() => {
         clearInterval(timer!);
-        history.push(AppRoutes.Root);
+        history.replace(AppRoutes.Root);
     }, [timer]);
     const goNext = useCallback(() => {
         setShare(false);
@@ -63,7 +67,7 @@ export default function PuzzlePlay() {
         setTimerValue(0);
         staticTimerValue.current = 0;
         dispatch(setLevel({ level: level + 1 }));
-        history.push(AppRoutes.Play);
+        history.replace(AppRoutes.Play);
         analytics.set('maxLevels', level + 1);
         analytics.set('gamesPlayed');
     }, [level, staticTimerValue]);
@@ -82,7 +86,7 @@ export default function PuzzlePlay() {
     const handleMatrixChange = useCallback((changedMatrix: TileInfo[][]) => {
         if (isMatricesEqual(changedMatrix, matrix)) {
             dispatch(setSolved());
-            history.push(AppRoutes.PlayResult);
+            history.replace(AppRoutes.PlayResult);
             clearInterval(timer!);
             playOnSolvedSound();
         }
@@ -116,7 +120,7 @@ export default function PuzzlePlay() {
         setTimerValue(0);
         staticTimerValue.current = 0;
         dispatch(setUnsolved());
-        history.push(AppRoutes.Play);
+        history.replace(AppRoutes.Play);
         analytics.set('retriedTimes');
     }, [timer, staticTimerValue]);
     const startInterval = useCallback(() => {
@@ -160,6 +164,7 @@ export default function PuzzlePlay() {
             isPlaying={ !isMenuOpened && !isResultOpened }
             performances={ performances }
             timerValue={ timerValue }
+            level={ level }
             matrix={ matrix }
             shuffledMatrix={ matrixForPlay }
             leftIcon={ getLeftIconType() }

@@ -1,5 +1,5 @@
 import { fromEvent } from 'rxjs';
-import { map, merge, mapTo } from 'rxjs/operators';
+import { map, mapTo } from 'rxjs/operators';
 
 import { IInteractionObservables } from '../grid';
 

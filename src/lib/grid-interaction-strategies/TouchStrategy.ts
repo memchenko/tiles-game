@@ -26,7 +26,7 @@ export class TouchStrategy implements IInteractionObservables {
     private setInitializer(element: HTMLElement) {
         this.initializer = fromEvent<TouchEvent>(element, 'touchstart').pipe(
             filter(() => !this.touch),
-            tap((event) => {
+            map((event) => {
                 const touches = event.targetTouches;
                 this.touch = touches[0];
 
@@ -37,11 +37,15 @@ export class TouchStrategy implements IInteractionObservables {
                     this.orientation = true;
                 }
 
-                console.log(this.touch!.clientX, this.touch!.clientY, this.height);
+                return this.touch!;
             }),
-            map(() => ({
-                x: this.orientation ? this.touch!.clientX : this.height! - this.touch!.clientY,
-                y: this.orientation ? this.touch!.clientY : this.touch!.clientX,
+            map(({ clientX: x, clientY: y }) => ({
+                x: this.orientation
+                    ? x
+                    : this.height! - y ,
+                y: this.orientation
+                    ? y
+                    : x,
             })),
         );
     }
@@ -61,8 +65,12 @@ export class TouchStrategy implements IInteractionObservables {
                 return this.touch!;
             }),
             map(({ clientX: x, clientY: y }) => ({
-                x: this.orientation ? x : this.height! - y,
-                y: this.orientation ? y : x
+                x: this.orientation
+                    ? x
+                    : this.height! - y,
+                y: this.orientation
+                    ? y
+                    : x
             })),
         );
     }

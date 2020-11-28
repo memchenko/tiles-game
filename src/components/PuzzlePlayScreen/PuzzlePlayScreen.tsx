@@ -23,6 +23,7 @@ export default function PuzzlePlayScreen({
     isPlaying,
     performances,
     timerValue,
+    level,
     matrix,
     shuffledMatrix,
     leftIcon,
@@ -59,15 +60,17 @@ export default function PuzzlePlayScreen({
                 performanceValue: time,
             }}
         >
-            <div className="row-1"></div>
             <div className={ cn('grid-row', {
-                'row-2': !isShare,
+                'row-3': !isShare,
                 'row-5': isShare,
             }) }>
-                <div className={ cn('col-center-2', 'play-example', {
+                <div className={ cn('col-center-2', 'play-example', 'y-center', {
                     undisplay: isShare,
                 }) }>
                     <TilesGrid matrix={ matrix } />
+                    <div className="play-level">
+                        LEVEL { level }
+                    </div>
                 </div>
                 {
                     isNative
@@ -79,6 +82,7 @@ export default function PuzzlePlayScreen({
                                     performance={ performance }
                                     matrix={ matrix }
                                     text={ `MY TIME ${time}` }
+                                    level={ level }
                                     onDraw={ onShareCardDraw }
                                 />
                             </div>

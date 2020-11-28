@@ -34,8 +34,9 @@ import { states, directionCoordMap } from './constants';
 
 import { Directions } from '../../constants/game';
 import Stateful from '../stateful';
+import { DPI } from '../../constants/device';
 
-export default class GridManager extends Stateful<States> {
+export class GridManager extends Stateful<States> {
     private ID = `_${(Date.now() * Math.random()).toString(36).replace(/\./g, '')}`;
     private TICK_MS = Math.floor(1000 / 60);
     private MOVE_THROTTLE = this.TICK_MS / 3;
@@ -193,7 +194,7 @@ export default class GridManager extends Stateful<States> {
             const offset = Math.ceil(this.speed! * Math.sqrt(this.TICK_MS));
 
             if (Math.abs(offset) > 0) {
-                this.pushOffset(offset);
+                this.pushOffset(offset * DPI);
             }
         }
     }

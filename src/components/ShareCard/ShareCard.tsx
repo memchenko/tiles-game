@@ -19,6 +19,7 @@ const STARS_NUMBER = {
 export default function ShareCard({
     performance,
     text,
+    level,
     matrix,
     onDraw,
 }: IShareCardProps) {
@@ -28,6 +29,7 @@ export default function ShareCard({
     const H_PADDING = 0.1;
     const GRID_SIDE = 0.5;
     const STAR_WIDTH = 70;
+    const STAR_MARGIN = 10;
 
     const canvas = useRef(null);
     const starRef = useRef(null);
@@ -66,16 +68,32 @@ export default function ShareCard({
         cnvs.style.letterSpacing = '1px';
         ctx.font = '800 32px "Archivo"';
         ctx.fillStyle = getSecondaryColor();
-        ctx.fillText(text, WIDTH / 2, HEIGHT - HEIGHT * V_PADDING - 5);
 
-        Array.from({ length: 3 }, (_, i) => (
-            i < filledStarsNumber
-                ? ctx.drawImage(starRef.current!, WIDTH / 2 + (STAR_WIDTH + 10) * i, divider, STAR_WIDTH, STAR_WIDTH)
-                : ctx.drawImage(emptyStarRef.current!, WIDTH / 2 + (STAR_WIDTH + 10) * i, divider, STAR_WIDTH, STAR_WIDTH)
-        ));
+        const textWidth = ctx.measureText(text).width;
+        const textX = WIDTH - WIDTH * H_PADDING - textWidth;
+        const textY = HEIGHT - HEIGHT * V_PADDING - 5;
+
+        ctx.fillText(text, textX, textY);
+
+        const levelText = `LEVEL ${level}`;
+        const levelTextWidth = ctx.measureText(levelText).width;
+        const levelTextX = WIDTH - WIDTH * H_PADDING - levelTextWidth;
+        const leveltTextY = HEIGHT * V_PADDING + 47; // 47 is the best centered value
+
+        ctx.fillText(levelText, levelTextX, leveltTextY);
+
+        Array.from({ length: 3 }, (_, i) => {
+            const x = WIDTH - WIDTH * H_PADDING - (STAR_WIDTH + STAR_MARGIN) * (3 - i) + STAR_MARGIN;
+
+            return (
+                i < filledStarsNumber
+                    ? ctx.drawImage(starRef.current!, x, divider, STAR_WIDTH, STAR_WIDTH)
+                    : ctx.drawImage(emptyStarRef.current!, x, divider, STAR_WIDTH, STAR_WIDTH)
+            );
+        });
         setTimeout(() => cnvs.toBlob(onDraw, 'image/jpeg', 1), 100);
         
-    }, [matrix, text, canvas, filledStarsNumber, onDraw]);
+    }, [matrix, text, level, canvas, filledStarsNumber, onDraw]);
 
     return (
         <div className="share-card">

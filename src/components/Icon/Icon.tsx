@@ -5,7 +5,7 @@ import './Icon.scss';
 
 import BurgerIcon from '../BurgerIcon';
 import RefreshIcon from '../RefreshIcon';
-import BackIcon from '../BackIcon';
+import { BackIcon } from '../BackIcon';
 import ShareIcon, { ShareIconColors } from '../ShareIcon';
 import StarIcon from '../StarIcon';
 import EmptyStarIcon from '../EmptyStarIcon';

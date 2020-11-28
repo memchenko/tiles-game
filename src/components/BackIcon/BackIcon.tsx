@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { IBackIconProps } from './types';
 import './BackIcon.scss';
 
-export default function BackIcon(props: IBackIconProps) {
+export function BackIcon() {
     return (
         <svg
             width="31"

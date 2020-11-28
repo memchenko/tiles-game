@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from 'react';
+import { isMobile } from 'react-device-detect';
 
 import { drawGrid, getGridData } from '../../lib/grid';
+import { DPI } from '../../constants/device';
 
 import { ITilesGridProps } from './types';
 import './TilesGrid.scss';
@@ -19,10 +21,10 @@ function TilesGrid({ matrix }: ITilesGridProps) {
         const ctx = canvasEl.getContext('2d') as CanvasRenderingContext2D;
         const { width, height } = containerEl.getBoundingClientRect();
 
-        if (window.screen.orientation.type.includes('landscape')) {
-            ['width', 'height'].forEach(attr => canvasEl.setAttribute(attr, String(height)));
+        if (isMobile && window.screen.orientation.type.includes('landscape')) {
+            ['width', 'height'].forEach(attr => canvasEl.setAttribute(attr, String(height * DPI)));
         } else {
-            ['width', 'height'].forEach(attr => canvasEl.setAttribute(attr, String(width)));
+            ['width', 'height'].forEach(attr => canvasEl.setAttribute(attr, String(width * DPI)));
         }
 
         drawGrid(ctx, getGridData({ mtx: matrix, context: ctx }).config);

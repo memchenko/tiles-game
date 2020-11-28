@@ -1,3 +1,3 @@
-export { default } from './useShare';
+export { useShare } from './useShare';
 
 export * from './types';

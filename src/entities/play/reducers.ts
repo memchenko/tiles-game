@@ -8,7 +8,7 @@ import {
     getColorsNumber,
     getLevelTimes,
 } from '../../lib/levels';
-import generateMatrix from '../../lib/generate-matrix';
+import { generateMatrix } from '../../lib/generate-matrix';
 
 const initialState: IPlayState = {
     level: 0,

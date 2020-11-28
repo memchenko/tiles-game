@@ -3,13 +3,14 @@ import React from 'react';
 import { IMenuProps } from './types';
 import './Menu.scss';
 
-import Button, {
+import {
+    Button,
     ButtonSizes,
     ButtonTypes,
     ButtonResponzivenesses,
 } from '../Button';
 
-export default function Menu({ list }: IMenuProps) {
+export function Menu({ list }: IMenuProps) {
     return (
         <div className='menu'>
             {

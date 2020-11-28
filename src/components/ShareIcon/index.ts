@@ -1,3 +1,3 @@
-export { default } from './ShareIcon';
+export { ShareIcon } from './ShareIcon';
 
 export * from './types';

@@ -4,9 +4,9 @@ import cn from 'classnames';
 import { ILayoutProps } from './types';
 import './Layout.scss';
 
-import Header from '../Header';
+import { Header } from '../Header';
 
-export default function Layout({
+export function Layout({
     headerProps,
     children,
 }: ILayoutProps) {

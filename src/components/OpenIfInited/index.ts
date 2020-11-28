@@ -1,3 +1,3 @@
-export { default } from './OpenIfInited';
+export { OpenIfInited } from './OpenIfInited';
 
 export * from './types';

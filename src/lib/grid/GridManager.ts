@@ -33,7 +33,7 @@ import {
 import { states, directionCoordMap } from './constants';
 
 import { Directions } from '../../constants/game';
-import Stateful from '../stateful';
+import { Stateful } from '../stateful';
 import { DPI } from '../../constants/device';
 
 export class GridManager extends Stateful<States> {

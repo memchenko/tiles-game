@@ -1,1 +1,1 @@
-export { default } from './PuzzlePlay';
+export { PuzzlePlay } from './PuzzlePlay';

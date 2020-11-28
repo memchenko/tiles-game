@@ -2,10 +2,10 @@ import React, { useEffect, useCallback } from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
 
 import { AppRoutes } from './constants/urls';
-import MainMenu from './screens/MainMenu';
-import PuzzlePlay from './screens/PuzzlePlay';
-import OpenIfInited from './components/OpenIfInited';
-import Credits from './screens/Credits';
+import { MainMenu } from './screens/MainMenu';
+import { PuzzlePlay } from './screens/PuzzlePlay';
+import { OpenIfInited } from './components/OpenIfInited';
+import { Credits } from './screens/Credits';
 
 function App() {
   const history = useHistory();

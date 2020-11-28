@@ -3,7 +3,7 @@ import { Route, Redirect } from 'react-router';
 
 import { IPrivateRouteProps } from './types';
 
-export default function PrivateRoute({
+export function PrivateRoute({
     condition,
     redirectTo,
     render,

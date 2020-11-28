@@ -9,12 +9,12 @@ import useShare from '../../lib/hooks/useShare';
 import { setLevel, playLens, setSolved, setUnsolved } from '../../entities/play';
 import { shuffleMtx } from '../../lib/shuffle';
 import { TileInfo, isMatricesEqual } from '../../lib/grid';
-import PuzzlePlayScreen from '../../components/PuzzlePlayScreen';
+import { PuzzlePlayScreen } from '../../components/PuzzlePlayScreen';
 import { formatSeconds } from '../../utils/time';
 import sounds, { SoundTypes } from '../../lib/sound';
 import analytics from '../../lib/analytics';
 
-export default function PuzzlePlay() {
+export function PuzzlePlay() {
     const [isShare, setShare] = useState(false);
     const [timerValue, setTimerValue] = useState(0);
     const [timer, setTimer] = useState<ReturnType<(typeof setInterval)> | null>(null);

@@ -1,3 +1,3 @@
-export { default } from './Header';
+export { Header } from './Header';
 
 export * from './types';

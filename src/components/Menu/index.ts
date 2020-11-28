@@ -1,3 +1,3 @@
-export { default } from './Menu';
+export { Menu } from './Menu';
 
 export * from './types';

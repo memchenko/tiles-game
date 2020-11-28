@@ -1,3 +1,3 @@
-export { default } from './TilesGrid';
+export { TilesGrid } from './TilesGrid';
 
 export * from './types';

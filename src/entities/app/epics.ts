@@ -8,7 +8,7 @@ import {
     setSoundsLoaded,
 } from './actions';
 
-import sound from '../../lib/sound';
+import { sound } from '../../lib/sound';
 
 export const onStateRehydrateEpic = (
     action$: ActionsObservable<Action<typeof REHYDRATE>>,

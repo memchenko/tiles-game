@@ -1,1 +1,1 @@
-export { default } from './EmptyStarIcon';
+export { EmptyStarIcon } from './EmptyStarIcon';

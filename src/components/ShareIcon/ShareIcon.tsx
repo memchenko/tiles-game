@@ -3,7 +3,7 @@ import React from 'react';
 import { IShareIconProps, ShareIconColors } from './types';
 import './ShareIcon.scss';
 
-export default function ShareIcon({ color }: IShareIconProps) {
+export function ShareIcon({ color }: IShareIconProps) {
     return (
         <svg
             width="28"

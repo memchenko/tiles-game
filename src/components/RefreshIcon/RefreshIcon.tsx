@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function RefreshIcon() {
+export function RefreshIcon() {
     return (
         <svg
             width="28"

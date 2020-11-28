@@ -5,18 +5,18 @@ import cn from 'classnames';
 import './PuzzlePlayScreen.scss';
 import { IPuzzlePlayScreenProps } from './types';
 
-import Layout from '../Layout';
-import Icon, { IconTypes } from '../Icon';
+import { Layout } from '../Layout';
+import { Icon, IconTypes } from '../Icon';
 import { PerformanceTypes, Results } from '../../constants/game';
-import TilesGrid from '../TilesGrid';
-import TilesGridInteractive from '../TilesGridInteractive';
+import { TilesGrid } from '../TilesGrid';
+import { TilesGridInteractive } from '../TilesGridInteractive';
 import { AppRoutes } from '../../constants/urls';
-import Menu from '../Menu';
-import ShareCard from '../ShareCard';
+import { Menu } from '../Menu';
+import { ShareCard } from '../ShareCard';
 import { formatSeconds } from '../../utils/time';
-import OpenIfInited from '../OpenIfInited';
+import { OpenIfInited } from '../OpenIfInited';
 
-export default function PuzzlePlayScreen({
+export function PuzzlePlayScreen({
     isNative,
     isSolved,
     isShare,

@@ -1,6 +1,6 @@
 import { BehaviorSubject } from 'rxjs';
 
-export default class Stateful<States> {
+export class Stateful<States> {
     private states: (States | null)[];
     private current: [States | null, unknown] | [null] = [null];
     private stateHandlers: Map<States | null, Function[]> = new Map();

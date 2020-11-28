@@ -1,3 +1,3 @@
-export { default } from './generate-matrix';
+export { generateMatrix } from './generate-matrix';
 
 export * from './types';

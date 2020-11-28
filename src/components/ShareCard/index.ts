@@ -1,3 +1,3 @@
-export { default } from './ShareCard';
+export { ShareCard } from './ShareCard';
 
 export * from './types';

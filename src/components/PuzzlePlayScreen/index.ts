@@ -1,3 +1,3 @@
-export { default } from './PuzzlePlayScreen';
+export { PuzzlePlayScreen } from './PuzzlePlayScreen';
 
 export * from './types';

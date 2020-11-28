@@ -4,11 +4,11 @@ import { view } from 'ramda';
 
 import { IOpenIfInitedProps } from './types';
 
-import PrivateRoute from '../PrivateRoute';
+import { PrivateRoute } from '../PrivateRoute';
 import { AppRoutes } from '../../constants/urls';
 import { appLens } from '../../entities/app';
 
-export default function OpenIfInited({
+export function OpenIfInited({
     path,
     exact,
     render,

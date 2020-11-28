@@ -3,10 +3,10 @@ import { useHistory } from 'react-router';
 
 import './Credits.scss';
 
-import Layout from '../../components/Layout';
+import { Layout } from '../../components/Layout';
 import { IconTypes } from '../../components/Icon';
 
-export default function Credits() {
+export function Credits() {
     const history = useHistory();
     const goBack = useCallback(() => {
         history.goBack();

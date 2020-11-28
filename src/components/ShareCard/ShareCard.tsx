@@ -16,7 +16,7 @@ const STARS_NUMBER = {
     [Results.Best]: 3,
 };
 
-export default function ShareCard({
+export function ShareCard({
     performance,
     text,
     level,

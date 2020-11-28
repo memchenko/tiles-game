@@ -6,12 +6,12 @@ import { view } from 'ramda';
 import './MainMenu.scss';
 
 import { AppRoutes } from '../../constants/urls';
-import Layout from '../../components/Layout';
-import Menu from '../../components/Menu';
+import { Layout } from '../../components/Layout';
+import { Menu } from '../../components/Menu';
 import { playLens, setLevel, setUnsolved } from '../../entities/play';
 import analytics from '../../lib/analytics';
 
-export default function MainMenu() {
+export function MainMenu() {
     const history = useHistory();
     const { level, isSolved } = useSelector(view(playLens));
     const dispatch = useDispatch();

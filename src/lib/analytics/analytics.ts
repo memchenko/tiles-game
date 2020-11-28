@@ -8,9 +8,9 @@ import { KEYS_MAP, SIMPLIFY_VALUES_MAP, FIREBASE_ANALYTICS_DB } from './constant
 import firebase from '../../firebase';
 import { randomWithin } from '../../utils/random';
 import { PLATFORM } from '../../constants/app';
-import Stateful from '../stateful';
+import { Stateful } from '../stateful';
 
-class Analytics extends Stateful<AnalyticsStates> {
+export class Analytics extends Stateful<AnalyticsStates> {
     private PUSH_SESSION_MS = 10000;
     private SESSION_DURATION_UPDATER_MS = 1000;
     private isBrokenSession = false;
@@ -221,5 +221,3 @@ class Analytics extends Stateful<AnalyticsStates> {
         }
     }
 }
-
-export default new Analytics();

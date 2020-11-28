@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ReactComponent as StarEmpty } from '../../assets/images/star-empty.svg';
 
-export default function EmptyStarIcon() {
+export function EmptyStarIcon() {
     return (
         <StarEmpty />
     );

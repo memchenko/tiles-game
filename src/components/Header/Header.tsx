@@ -3,9 +3,9 @@ import React from 'react';
 import { IHeaderProps } from './types';
 import './Header.scss';
 
-import IconButton from '../IconButton';
+import { IconButton } from '../IconButton';
 
-export default function Header({
+export function Header({
     leftIconType,
     rightIconType,
     onLeftIconClick,

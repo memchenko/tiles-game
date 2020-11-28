@@ -11,7 +11,7 @@ import './Button.scss';
 
 import sounds, { SoundTypes } from '../../lib/sound';
 
-export default function Button({
+export function Button({
     children,
     size = ButtonSizes.M,
     type = ButtonTypes.Primary,

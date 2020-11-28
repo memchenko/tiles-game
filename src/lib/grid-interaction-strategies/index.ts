@@ -1,1 +1,1 @@
-export { getGridInteractionStrategy } from './GridInteractionsStrategy';
+export { getGridInteractionStrategy } from './grid-interactions-strategy';

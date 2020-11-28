@@ -5,7 +5,7 @@ import { IGenerateMatrixData } from './types';
 import { COLORS } from '../../constants/game';
 import { randomWithin } from '../../utils/random';
 
-export default function generateMatrix({
+export function generateMatrix({
     colorsNumber,
     tilesSideNumber,
 }: IGenerateMatrixData) {

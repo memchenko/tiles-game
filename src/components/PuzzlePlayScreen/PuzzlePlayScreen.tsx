@@ -93,7 +93,7 @@ export function PuzzlePlayScreen({
             <div className={ cn('play-area', {
                 'play-area--centered': isPlaying,
                 'row-5': !isShare,
-                'row-2': isShare,
+                'row-3': isShare,
             }) }>
                 <Switch>
                     <OpenIfInited

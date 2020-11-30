@@ -6,7 +6,7 @@ import { isMobile } from 'react-device-detect';
 import { TileInfo, TileConfig, IPoint, IQuadrant } from './types';
 
 import { getElement } from '../../utils/dom';
-import IO from '../../utils/IO';
+import { IO } from '../../utils/IO';
 import { Directions } from '../../constants/game';
 import { DPI } from '../../constants/device';
 

@@ -4,7 +4,7 @@ import { Action } from 'redux';
 import { REHYDRATE } from 'redux-persist';
 
 import { IStateWithPlay } from './types';
-import analytics, { AnalyticsStates } from '../../lib/analytics';
+import { analytics, AnalyticsStates } from '../../lib/analytics';
 
 export const onStateRehydrateEpic = (
     action$: ActionsObservable<Action<typeof REHYDRATE>>,

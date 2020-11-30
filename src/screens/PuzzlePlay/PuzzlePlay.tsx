@@ -5,14 +5,14 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { IconTypes } from '../../components/Icon';
 import { AppRoutes } from '../../constants/urls';
-import useShare from '../../lib/hooks/useShare';
+import { useShare } from '../../lib/hooks/useShare';
 import { setLevel, playLens, setSolved, setUnsolved } from '../../entities/play';
 import { shuffleMtx } from '../../lib/shuffle';
 import { TileInfo, isMatricesEqual } from '../../lib/grid';
 import { PuzzlePlayScreen } from '../../components/PuzzlePlayScreen';
 import { formatSeconds } from '../../utils/time';
-import sounds, { SoundTypes } from '../../lib/sound';
-import analytics from '../../lib/analytics';
+import { sound, SoundTypes } from '../../lib/sound';
+import { analytics } from '../../lib/analytics';
 
 export function PuzzlePlay() {
     const [isShare, setShare] = useState(false);
@@ -80,7 +80,7 @@ export function PuzzlePlay() {
     }, [isShare]);
     const playOnSolvedSound = useCallback(() => {
         if (staticTimerValue.current <= performances[2]) {
-            sounds.start(SoundTypes.ResultSuccess);
+            sound.start(SoundTypes.ResultSuccess);
         }
     }, [staticTimerValue, performances]);
     const handleMatrixChange = useCallback((changedMatrix: TileInfo[][]) => {

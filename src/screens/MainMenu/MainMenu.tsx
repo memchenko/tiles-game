@@ -9,7 +9,7 @@ import { AppRoutes } from '../../constants/urls';
 import { Layout } from '../../components/Layout';
 import { Menu } from '../../components/Menu';
 import { playLens, setLevel, setUnsolved } from '../../entities/play';
-import analytics from '../../lib/analytics';
+import { analytics } from '../../lib/analytics';
 
 export function MainMenu() {
     const history = useHistory();

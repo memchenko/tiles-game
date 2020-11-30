@@ -9,7 +9,7 @@ import {
 } from './types';
 import './Button.scss';
 
-import sounds, { SoundTypes } from '../../lib/sound';
+import { sound, SoundTypes } from '../../lib/sound';
 
 export function Button({
     children,
@@ -21,7 +21,7 @@ export function Button({
     const buttonModifiers = [size, type, responsiveness]
         .map(modifier => `button--${modifier}`);
     const handleClick = useCallback(() => {
-        sounds.start(SoundTypes.Click);
+        sound.start(SoundTypes.Click);
         onClick();
     }, [onClick]);
 

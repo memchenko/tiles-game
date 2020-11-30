@@ -4,14 +4,14 @@ import { IIconButtonProps } from './types';
 import './IconButton.scss';
 
 import { Icon } from '../Icon';
-import sounds, { SoundTypes } from '../../lib/sound';
+import { sound, SoundTypes } from '../../lib/sound';
 
 export function IconButton({
     type,
     onClick,
 }: IIconButtonProps) {
     const handleClick = useCallback((event) => {
-        sounds.start(SoundTypes.Click);
+        sound.start(SoundTypes.Click);
         onClick(event);
     }, [onClick]);
 

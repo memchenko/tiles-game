@@ -1,7 +1,7 @@
 import { compose } from 'ramda';
 import { of, map, chain } from 'fantasy-land';
 
-export default class IO {
+export class IO {
   unsafePerformIO: (() => any);
   
   constructor(f: (() => any)) {

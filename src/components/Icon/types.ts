@@ -1,4 +1,3 @@
-import { IBackIconProps } from '../BackIcon';
 import { IShareIconProps } from '../ShareIcon';
 import { RefObject } from 'react';
 
@@ -16,8 +15,7 @@ export enum IconTypes {
 }
 
 export type IconsProps =
-    | IShareIconProps
-    | IBackIconProps;
+    | IShareIconProps;
 
 export interface IIconProps {
     ref?: RefObject<HTMLElement>;

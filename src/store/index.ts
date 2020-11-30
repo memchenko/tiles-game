@@ -5,7 +5,7 @@ import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 import stateReconciler from 'redux-persist/lib/stateReconciler/autoMergeLevel1'
 
-import rootReducer from './rootReducer';
+import { reducer } from './rootReducer';
 import { WindowWithReduxDevTools } from './types';
 
 import { epics as networkEpics } from '../entities/network';
@@ -24,10 +24,10 @@ const persistConfig = {
   blacklist: ['network', 'app'],
 };
 
-const persistedReducer = persistReducer<ReturnType<typeof rootReducer>>(persistConfig, rootReducer);
+const persistedReducer = persistReducer<ReturnType<typeof reducer>>(persistConfig, reducer);
 
 const epicMiddleware = createEpicMiddleware();
-const store = () => {
+export const createAppStore = () => {
   const store = createStore(
     persistedReducer,
     compose(
@@ -45,5 +45,3 @@ const store = () => {
 
   return { store, persistor };
 };
-
-export default store;

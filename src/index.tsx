@@ -6,11 +6,11 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import App from './App';
-import createStore from './store';
+import { createAppStore } from './store';
 import * as serviceWorker from './serviceWorker';
 import './index.scss';
 
-const { store, persistor } = createStore();
+const { store, persistor } = createAppStore();
 
 ReactDOM.render(
   <React.StrictMode>

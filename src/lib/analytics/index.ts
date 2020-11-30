@@ -1,4 +1,4 @@
-import { Analytics } from './analytics';
+import { Analytics } from './Analytics';
 
 export const analytics = new Analytics();
 

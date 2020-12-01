@@ -6,12 +6,11 @@ import './Header.scss';
 import { IconButton } from '../IconButton';
 
 export function Header({
+    render,
     leftIconType,
     rightIconType,
     onLeftIconClick,
     onRightIconClick,
-    performanceType,
-    performanceValue,
 }: IHeaderProps) {
     return (
         <div className="header">
@@ -24,17 +23,7 @@ export function Header({
                         <span></span>
                     )
             }
-            {
-                performanceType && performanceValue
-                    ? (
-                        <span className="header__performance">
-                            { performanceType } { performanceValue }
-                        </span>
-                    )
-                    : (
-                        <span></span>
-                    )
-            }
+            { render({}) }
             {
                 rightIconType && onRightIconClick
                     ? (

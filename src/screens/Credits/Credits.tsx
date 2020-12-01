@@ -15,6 +15,7 @@ export function Credits() {
     return (
         <Layout
             headerProps={{
+                render: () => <span></span>,
                 leftIconType: IconTypes.Back,
                 onLeftIconClick: goBack,
             }}

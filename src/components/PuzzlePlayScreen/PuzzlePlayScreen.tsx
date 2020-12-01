@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Switch } from 'react-router-dom';
 import cn from 'classnames';
 
@@ -7,7 +7,7 @@ import { IPuzzlePlayScreenProps } from './types';
 
 import { Layout } from '../Layout';
 import { Icon, IconTypes } from '../Icon';
-import { PerformanceTypes, Results } from '../../constants/game';
+import { PerformanceTypes } from '../../constants/game';
 import { TilesGrid } from '../TilesGrid';
 import { TilesGridInteractive } from '../TilesGridInteractive';
 import { AppRoutes } from '../../constants/urls';
@@ -15,19 +15,24 @@ import { Menu } from '../Menu';
 import { ShareCard } from '../ShareCard';
 import { formatSeconds } from '../../utils/time';
 import { OpenIfInited } from '../OpenIfInited';
+import { Performance } from '../Performance';
+import { TimePerformance } from '../TimePerformance';
 
 export function PuzzlePlayScreen({
     isNative,
     isSolved,
     isShare,
     isPlaying,
+    isSuccessfullySolved,
     performances,
-    timerValue,
     level,
+    result,
     matrix,
     shuffledMatrix,
     leftIcon,
     rightIcon,
+    shareCardText,
+    starsNumber,
     onLeftIconClick,
     onRightIconClick,
     onHomeClick,
@@ -36,28 +41,40 @@ export function PuzzlePlayScreen({
     onNextClick,
     onMatrixChange,
     onShareCardDraw,
+    onTimerUpdate,
 }: IPuzzlePlayScreenProps) {
-    const time = formatSeconds(timerValue);
-    const isSuccessfullySolved = timerValue < performances[2];
-    let performance = Results.Bad;
+    const seconds = useRef(0);
+    const filledStars = Array.from({ length: starsNumber }, () => IconTypes.Star);
+    const emptyStars = Array.from({ length: 3 - starsNumber }, () => IconTypes.StarEmpty);
+    const stars = filledStars
+        .concat(emptyStars)
+        .map((iconType: IconTypes, i: number) => (<Icon key={ i } type={ iconType } />));
+    const handleTimerUpdate = useCallback((value: number) => {
+        seconds.current = value;
 
-    if (timerValue <= performances[0]) {
-        performance = Results.Best;
-    } else if (timerValue <= performances[1]) {
-        performance = Results.Good;
-    } else if (timerValue <= performances[2]) {
-        performance = Results.Normal;
-    }
+        onTimerUpdate(value);
+    }, [seconds, onTimerUpdate]);
+
+    useEffect(() => {
+        if (!isSolved) {
+            seconds.current = 0;
+        }
+    }, [isSolved, seconds]);
 
     return (
         <Layout
             headerProps={{
+                render: !isSolved
+                    ? () => <TimePerformance onUpdate={ handleTimerUpdate } />
+                    : () => (
+                        <Performance
+                            performanceType={ PerformanceTypes.Time }
+                            performanceValue={ formatSeconds(seconds.current) }/>
+                    ),
                 leftIconType: leftIcon,
                 rightIconType: rightIcon,
                 onLeftIconClick,
                 onRightIconClick,
-                performanceType: PerformanceTypes.Time,
-                performanceValue: time,
             }}
         >
             <div className={ cn('grid-row', {
@@ -79,9 +96,9 @@ export function PuzzlePlayScreen({
                                 'play-share--invisible': !isShare
                             }) }>
                                 <ShareCard
-                                    performance={ performance }
+                                    performance={ result }
                                     matrix={ matrix }
-                                    text={ `MY TIME ${time}` }
+                                    text={ shareCardText }
                                     level={ level }
                                     onDraw={ onShareCardDraw }
                                 />
@@ -118,12 +135,7 @@ export function PuzzlePlayScreen({
                                     undisplay: isShare,
                                 }) }>
                                     <div className="play-area__stars">
-                                        {
-                                            performances
-                                                .map((performance: number) => timerValue > performance ? IconTypes.StarEmpty : IconTypes.Star)
-                                                .reverse()
-                                                .map((iconType: IconTypes, i: number) => (<Icon key={ i } type={ iconType } />))
-                                        }
+                                        { stars }
                                     </div>
                                     <div className="play-area__ideal">
                                         Ideal { formatSeconds(performances[0]) }

@@ -20,6 +20,12 @@ export const TimePerformance = ({
               counter++;
               setSeconds(counter);
           }, 1000);
+
+          return () => {
+            if (timer.current) {
+              clearInterval(timer.current);
+            }
+          };
       },
       [timer, setSeconds]
   );

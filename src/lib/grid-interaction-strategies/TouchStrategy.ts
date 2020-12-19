@@ -2,6 +2,7 @@ import { fromEvent } from 'rxjs';
 import { map, mapTo, tap, filter, } from 'rxjs/operators';
 
 import { IInteractionObservables } from '../grid';
+import { isLandscape } from '../../constants/device';
 
 export class TouchStrategy implements IInteractionObservables {
     private touch: Touch | null = null;
@@ -30,7 +31,7 @@ export class TouchStrategy implements IInteractionObservables {
                 const touches = event.targetTouches;
                 this.touch = touches[0];
 
-                if (window.screen.orientation.type.includes('landscape')) {
+                if (isLandscape()) {
                     this.orientation = false;
                     this.height = document.body.getBoundingClientRect().height;
                 } else {

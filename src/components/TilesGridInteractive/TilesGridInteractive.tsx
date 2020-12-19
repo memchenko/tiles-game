@@ -1,5 +1,4 @@
 import React, { useEffect, useRef } from 'react';
-import { isMobile } from 'react-device-detect';
 
 import { ITilesGridInteractiveProps } from './types';
 import './TilesGridInteractive.scss';
@@ -7,7 +6,7 @@ import './TilesGridInteractive.scss';
 import { GridManager, States } from '../../lib/grid';
 import { getGridInteractionStrategy } from '../../lib/grid-interaction-strategies';
 import { sound, SoundTypes } from '../../lib/sound';
-import { DPI } from '../../constants/device';
+import { DPI, isLandscape } from '../../constants/device';
 
 export const TilesGridInteractive = React.memo(
     function TilesGridInteractive({ matrix, onMatrixChange }: ITilesGridInteractiveProps) {
@@ -27,7 +26,7 @@ export const TilesGridInteractive = React.memo(
             const { width, height } = canvasEl.getBoundingClientRect();
             const strategy = getGridInteractionStrategy(canvasEl);
 
-            if (isMobile && window.screen.orientation.type.includes('landscape')) {
+            if (isLandscape()) {
                 ['width', 'height'].forEach(attr => canvasEl.setAttribute(attr, String(height * DPI)));
             } else {
                 ['width', 'height'].forEach(attr => canvasEl.setAttribute(attr, String(width * DPI)));

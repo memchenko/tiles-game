@@ -1,11 +1,10 @@
 import React, { useEffect, useRef } from 'react';
-import { isMobile } from 'react-device-detect';
-
-import { drawGrid, getGridData } from '../../lib/grid';
-import { DPI } from '../../constants/device';
 
 import { ITilesGridProps } from './types';
 import './TilesGrid.scss';
+
+import { drawGrid, getGridData, drawRect } from '../../lib/grid';
+import { DPI, isLandscape } from '../../constants/device';
 
 export const TilesGrid = React.memo(
     function TilesGrid({ matrix }: ITilesGridProps) {
@@ -22,7 +21,7 @@ export const TilesGrid = React.memo(
             const ctx = canvasEl.getContext('2d') as CanvasRenderingContext2D;
             const { width, height } = containerEl.getBoundingClientRect();
 
-            if (isMobile && window.screen.orientation.type.includes('landscape')) {
+            if (isLandscape()) {
                 ['width', 'height'].forEach(attr => canvasEl.setAttribute(attr, String(height * DPI)));
             } else {
                 ['width', 'height'].forEach(attr => canvasEl.setAttribute(attr, String(width * DPI)));

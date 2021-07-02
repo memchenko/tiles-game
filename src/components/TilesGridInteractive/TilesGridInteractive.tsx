@@ -3,15 +3,13 @@ import React, { useEffect, useRef } from 'react';
 import { ITilesGridInteractiveProps } from './types';
 import './TilesGridInteractive.scss';
 
-import { GridManager, States } from '../../lib/grid';
-import { getGridInteractionStrategy } from '../../lib/grid-interaction-strategies';
-import { sound, SoundTypes } from '../../lib/sound';
+import { Grid } from '../../lib/grid';
 import { DPI, isLandscape } from '../../constants/device';
 
 export const TilesGridInteractive = React.memo(
     function TilesGridInteractive({ matrix, onMatrixChange }: ITilesGridInteractiveProps) {
         const canvas = useRef(null);
-        const gridManager = useRef<GridManager | null>(null);
+        const gridManager = useRef<Grid | null>(null);
 
         useEffect(() => {
             if (!canvas.current) {
@@ -24,7 +22,6 @@ export const TilesGridInteractive = React.memo(
 
             const canvasEl = canvas.current as unknown as HTMLCanvasElement;
             const { width, height } = canvasEl.getBoundingClientRect();
-            const strategy = getGridInteractionStrategy(canvasEl);
 
             if (isLandscape()) {
                 ['width', 'height'].forEach(attr => canvasEl.setAttribute(attr, String(height * DPI)));
@@ -32,24 +29,7 @@ export const TilesGridInteractive = React.memo(
                 ['width', 'height'].forEach(attr => canvasEl.setAttribute(attr, String(width * DPI)));
             }
 
-            const grid = gridManager.current = new GridManager(matrix);
-
-            grid.init(Object.assign(
-                strategy,
-                { canvas: canvasEl }
-            ));
-            
-            const finishMoveSub = grid.finishMove$.subscribe(onMatrixChange);
-            const handleInitialized = () => {
-                sound.start(SoundTypes.Moving);
-            };
-
-            grid.on(States.Initialized, handleInitialized);
-
-            return () => {
-                finishMoveSub.unsubscribe();
-                grid.off(States.Initialized, handleInitialized);
-            };
+            gridManager.current = new Grid(matrix, canvasEl);
         }, [matrix, onMatrixChange, canvas, gridManager]);
 
         return (

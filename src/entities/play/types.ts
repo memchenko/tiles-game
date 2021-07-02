@@ -1,5 +1,3 @@
-import { TileInfo } from '../../lib/grid';
-
 export enum Actions {
     SetLevel = '@play/SET_LEVEL',
     SetSolved = '@play/SET_SOLVED',
@@ -12,7 +10,7 @@ export interface ISetLevelData {
 
 export interface IPlayState {
     level: number;
-    matrix: TileInfo[][];
+    matrix: string[][];
     performances: [number, number, number];
     isSolved: boolean;
 }

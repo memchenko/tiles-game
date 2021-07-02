@@ -3,7 +3,9 @@ import React, { useEffect, useRef } from 'react';
 import { ITilesGridProps } from './types';
 import './TilesGrid.scss';
 
-import { drawGrid, getGridData, drawRect } from '../../lib/grid';
+import { GridContext } from '../../lib/grid/grid-context';
+import { MatrixCalculator, IRendereableMatrix } from '../../lib/grid/matrix-calculator';
+import { Renderer } from '../../lib/grid/renderer';
 import { DPI, isLandscape } from '../../constants/device';
 
 export const TilesGrid = React.memo(
@@ -18,7 +20,6 @@ export const TilesGrid = React.memo(
     
             const canvasEl = canvas.current as unknown as HTMLCanvasElement;
             const containerEl = container.current as unknown as HTMLDivElement;
-            const ctx = canvasEl.getContext('2d') as CanvasRenderingContext2D;
             const { width, height } = containerEl.getBoundingClientRect();
 
             if (isLandscape()) {
@@ -27,7 +28,17 @@ export const TilesGrid = React.memo(
                 ['width', 'height'].forEach(attr => canvasEl.setAttribute(attr, String(width * DPI)));
             }
 
-            drawGrid(ctx, getGridData({ mtx: matrix, context: ctx }).config);
+            const context = new GridContext(matrix, canvasEl);
+            const calculator = new MatrixCalculator(matrix);
+            const renderer = new Renderer();
+            const calcHandler = (matrix: IRendereableMatrix<string>) => {
+                renderer.push({ matrix, context: context.getData() });
+                calculator.off(calcHandler);
+            };
+
+            calculator.on('push', calcHandler);
+
+            calculator.push(context.getData());
         }, [matrix, canvas, container]);
 
         return (

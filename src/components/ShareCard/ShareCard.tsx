@@ -4,7 +4,7 @@ import { IShareCardProps } from './types';
 import './ShareCard.scss';
 
 import { Results } from '../../constants/game';
-import { drawGrid } from '../../lib/grid';
+// import { drawGrid, drawRect } from '../../lib/grid';
 import { getSecondaryColor, getBgColor } from '../../constants/style';
 import star from '../../assets/images/star.svg';
 import emptyStar from '../../assets/images/star-empty.svg';
@@ -47,18 +47,18 @@ export function ShareCard({
         ctx.fillStyle = getBgColor();
         ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
-        drawGrid(
-            ctx,
-            matrix.map(
-                (row, i) => row.map(({ color }, j) => ({
-                    color,
-                    width: GRID_SIDE * HEIGHT / row.length,
-                    height: GRID_SIDE * HEIGHT / matrix.length,
-                    x: GRID_SIDE * HEIGHT / row.length * j + WIDTH * H_PADDING,
-                    y: divider + GRID_SIDE * HEIGHT * i / matrix.length,
-                }))
-            )
-        );
+        // drawGrid(
+        //     drawRect(ctx),
+        //     matrix.map(
+        //         (row, i) => row.map(({ color }, j) => ({
+        //             data: { color },
+        //             width: GRID_SIDE * HEIGHT / row.length,
+        //             height: GRID_SIDE * HEIGHT / matrix.length,
+        //             x: GRID_SIDE * HEIGHT / row.length * j + WIDTH * H_PADDING,
+        //             y: divider + GRID_SIDE * HEIGHT * i / matrix.length,
+        //         }))
+        //     )
+        // );
         
         cnvs.style.letterSpacing = '2px';
         ctx.font = '800 70px "Archivo"';

@@ -41,7 +41,7 @@
     "redux": "^4.0.5",
     "redux-observable": "^1.2.0",
     "redux-persist": "^6.0.0",
-    "rxjs": "^6.5.5",
+    "rxjs": "^6.6.7",
     "typescript": "^3.9.6"
   },
   "scripts": {

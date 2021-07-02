@@ -1,4 +1,3 @@
-import { TileInfo } from '../../lib/grid';
 import { IconTypes } from '../../components/Icon';
 import { Results } from '../../constants/game';
 
@@ -12,8 +11,8 @@ export interface IPuzzlePlayScreenProps {
     level: number;
     result: Results;
 
-    matrix: TileInfo[][];
-    shuffledMatrix: TileInfo[][];
+    matrix: string[][];
+    shuffledMatrix: string[][];
 
     leftIcon: IconTypes;
     rightIcon: IconTypes;
@@ -27,7 +26,7 @@ export interface IPuzzlePlayScreenProps {
     onRetryClick(): void;
     onBackClick(): void;
     onNextClick(): void;
-    onMatrixChange(value: TileInfo[][]): void;
+    onMatrixChange(value: string[][]): void;
     onShareCardDraw: (blob: Blob | null) => void;
     onTimerUpdate: (seconds: number) => void;
 }

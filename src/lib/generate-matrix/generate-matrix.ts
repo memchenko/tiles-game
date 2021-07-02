@@ -30,7 +30,7 @@ export function generateMatrix({
     for (let i = 0; i < tilesNumber; i++) {
         const index = Math.floor(randomWithin(0, colors.length - 1));
         const entry = colors[index];
-        result.push({ color: entry[0] });
+        result.push(entry[0]);
         entry[1]--;
         
         if (entry[1] === 0) {

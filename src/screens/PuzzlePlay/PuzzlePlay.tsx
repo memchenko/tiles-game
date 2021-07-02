@@ -8,16 +8,16 @@ import { AppRoutes } from '../../constants/urls';
 import { useShare } from '../../lib/hooks/useShare';
 import { setLevel, playLens, setSolved, setUnsolved } from '../../entities/play';
 import { shuffleMtx } from '../../lib/shuffle';
-import { TileInfo, isMatricesEqual } from '../../lib/grid';
 import { PuzzlePlayScreen } from '../../components/PuzzlePlayScreen';
 import { formatSeconds } from '../../utils/time';
 import { sound, SoundTypes } from '../../lib/sound';
 import { analytics } from '../../lib/analytics';
 import { Results } from '../../constants/game';
+import { isMatricesEqual } from '../../lib/grid/matrix-calculator';
 
 export function PuzzlePlay() {
     const [isShare, setShare] = useState(false);
-    const [matrixForPlay, setMatrixForPlay] = useState<TileInfo[][] | null>(null);
+    const [matrixForPlay, setMatrixForPlay] = useState<string[][] | null>(null);
     const history = useHistory();
     const [isNative, share] = useShare();
     const { level, matrix, performances, isSolved } = useSelector(view(playLens));
@@ -26,9 +26,9 @@ export function PuzzlePlay() {
 
     useEffect(() => {
         if (!matrixForPlay) {
-            let shuffledMatrix = shuffleMtx<TileInfo>(matrix);
+            let shuffledMatrix = shuffleMtx<string>(matrix);
             while (isMatricesEqual(matrix, shuffledMatrix)) {
-                shuffledMatrix = shuffleMtx<TileInfo>(matrix);
+                shuffledMatrix = shuffleMtx<string>(matrix);
             }
             setMatrixForPlay(shuffledMatrix);
         }
@@ -77,7 +77,7 @@ export function PuzzlePlay() {
             sound.start(SoundTypes.ResultSuccess);
         }
     }, [seconds, performances]);
-    const handleMatrixChange = useCallback((changedMatrix: TileInfo[][]) => {
+    const handleMatrixChange = useCallback((changedMatrix: string[][]) => {
         if (isMatricesEqual(changedMatrix, matrix)) {
             dispatch(setSolved());
             history.replace(AppRoutes.PlayResult);

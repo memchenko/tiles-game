@@ -1,4 +1,3 @@
-export { GridManager } from './GridManager';
+export { Grid } from './Grid';
 export * from './types';
-export * from './utils';
 export * from './constants';

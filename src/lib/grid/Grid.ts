@@ -11,6 +11,9 @@ import { rendereableMatrixToShift } from './mappers/mappers';
 import { Renderer } from './renderer';
 import { IStreams } from './types';
 
+export { Grid } from './Grid2';
+
+/*
 export class Grid {
   constructor(
     private matrix: string[][],
@@ -71,3 +74,4 @@ export class Grid {
     matrixCalculator.push(context.getData());
   }
 }
+*/

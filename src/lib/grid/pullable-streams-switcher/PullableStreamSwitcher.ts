@@ -16,6 +16,8 @@ export class PullableStreamsSwitcher<S extends string>
   };
   private currentStateTimes: number = 0;
 
+  private resolveControl: (() => Partial<IGridContext>) | null = null;
+
   constructor(
     private currentState: S,
   ) {
@@ -23,7 +25,7 @@ export class PullableStreamsSwitcher<S extends string>
   }
 
   private subscribeToStream(state: S, stream: ISwitchableStream) {
-    stream.on('control', () => {
+    stream.on('control', (value: Partial<IGridContext>) => {
       const isEnoughTimes = this.timesBeforeTransition[this.currentState] !== Infinity
         ? this.timesBeforeTransition[this.currentState] <= this.currentStateTimes
         : true;
@@ -33,6 +35,8 @@ export class PullableStreamsSwitcher<S extends string>
       if (isCorrectTransition && isNotBlocked && isEnoughTimes) {
         this.currentState = state;
         this.currentStateTimes = 0;
+
+        this.resolveControl = () => value;
       }
     });
   }
@@ -40,9 +44,19 @@ export class PullableStreamsSwitcher<S extends string>
   async pull(data: IGridContext) {
     this.switchIfCurrentStateTimesExceeded();
 
-    const context = await this.streams[this.currentState].pull(data);
+    const currentState = this.currentState;
+    let context;
 
-    this.currentStateTimes += 1;
+    if (this.resolveControl) {
+      context = await this.resolveControl();
+      this.resolveControl = null;
+    } else {
+      context = await this.streams[currentState].pull(data);
+    }
+
+    if (currentState === this.currentState) {
+      this.currentStateTimes += 1;
+    }
 
     return context;
   }

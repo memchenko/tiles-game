@@ -64,10 +64,7 @@ export class Grid {
 
     renderer.on('push', async () => {
       const result = await context.pull();
-// @ts-ignore
-      if (switcher.currentState === 'align') {
-        // debugger;
-      }
+
       matrixCalculator.push(result);
     });
 

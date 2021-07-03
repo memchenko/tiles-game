@@ -34,14 +34,12 @@ export class AlignStream implements ISwitchableStream {
 
         if (abs < 5) {
           newCoordValue = coords[coord] - shift;
-        } else if (abs < mid && shift < 0) {
-          newCoordValue = coords[coord] + shift / 2;
         } else if (abs > mid && shift < 0) {
-          newCoordValue = coords[coord] - (shift + mid) / 2;
-        } else if (abs < mid && shift > 0) {
-          newCoordValue = coords[coord] - shift / 2;
+          newCoordValue = coords[coord] + (mid * 2 + shift) / 2;
         } else if (abs > mid && shift > 0) {
-          newCoordValue = coords[coord] + (shift - mid) / 2;
+          newCoordValue = coords[coord] + (mid * 2 - shift) / 2;
+        } else {
+          newCoordValue = coords[coord] - shift / 2;
         }
 
         Object.assign(this.data, {
@@ -51,7 +49,7 @@ export class AlignStream implements ISwitchableStream {
             [coord]: newCoordValue! - coords[coord],
           },
         });
-        console.log(shift, mid, this.data);
+
         if (index === lastIndex) {
           this.isFinished = true;
         }

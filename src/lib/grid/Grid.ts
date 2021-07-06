@@ -6,6 +6,7 @@ import {
   zip,
   Subscription,
   Observable,
+  Subject,
 } from "rxjs";
 import {
   filter,
@@ -16,11 +17,17 @@ import {
   throttleTime,
   skip,
   takeUntil,
+  debounceTime,
 } from "rxjs/operators";
 
 import { getInteractionsObservables } from "./interactions";
-import { GridContext } from "./grid-context";
-import { MatrixCalculator, IRendereableMatrix } from "./matrix-calculator";
+import { GridContext, IGridContext } from "./grid-context";
+import {
+  MatrixCalculator,
+  IRendereableMatrix,
+  ICell,
+  isMatricesEqual,
+} from "./matrix-calculator";
 import { Renderer } from "./renderer";
 import {
   eventToPoint,
@@ -32,19 +39,36 @@ import { IContainerEvent } from "./types";
 import { getArrOfDistancesFromBezierToIdentity } from "./utils";
 import { Directions } from "../../constants/game";
 
-export class Grid {
+export class Grid<T> {
   private subscriber: Subscription | null = null;
+  private matrixChanged$ = new Subject<IRendereableMatrix<T>>();
+  private previousMatrix?: T[][];
 
-  constructor(matrix: string[][], element: HTMLCanvasElement) {
-    const context = new GridContext<string>(matrix, element);
+  changed$ = this.matrixChanged$.pipe(
+    debounceTime(50),
+    map((rendereableMatrix) =>
+      rendereableMatrix.map((row) => row.map((cell) => cell.payload))
+    ),
+    filter(
+      (newMatrix) => !isMatricesEqual(newMatrix, this.previousMatrix ?? [[]])
+    ),
+    tap((newMatrix) => (this.previousMatrix = newMatrix))
+  );
+
+  constructor(
+    matrix: T[][],
+    element: HTMLCanvasElement,
+    drawRect: (context: IGridContext, cell: ICell<T>) => void
+  ) {
+    const context = new GridContext<T>(matrix, element);
     const matrixCalculator = new MatrixCalculator(matrix);
-    const renderer = new Renderer();
+    const renderer = new Renderer<T>(drawRect);
     const FREQ = 1000 / 60;
 
     const { initializer$, mover$, finisher$ } =
       getInteractionsObservables(element);
 
-    matrixCalculator.on("push", (matrix: IRendereableMatrix<string>) => {
+    matrixCalculator.on("push", (matrix: IRendereableMatrix<T>) => {
       const data = context.getData();
 
       renderer.push({ matrix, context: data });
@@ -52,6 +76,8 @@ export class Grid {
       context.push({
         shift: rendereableMatrixToShift(matrix, data),
       });
+
+      this.matrixChanged$.next(matrix);
     });
 
     this.subscriber = (initializer$ as Observable<MouseEvent>)
@@ -171,6 +197,7 @@ export class Grid {
   destroy() {
     if (this.subscriber) {
       this.subscriber.unsubscribe();
+      this.matrixChanged$.complete();
       this.subscriber = null;
     }
   }

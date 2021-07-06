@@ -1,23 +1,19 @@
-import { compose } from 'ramda';
-
 import {
   shiftColBy,
   shiftRowBy,
   roundColItems,
   roundRowItems,
   getRendereableMatrix,
-} from './utils';
-import { IRendereableMatrix, IMatrixCalculator } from './types';
-import { IGridContext } from '../grid-context';
-import { Directions } from '../../../constants/game';
+} from "./utils";
+import { IRendereableMatrix, IMatrixCalculator } from "./types";
+import { IGridContext } from "../grid-context";
+import { Directions } from "../../../constants/game";
 
-export class MatrixCalculator implements IMatrixCalculator<string> {
-  private rendereableMatrix!: IRendereableMatrix<string>;
-  private listeners: ((mtx: IRendereableMatrix<string>) => void)[] = [];
+export class MatrixCalculator<T> implements IMatrixCalculator<T> {
+  private rendereableMatrix!: IRendereableMatrix<T>;
+  private listeners: ((mtx: IRendereableMatrix<T>) => void)[] = [];
 
-  constructor(
-    public matrix: string[][]
-  ) {}
+  constructor(public matrix: T[][]) {}
 
   move(context: IGridContext) {
     if (context.direction === Directions.X) {
@@ -26,7 +22,7 @@ export class MatrixCalculator implements IMatrixCalculator<string> {
       this.moveVertical(context);
     }
   }
-  
+
   push(context: IGridContext) {
     if (!this.rendereableMatrix) {
       this.rendereableMatrix = getRendereableMatrix(context, this.matrix);
@@ -37,11 +33,11 @@ export class MatrixCalculator implements IMatrixCalculator<string> {
     }
   }
 
-  on(_: 'push', handler: (mtx: IRendereableMatrix<string>) => void) {
+  on(_: "push", handler: (mtx: IRendereableMatrix<T>) => void) {
     this.listeners.push(handler);
   }
 
-  off(listener: (mtx: IRendereableMatrix<string>) => void) {
+  off(listener: (mtx: IRendereableMatrix<T>) => void) {
     this.listeners = this.listeners.filter((fn) => fn !== listener);
   }
 
@@ -52,24 +48,14 @@ export class MatrixCalculator implements IMatrixCalculator<string> {
   }
 
   private moveHorizontal(context: IGridContext) {
-    this.rendereableMatrix = compose<
-      IRendereableMatrix<string>,
-      IRendereableMatrix<string>,
-      IRendereableMatrix<string>
-    >(
-      roundRowItems(context),
-      shiftRowBy(context),
-    )(this.rendereableMatrix);
+    const shiftedMatrix = shiftRowBy(context, this.rendereableMatrix);
+
+    this.rendereableMatrix = roundRowItems(context, shiftedMatrix);
   }
-  
+
   private moveVertical(context: IGridContext) {
-    this.rendereableMatrix = compose<
-      IRendereableMatrix<string>,
-      IRendereableMatrix<string>,
-      IRendereableMatrix<string>
-    >(
-      roundColItems(context),
-      shiftColBy(context),
-    )(this.rendereableMatrix);
+    const shiftedMatrix = shiftColBy(context, this.rendereableMatrix);
+
+    this.rendereableMatrix = roundColItems(context, shiftedMatrix);
   }
 }

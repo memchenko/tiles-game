@@ -25,7 +25,7 @@
     "howler": "^2.2.0",
     "json-server": "^0.16.1",
     "localforage": "^1.7.4",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "page-lifecycle": "^0.1.2",
     "plop": "^2.7.1",
     "ramda": "^0.26.1",
